@@ -4,6 +4,7 @@
  */
 package BusinessLogic;
 
+import DTO.ProductDTO;
 import DTO.RetailerDTO;
 import Utilities.Validator;
 
@@ -14,6 +15,7 @@ import Utilities.Validator;
 public class RetailersBusinessLogic {
     private RetailerDTO retailer;
     private Validator validator;
+    //private ProductDTO product;
 
     public void addItem() {
         // Implementation

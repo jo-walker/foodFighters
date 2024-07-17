@@ -4,12 +4,13 @@
  */
 package DAO;
 
+import DTO.ProductDTO;
+import DTO.RetailerDTO;
+
 /**
  *
  * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
 public interface RetailerDAO {
-    void addItem();
-    void updateQty();
-    void listSurplusItem();
+    void addRetalier(RetailerDTO retailer);
 }

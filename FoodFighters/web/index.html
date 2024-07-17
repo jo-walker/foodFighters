@@ -3,13 +3,26 @@
 Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
 Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
 -->
+<!DOCTYPE html>
 <html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
+<head>
+  <title>Create New Product</title>
+</head>
+<body bgcolor="#FDF5E6">
+  <center>
+    <h2>Create a New Product</h2>
+    <form action="http://localhost:8080/FoodFighters/CreateProductServlet" method="POST">
+      Product Name:
+      <input type="text" name="productName" required><br><br>
+      Quantity:
+      <input type="number" name="quantity" required><br><br>
+      Expiry Date:
+      <input type="date" name="expiryDate" required><br><br>
+      Is Surplus:
+      <input type="checkbox" name="isSurplus"><br><br>
+      <input type="submit" value="Create Product">
+    </form>
+  </center>
+</body>
 </html>
+

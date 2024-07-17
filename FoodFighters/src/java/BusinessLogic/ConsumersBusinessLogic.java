@@ -16,7 +16,7 @@ public class ConsumersBusinessLogic {
     private Validator validator;
 
     public void purchaseItem() {
-        // Implementation
+        
     }
 
     public void addConsumer(ConsumerDTO consumer) {

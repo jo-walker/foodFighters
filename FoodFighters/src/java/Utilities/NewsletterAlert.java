@@ -13,13 +13,21 @@ import java.util.List;
  * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
 public class NewsletterAlert {
-    private List<ConsumerDTO> mailingList;
+    private static List<ConsumerDTO> mailingList;
 
+    /**
+     * sends a notification that the product is marked as Surplus
+     * @param product 
+     */
     public void sendNotification(ProductDTO product) {
-        // Implementation
+        // TODO IMPLEMENTATION
     }
 
-    public void addConsumer(ConsumerDTO consumer) {
-        // Implementation
+    /**
+     * Adds a new consumer to the mailing list
+     * @param consumer 
+     */
+    public static void addConsumer(ConsumerDTO consumer) {
+        mailingList.add(consumer);
     }
 }

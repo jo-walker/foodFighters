@@ -10,4 +10,5 @@ package DAO;
  */
 public interface OrganizationDAO {
     void claimFood();
+    void addOrganization();
 }
