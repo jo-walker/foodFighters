@@ -2,16 +2,21 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package DTO;
-
-import java.io.Serializable;
+package DAO;
 
 /**
  *
  * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
-public class OrganizationDTO extends User implements Serializable{
-    private String name;
+public class OrganizationDAOImpl implements OrganizationDAO  {
+    @Override
+    public void claimFood() {
+        // Implementation
+    }
 
-    // Constructors, getters, and setters
+    @Override
+    public void addOrganization() {
+        
+    }
 }
+

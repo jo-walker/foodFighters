@@ -4,24 +4,21 @@
  */
 package DAO;
 
+import DTO.ProductDTO;
+import DTO.RetailerDTO;
+import Utilities.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 /**
  *
  * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
 public class RetailerDAOImpl implements RetailerDAO {
-    @Override
-    public void addItem() {
-        // Implementation
-    }
 
     @Override
-    public void updateQty() {
-        // Implementation
-    }
-
-    @Override
-    public void listSurplusItem() {
-        // Implementation
+    public void addRetalier(RetailerDTO retailer) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
-
