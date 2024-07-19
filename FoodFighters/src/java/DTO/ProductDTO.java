@@ -17,6 +17,7 @@ public class ProductDTO {
     private Date expiryDate;
     private boolean surplus;
     private int retailerID;
+    private int price;
 
     // Constructors, getters, and setters
 
@@ -67,6 +68,16 @@ public class ProductDTO {
     public void setRetailerID(int retailerID) {
         this.retailerID = retailerID;
     }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+    
+    
     
     
     

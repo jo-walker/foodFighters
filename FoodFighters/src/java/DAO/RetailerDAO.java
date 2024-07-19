@@ -13,4 +13,5 @@ import DTO.RetailerDTO;
  */
 public interface RetailerDAO {
     void addRetalier(RetailerDTO retailer);
+    void addItem(ProductDTO product);
 }
