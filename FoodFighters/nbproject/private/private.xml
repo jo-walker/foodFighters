@@ -2,23 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group name="Week05">
-            <file>file:/C:/Users/visan/OneDrive/Documents/NetBeansProjects/foodFighters/FoodFighters/src/java/DTO/ConsumerDTO.java</file>
-            <file>file:/C:/Users/visan/OneDrive/Documents/NetBeansProjects/foodFighters/FoodFighters/src/java/DTO/ProductDTO.java</file>
-            <file>file:/C:/Users/visan/OneDrive/Documents/NetBeansProjects/foodFighters/FoodFighters/src/java/DTO/RetailerDTO.java</file>
-            <file>file:/C:/Users/visan/OneDrive/Documents/NetBeansProjects/foodFighters/FoodFighters/src/java/BusinessLogic/ConsumersBusinessLogic.java</file>
-            <file>file:/C:/Users/visan/OneDrive/Documents/NetBeansProjects/foodFighters/FoodFighters/src/java/DTO/OrganizationDTO.java</file>
-            <file>file:/C:/Users/visan/OneDrive/Documents/NetBeansProjects/foodFighters/FoodFighters/src/java/DAO/RetailerDAO.java</file>
-            <file>file:/C:/Users/visan/OneDrive/Documents/NetBeansProjects/foodFighters/FoodFighters/web/index.html</file>
-            <file>file:/C:/Users/visan/OneDrive/Documents/NetBeansProjects/foodFighters/FoodFighters/src/java/Utilities/Validator.java</file>
-            <file>file:/C:/Users/visan/OneDrive/Documents/NetBeansProjects/foodFighters/FoodFighters/src/java/DAO/ProductDAO.java</file>
-            <file>file:/C:/Users/visan/OneDrive/Documents/NetBeansProjects/foodFighters/FoodFighters/src/java/BusinessLogic/OrganizationBusinessLogic.java</file>
-            <file>file:/C:/Users/visan/OneDrive/Documents/NetBeansProjects/foodFighters/FoodFighters/src/java/DAO/ProductDAOImpl.java</file>
-            <file>file:/C:/Users/visan/OneDrive/Documents/NetBeansProjects/foodFighters/FoodFighters/src/java/DAO/RetailerDAOImpl.java</file>
-            <file>file:/C:/Users/visan/OneDrive/Documents/NetBeansProjects/foodFighters/FoodFighters/src/java/BusinessLogic/RetailersBusinessLogic.java</file>
-            <file>file:/C:/Users/visan/OneDrive/Documents/NetBeansProjects/foodFighters/FoodFighters/src/java/DAO/ConsumerDAOImpl.java</file>
-            <file>file:/C:/Users/visan/OneDrive/Documents/NetBeansProjects/foodFighters/FoodFighters/src/java/DTO/User.java</file>
-            <file>file:/C:/Users/visan/OneDrive/Documents/NetBeansProjects/foodFighters/FoodFighters/src/java/Servlets/CreateProductServlet.java</file>
-        </group>
+        <group name="Week05"/>
     </open-files>
 </project-private>
