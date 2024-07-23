@@ -4,11 +4,11 @@ USE ProjectJava;
 
 -- Table for user
 CREATE TABLE user(
-	userID int auto_increment NOT NULL,
+    userID int auto_increment NOT NULL,
     username varchar(100) NOT NULL,
     password varchar(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
-    userRole int NOT NULL,
+    userRole int NOT NULL, /*1 costumers, 2 retailer, 3 charity*/
     PRIMARY KEY (userID)
 );
 

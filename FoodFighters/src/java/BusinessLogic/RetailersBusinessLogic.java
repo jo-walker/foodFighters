@@ -4,6 +4,10 @@
  */
 package BusinessLogic;
 
+import DAO.ProductDAO;
+import DAO.ProductDAOImpl;
+import DAO.RetailerDAO;
+import DAO.RetailerDAOImpl;
 import DTO.ProductDTO;
 import DTO.RetailerDTO;
 import Utilities.Validator;
@@ -13,24 +17,51 @@ import Utilities.Validator;
  * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
 public class RetailersBusinessLogic {
-    private RetailerDTO retailer;
-    private Validator validator;
-    //private ProductDTO product;
+    private RetailerDAO retailerDAO = null;
+    private Validator validator = null;
+    private ProductDAO productDAO = null;
+    
+    public RetailersBusinessLogic(){
+        retailerDAO = new RetailerDAOImpl();
+        validator = new Validator();
+        productDAO = new ProductDAOImpl();
+    }
 
-    public void addItem() {
+    /**
+     * Interacts with a productDAO to add a product to the database
+     * @param product The product to add to the database
+     */
+    public void addProduct(ProductDTO product) {
+        validator.validateProduct(product);
+        productDAO.addProduct(product);
         // Implementation
     }
 
-    public void updateQty() {
+    /**
+     * Updates a product's quantity
+     * @param product 
+     */
+    public void updateQty(ProductDTO product) {
+        productDAO.updateProduct(product);
         // Implementation
     }
 
-    public void listSurplusItem() {
+    /**
+     * Marks a product as surplus
+     * @param product 
+     */
+    public void listSurplusProduct(ProductDTO product) {
+        productDAO.updateProduct(product);
         // Implementation
     }
 
+    /**
+     * Validates and adds a retailer to the databse
+     * @param retailer 
+     */
     public void addRetailer(RetailerDTO retailer) {
-        // Implementation
+        validator.validateRetailer(retailer);
+        retailerDAO.addRetalier(retailer);  
     }
 }
 
