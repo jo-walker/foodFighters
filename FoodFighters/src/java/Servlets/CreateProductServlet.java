@@ -40,6 +40,6 @@ public class CreateProductServlet extends HttpServlet {
         RetailerDAOImpl retailerDAO = new RetailerDAOImpl();
         retailerDAO.addItem(product);
 
-        response.sendRedirect("productCreated.jsp");
+        response.sendRedirect("productCreated.jsp"); //what is jsp here
     }
 }
