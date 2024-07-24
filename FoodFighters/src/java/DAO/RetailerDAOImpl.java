@@ -20,7 +20,7 @@ import java.sql.ResultSet;
 public class RetailerDAOImpl implements RetailerDAO {
 
     @Override
-    public void addRetalier(RetailerDTO retailer) {
+    public void addRetailer(RetailerDTO retailer) {
         
         Connection con = null;
         PreparedStatement pstmt = null;

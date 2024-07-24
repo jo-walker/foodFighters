@@ -18,6 +18,15 @@
         <url-pattern>/AddRetailerServlet-URL</url-pattern>
     </servlet-mapping>
     
+    <servlet>
+        <servlet-name>AddUserServlet</servlet-name>
+        <servlet-class>Servlets.AddUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddUserServlet</servlet-name>
+        <url-pattern>/AddUserServlet</url-pattern>
+    </servlet-mapping>
+
     <session-config>
         <session-timeout>
             30

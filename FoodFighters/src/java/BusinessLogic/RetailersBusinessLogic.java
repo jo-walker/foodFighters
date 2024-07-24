@@ -56,12 +56,12 @@ public class RetailersBusinessLogic {
     }
 
     /**
-     * Validates and adds a retailer to the databse
+     * Validates and adds a retailer to the database
      * @param retailer 
      */
     public void addRetailer(RetailerDTO retailer) {
-        validator.validateRetailer(retailer);
-        retailerDAO.addRetalier(retailer);  
+        //validator.validateRetailer(retailer);
+        retailerDAO.addRetailer(retailer);  
     }
 }
 

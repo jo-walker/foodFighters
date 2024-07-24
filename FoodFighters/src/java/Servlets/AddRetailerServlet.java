@@ -4,6 +4,8 @@
  */
 package Servlets;
 
+import BusinessLogic.RetailersBusinessLogic;
+import DTO.RetailerDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -18,6 +20,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "AddRetailerServlet", urlPatterns = {"/AddRetailerServlet-URL"})
 public class AddRetailerServlet extends HttpServlet {
+    
+    private RetailersBusinessLogic retailerLogic = new RetailersBusinessLogic();
+    private RetailerDTO retailer = new RetailerDTO();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,6 +37,14 @@ public class AddRetailerServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            
+            retailer.setUsername(request.getParameter("username"));
+            retailer.setPassword(request.getParameter("password"));
+            retailer.setEmail(request.getParameter("email"));
+            retailer.setName(request.getParameter("retailerName"));
+            retailerLogic.addRetailer(retailer);
+            
+            
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -42,6 +55,8 @@ public class AddRetailerServlet extends HttpServlet {
             out.println("<h1>Servlet AddRetailerServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
+            
+            
         }
     }
 

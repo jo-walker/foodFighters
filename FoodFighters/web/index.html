@@ -6,25 +6,17 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Create New Product</title>
+  <title>Welcome to Food Fighters</title>
 </head>
 <body bgcolor="#FDF5E6">
   <center>
-    <h2>Create a New Product</h2>
-    <form action="http://localhost:8080/FoodFighters/CreateProductServlet" method="POST">
-      Product Name:
-      <input type="text" name="productName" required><br><br>
-      Quantity:
-      <input type="number" name="quantity" required><br><br>
-      Expiry Date:
-      <input type="date" name="expiryDate" required><br><br>
-      Is Surplus:
-      <input type="checkbox" name="isSurplus"><br><br>
-      <input type="submit" value="Create Product">
+    <h2>Welcome to Food Fighters</h2>
+    <form action="login.jsp" method="get">
+      <input type="submit" value="Login">
     </form>
     <br><br>
-    <form action="addRetailer.jsp" method="get">
-      <input type="submit" value="Add Retailer">
+    <form action="signup.jsp" method="get">
+      <input type="submit" value="Sign Up">
     </form>
   </center>
 </body>

@@ -57,7 +57,10 @@ public class RetailerDTO extends User {
     }
 
     public int getRole() {
-        return 2;
+        return role;
     }
 
+    public void setRole(int role){
+        this.role = role;
+    }
 }
