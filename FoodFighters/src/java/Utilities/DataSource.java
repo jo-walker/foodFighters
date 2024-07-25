@@ -29,6 +29,7 @@ public class DataSource {
         try {
             if (connection == null) { // || connection.isClosed()) { // used if connection is closed in other DAO implementations
                 connection = DriverManager.getConnection(connectionInfo[0], connectionInfo[1], connectionInfo[2]);
+                //connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/foodFighters", "root", "N@s-402@Av-131811");
             } else {
                 System.out.println("Cannot create new connection, using existing one");
             }
@@ -40,9 +41,15 @@ public class DataSource {
 
     private static String[] openPropsFile() {
         Properties props = new Properties();
+        
 
-        try (InputStream in = Files.newInputStream(Paths.get("src/database.properties"));) {
-            props.load(in);
+        /** 
+         * =================================================================================================================
+         * ============  WE NEED TO FIX THIS ISSUE, NOT WORKING IN MY MACHINE (ANDREA) IF USING RELATIVE PATH ==============
+         * =================================================================================================================
+         */
+        try (InputStream inputStream = Files.newInputStream(Paths.get("C:\\Users\\visan\\OneDrive\\Documents\\NetBeansProjects\\fFighters\\FoodFighters\\src\\java\\Database\\database.properties"))) {
+            props.load(inputStream);
         } catch (IOException e) {
             e.printStackTrace();
         }

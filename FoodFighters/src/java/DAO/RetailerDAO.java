@@ -12,6 +12,6 @@ import DTO.RetailerDTO;
  * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
 public interface RetailerDAO {
-    void addRetalier(RetailerDTO retailer);
+    void addRetailer(RetailerDTO retailer);
     void addItem(ProductDTO product);
 }
