@@ -62,6 +62,9 @@ public class AddUserServlet extends HttpServlet {
             retailer.setName(retailerName);
 
             retailerLogic.addRetailer(retailer);
+            
+            request.setAttribute("message", "Sign up successful!");
+            request.getRequestDispatcher("retailerDashboard.jsp").forward(request, response);
 
         } else if (role == 3) {  // Charity Organization
             String charityName = request.getParameter("charityName");
@@ -76,8 +79,7 @@ public class AddUserServlet extends HttpServlet {
             charityLogic.addOrganization(charity);
         }
 
-        request.setAttribute("message", "Sign up successful!");
-        request.getRequestDispatcher("confirmation.jsp").forward(request, response);
+        
     }
 
     @Override

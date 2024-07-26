@@ -11,6 +11,7 @@ import DAO.RetailerDAOImpl;
 import DTO.ProductDTO;
 import DTO.RetailerDTO;
 import Utilities.Validator;
+import java.util.List;
 
 /**
  *
@@ -27,6 +28,10 @@ public class RetailersBusinessLogic {
         productDAO = new ProductDAOImpl();
     }
 
+    public List<ProductDTO> getProductsByRetailerID(int retailerID){
+        return productDAO.getProductsByRetailerID(int retailerID);
+    }
+    
     /**
      * Interacts with a productDAO to add a product to the database
      * @param product The product to add to the database
