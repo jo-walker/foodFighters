@@ -9,9 +9,10 @@ import DTO.RetailerDTO;
 
 /**
  *
- * @author Andrea Visani 041104651 visa0004@algonquinlive.com
+ * @author Baasanlkham Gurvantamir 041129783 gurv0003@algonquinlive.com
  */
 public interface RetailerDAO {
     void addRetailer(RetailerDTO retailer);
     void addItem(ProductDTO product);
+    void getProductsByRetailerID(int retailerID);
 }

@@ -1,2 +1,11 @@
 /FoodFighters/build/
+<<<<<<< HEAD
+/FoodFighters/nbproject/private/
+=======
 /FoodFighters/dist/
+>>>>>>> main
+# Ignore all .log files
+*.log
+
+# Ignore a directory
+nbproject/s
