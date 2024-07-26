@@ -7,18 +7,19 @@ package DAO;
 import DTO.ProductDTO;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.*;
 
 /**
  *
- * @author Andrea Visani 041104651 visa0004@algonquinlive.com
+ * @author Baasanlkham Gurvantamir 041129783 gurv0003@algonquinlive.com
  */
 public interface ProductDAO {
-    
-    public List<ProductDTO> getAllProducts();
-    public ArrayList<ProductDTO> getProductByName(String name);
-    public ProductDTO getProductByID(Integer productID);
-    public void addProduct(ProductDTO product);
-    public void updateProduct(ProductDTO product);
-    public void deleteProduct(ProductDTO product);
+            
+    void addProduct(ProductDTO product) throws SQLException;
+    ProductDTO getProductByID(int productID) throws SQLException;
+    List<ProductDTO> getProductByName(String name) throws SQLException;
+    List<ProductDTO> getAllProducts() throws SQLException;
+    void updateProduct(ProductDTO product) throws SQLException;
+    void deleteProduct(int productID) throws SQLException;
     
 }

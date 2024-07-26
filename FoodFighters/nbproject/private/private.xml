@@ -5,16 +5,22 @@
         <group name="Week05"/>
         <group>
             <file>file:/D:/AC/AC%202024Spring/cst8288/FoodFighters/foodFighters/FoodFighters/web/META-INF/context.xml</file>
-            <file>file:/D:/AC/AC%202024Spring/cst8288/FoodFighters/foodFighters/FoodFighters/src/java/DAO/ProductDAO.java</file>
+            <file>file:/D:/AC/AC%202024Spring/cst8288/FoodFighters/foodFighters/FoodFighters/src/java/Servlets/AddRetailerServlet.java</file>
             <file>file:/D:/AC/AC%202024Spring/cst8288/FoodFighters/foodFighters/FoodFighters/src/java/Database/database.properties</file>
             <file>file:/D:/AC/AC%202024Spring/cst8288/FoodFighters/foodFighters/FoodFighters/web/WEB-INF/web.xml</file>
+            <file>file:/D:/AC/AC%202024Spring/cst8288/FoodFighters/foodFighters/FoodFighters/src/java/DAO/RetailerDAOImpl.java</file>
             <file>file:/D:/AC/AC%202024Spring/cst8288/FoodFighters/foodFighters/FoodFighters/src/java/DAO/ConsumerDAO.java</file>
             <file>file:/D:/AC/AC%202024Spring/cst8288/FoodFighters/foodFighters/FoodFighters/src/java/Servlets/CreateProductServlet.java</file>
-            <file>file:/D:/AC/AC%202024Spring/cst8288/FoodFighters/foodFighters/FoodFighters/src/java/DAO/ProductDAOImpl.java</file>
             <file>file:/D:/AC/AC%202024Spring/cst8288/FoodFighters/foodFighters/FoodFighters/web/index.html</file>
             <file>file:/D:/AC/AC%202024Spring/cst8288/FoodFighters/foodFighters/FoodFighters/src/java/Utilities/NewsletterAlert.java</file>
+            <file>file:/D:/AC/AC%202024Spring/cst8288/FoodFighters/foodFighters/FoodFighters/src/java/DTO/RetailerDTO.java</file>
+            <file>file:/D:/AC/AC%202024Spring/cst8288/FoodFighters/foodFighters/FoodFighters/src/java/DAO/RetailerDAO.java</file>
             <file>file:/D:/AC/AC%202024Spring/cst8288/FoodFighters/foodFighters/FoodFighters/src/java/Client/Main.java</file>
             <file>file:/D:/AC/AC%202024Spring/cst8288/FoodFighters/foodFighters/FoodFighters/src/java/Database/Database.sql</file>
+            <file>file:/D:/AC/AC%202024Spring/cst8288/FoodFighters/foodFighters/FoodFighters/src/java/DAO/ProductDAO.java</file>
+            <file>file:/D:/AC/AC%202024Spring/cst8288/FoodFighters/foodFighters/FoodFighters/src/java/Servlets/AddUserServlet.java</file>
+            <file>file:/D:/AC/AC%202024Spring/cst8288/FoodFighters/foodFighters/FoodFighters/src/java/BusinessLogic/RetailersBusinessLogic.java</file>
+            <file>file:/D:/AC/AC%202024Spring/cst8288/FoodFighters/foodFighters/FoodFighters/src/java/DAO/ProductDAOImpl.java</file>
             <file>file:/D:/AC/AC%202024Spring/cst8288/FoodFighters/foodFighters/FoodFighters/src/java/DTO/ProductDTO.java</file>
         </group>
     </open-files>

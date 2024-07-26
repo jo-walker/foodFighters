@@ -8,7 +8,7 @@ import java.util.Date;
 
 /**
  *
- * @author Andrea Visani 041104651 visa0004@algonquinlive.com
+ * @author Baasanlkham Gurvantamir 041129783 gurv0003@algonquinlive.com
  */
 public class ProductDTO {
     private int id;
@@ -20,7 +20,17 @@ public class ProductDTO {
     private int price;
 
     // Constructors, getters, and setters
-
+    // Constructor
+    public ProductDTO(int id, String name, int quantity, Date expiryDate, boolean surplus, int retailerID, int price) {
+        this.id = id;
+        this.name = name;
+        this.quantity = quantity;
+        this.expiryDate = expiryDate;
+        this.surplus = surplus;
+        this.retailerID = retailerID;
+        this.price = price;
+    }
+    
     public int getId() {
         return id;
     }

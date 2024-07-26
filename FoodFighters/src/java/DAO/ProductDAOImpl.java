@@ -1,88 +1,129 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DAO;
 
 import DTO.ProductDTO;
 import Utilities.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-/**
- *
- * @author Andrea Visani 041104651 visa0004@algonquinlive.com
- */
-public class ProductDAOImpl implements ProductDAO{
+public class ProductDAOImpl implements ProductDAO {
+    private DataSource dataSource;
 
-    @Override
-    public List<ProductDTO> getAllProducts() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public ProductDAOImpl(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     @Override
-    public ArrayList<ProductDTO> getProductByName(String name) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public ProductDTO getProductByID(Integer productID) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void addProduct(ProductDTO product) {
-        Connection con = null;
-        PreparedStatement pstmt = null;
-
-        try {
-            con = DataSource.getConnection();
-
-            // Insert product name into Products table
-            pstmt = con.prepareStatement(
-                    "INSERT INTO Products (productName) VALUES (?)");
-            pstmt.setString(1, product.getName());
-            pstmt.executeUpdate();
-
-            // Insert product details into ProductRetailer table
-            pstmt = con.prepareStatement(
-                    "INSERT INTO ProductRetailer (productID, retailerID, quantity, expiryDate, isSurplus) "
-                    + "VALUES (?, ?, ?, ?, ?)");
-            pstmt.setInt(1, product.getId());
-            pstmt.setInt(2, product.getRetailerID());
-            pstmt.setInt(3, product.getQuantity());
-            pstmt.setDate(4, new java.sql.Date(product.getExpiryDate().getTime()));
-            pstmt.setBoolean(5, product.isSurplus());
-            pstmt.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (pstmt != null) {
-                    pstmt.close();
-                }
-
-                if (con != null) {
-                    con.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-            }
+    public void addProduct(ProductDTO product) throws SQLException {
+        String query = "INSERT INTO Product (name, quantity, expiryDate, surplus, retailerID, price) VALUES (?, ?, ?, ?, ?, ?)";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, product.getName());
+            preparedStatement.setInt(2, product.getQuantity());
+            preparedStatement.setDate(3, new java.sql.Date(product.getExpiryDate().getTime()));
+            preparedStatement.setBoolean(4, product.isSurplus());
+            preparedStatement.setInt(5, product.getRetailerID());
+            preparedStatement.setInt(6, product.getPrice());
+            preparedStatement.executeUpdate();
         }
     }
 
     @Override
-    public void updateProduct(ProductDTO product) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public ProductDTO getProductByID(int productID) throws SQLException {
+        String query = "SELECT * FROM Product WHERE id = ?";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, productID);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return new ProductDTO(
+                        resultSet.getInt("id"),
+                        resultSet.getString("name"),
+                        resultSet.getInt("quantity"),
+                        resultSet.getDate("expiryDate"),
+                        resultSet.getBoolean("surplus"),
+                        resultSet.getInt("retailerID"),
+                        resultSet.getInt("price")
+                    );
+                }
+            }
+        }
+        return null;
     }
 
     @Override
-    public void deleteProduct(ProductDTO product) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<ProductDTO> getProductByName(String name) throws SQLException {
+        List<ProductDTO> products = new ArrayList<>();
+        String query = "SELECT * FROM Product WHERE name LIKE ?";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, "%" + name + "%");
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    products.add(new ProductDTO(
+                        resultSet.getInt("id"),
+                        resultSet.getString("name"),
+                        resultSet.getInt("quantity"),
+                        resultSet.getDate("expiryDate"),
+                        resultSet.getBoolean("surplus"),
+                        resultSet.getInt("retailerID"),
+                        resultSet.getInt("price")
+                    ));
+                }
+            }
+        }
+        return products;
     }
-    
+
+    @Override
+    public List<ProductDTO> getAllProducts() throws SQLException {
+        List<ProductDTO> products = new ArrayList<>();
+        String query = "SELECT * FROM Product";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            while (resultSet.next()) {
+                products.add(new ProductDTO(
+                    resultSet.getInt("id"),
+                    resultSet.getString("name"),
+                    resultSet.getInt("quantity"),
+                    resultSet.getDate("expiryDate"),
+                    resultSet.getBoolean("surplus"),
+                    resultSet.getInt("retailerID"),
+                    resultSet.getInt("price")
+                ));
+            }
+        }
+        return products;
+    }
+
+    @Override
+    public void updateProduct(ProductDTO product) throws SQLException {
+        String query = "UPDATE Product SET name = ?, quantity = ?, expiryDate = ?, surplus = ?, retailerID = ?, price = ? WHERE id = ?";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, product.getName());
+            preparedStatement.setInt(2, product.getQuantity());
+            preparedStatement.setDate(3, new java.sql.Date(product.getExpiryDate().getTime()));
+            preparedStatement.setBoolean(4, product.isSurplus());
+            preparedStatement.setInt(5, product.getRetailerID());
+            preparedStatement.setInt(6, product.getPrice());
+            preparedStatement.setInt(7, product.getId());
+            preparedStatement.executeUpdate();
+        }
+    }
+
+    @Override
+    public void deleteProduct(int productID) throws SQLException {
+        String query = "DELETE FROM Product WHERE id = ?";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, productID);
+            preparedStatement.executeUpdate();
+        }
+    }
 }

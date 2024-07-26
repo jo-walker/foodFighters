@@ -8,6 +8,25 @@
         <servlet-name>CreateProductServlet</servlet-name>
         <url-pattern>/CreateProductServlet-URL</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>AddRetailerServlet</servlet-name>
+        <servlet-class>Servlets.AddRetailerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddRetailerServlet</servlet-name>
+        <url-pattern>/AddRetailerServlet-URL</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>AddUserServlet</servlet-name>
+        <servlet-class>Servlets.AddUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddUserServlet</servlet-name>
+        <url-pattern>/AddUserServlet</url-pattern>
+    </servlet-mapping>
+
     <session-config>
         <session-timeout>
             30
