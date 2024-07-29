@@ -29,7 +29,7 @@ public class RetailersBusinessLogic {
     }
 
     public List<ProductDTO> getProductsByRetailerID(int retailerID){
-        return productDAO.getProductsByRetailerID(int retailerID);
+        return productDAO.getProductsByRetailerID(retailerID);
     }
     
     /**

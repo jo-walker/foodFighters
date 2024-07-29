@@ -43,7 +43,7 @@
         <tbody>
             <%
                 RetailersBusinessLogic retailerLogic = new RetailersBusinessLogic();
-                int retailerID = //LOGIC FOR GETTING THE ID FROM THE SESSION
+                int retailerID = 5; //LOGIC FOR GETTING THE ID FROM THE SESSION
                 List<ProductDTO> products = retailerLogic.getProductsByRetailerID(retailerID);
                 if (products != null) {
                     for (ProductDTO product : products) {
