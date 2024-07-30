@@ -16,6 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet(name = "AddUserServlet", urlPatterns = {"/AddUserServlet"})
 public class AddUserServlet extends HttpServlet {
@@ -30,6 +31,7 @@ public class AddUserServlet extends HttpServlet {
         String password = request.getParameter("password");
         String email = request.getParameter("email");
         int role = Integer.parseInt(request.getParameter("role"));
+        HttpSession session = request.getSession();
 
         if (role == 1) {  // Consumer
             String firstName = request.getParameter("firstName");

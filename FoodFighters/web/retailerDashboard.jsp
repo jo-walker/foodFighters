@@ -40,24 +40,7 @@
                 <th>Quantity</th>
             </tr>
         </thead>
-        <tbody>
-            <%
-                RetailersBusinessLogic retailerLogic = new RetailersBusinessLogic();
-                int retailerID = 5; //LOGIC FOR GETTING THE ID FROM THE SESSION
-                List<ProductDTO> products = retailerLogic.getProductsByRetailerID(retailerID);
-                if (products != null) {
-                    for (ProductDTO product : products) {
-            %>
-            <tr>
-                <td><%=product.getName() %></td>
-                <td><%= product.getQuantity() %></td>
-                <td><%= product.getExpiryDate()%></td>
-                <td><%= product.getPrice() %></td>
-            </tr>
-            <%
-//                    }
-//                }
-            %>
+
         </tbody>
     </table>
 </body>
