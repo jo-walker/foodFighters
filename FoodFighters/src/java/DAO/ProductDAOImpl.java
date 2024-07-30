@@ -2,6 +2,7 @@ package DAO;
 
 import DTO.ProductDTO;
 import Utilities.DataSource;
+import Utilities.DietType;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,7 +20,7 @@ public class ProductDAOImpl implements ProductDAO {
 
     @Override
     public void addProduct(ProductDTO product) throws SQLException {
-        String query = "INSERT INTO Product (name, quantity, expiryDate, surplus, retailerID, price) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO Product (name, quantity, expiryDate, surplus, retailerID, price, dietType) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = DataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, product.getName());
@@ -28,6 +29,7 @@ public class ProductDAOImpl implements ProductDAO {
             preparedStatement.setBoolean(4, product.isSurplus());
             preparedStatement.setInt(5, product.getRetailerID());
             preparedStatement.setInt(6, product.getPrice());
+            preparedStatement.setString(7, product.getDietType().getValue());
             preparedStatement.executeUpdate();
         }
     }
@@ -47,7 +49,8 @@ public class ProductDAOImpl implements ProductDAO {
                         resultSet.getDate("expiryDate"),
                         resultSet.getBoolean("surplus"),
                         resultSet.getInt("retailerID"),
-                        resultSet.getInt("price")
+                        resultSet.getInt("price"),
+                        DietType.fromValue(resultSet.getString("dietType"))
                     );
                 }
             }
@@ -71,7 +74,8 @@ public class ProductDAOImpl implements ProductDAO {
                         resultSet.getDate("expiryDate"),
                         resultSet.getBoolean("surplus"),
                         resultSet.getInt("retailerID"),
-                        resultSet.getInt("price")
+                        resultSet.getInt("price"),
+                        DietType.fromValue(resultSet.getString("dietType"))
                     ));
                 }
             }
@@ -94,7 +98,8 @@ public class ProductDAOImpl implements ProductDAO {
                     resultSet.getDate("expiryDate"),
                     resultSet.getBoolean("surplus"),
                     resultSet.getInt("retailerID"),
-                    resultSet.getInt("price")
+                    resultSet.getInt("price"),
+                    DietType.fromValue(resultSet.getString("dietType"))
                 ));
             }
         }
@@ -103,7 +108,7 @@ public class ProductDAOImpl implements ProductDAO {
 
     @Override
     public void updateProduct(ProductDTO product) throws SQLException {
-        String query = "UPDATE Product SET name = ?, quantity = ?, expiryDate = ?, surplus = ?, retailerID = ?, price = ? WHERE id = ?";
+        String query = "UPDATE Product SET name = ?, quantity = ?, expiryDate = ?, surplus = ?, retailerID = ?, price = ?, dietType = ? WHERE id = ?";
         try (Connection connection = DataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, product.getName());
@@ -112,7 +117,8 @@ public class ProductDAOImpl implements ProductDAO {
             preparedStatement.setBoolean(4, product.isSurplus());
             preparedStatement.setInt(5, product.getRetailerID());
             preparedStatement.setInt(6, product.getPrice());
-            preparedStatement.setInt(7, product.getId());
+            preparedStatement.setString(7, product.getDietType().getValue());
+            preparedStatement.setInt(8, product.getId());
             preparedStatement.executeUpdate();
         }
     }
@@ -126,4 +132,32 @@ public class ProductDAOImpl implements ProductDAO {
             preparedStatement.executeUpdate();
         }
     }
+    @Override
+    public List<ProductDTO> getProductsByRetailerID(int retailerID) throws SQLException {
+        List<ProductDTO> products = new ArrayList<>();
+        String query = "SELECT p.id, p.name, p.quantity, p.expiryDate, p.surplus, pr.retailerID, p.price, p.dietType " +
+                       "FROM Product p " +
+                       "JOIN ProductRetailer pr ON p.id = pr.productID " +
+                       "WHERE pr.retailerID = ?";
+        try (Connection connection = DataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, retailerID);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    products.add(new ProductDTO(
+                        resultSet.getInt("id"),
+                        resultSet.getString("name"),
+                        resultSet.getInt("quantity"),
+                        resultSet.getDate("expiryDate"),
+                        resultSet.getBoolean("surplus"),
+                        resultSet.getInt("retailerID"),
+                        resultSet.getInt("price"),
+                        DietType.fromValue(resultSet.getString("dietType"))
+                    ));
+                }
+            }
+        }
+        return products;
+    }
 }
+    
