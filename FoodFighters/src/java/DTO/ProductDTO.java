@@ -14,12 +14,12 @@ public class ProductDTO {
     private Date expiryDate;
     private boolean surplus;
     private int retailerID;
-    private int price;
+    private double price;
     private DietType dietType;
 
     // Constructors, getters, and setters
     // Constructor
-    public ProductDTO(int id, String name, int quantity, Date expiryDate, boolean surplus, int retailerID, int price, DietType dietType) {
+    public ProductDTO(int id, String name, int quantity, Date expiryDate, boolean surplus, int retailerID, double price, DietType dietType) {
         this.id = id;
         this.name = name;
         this.quantity = quantity;
@@ -82,11 +82,11 @@ public class ProductDTO {
         this.retailerID = retailerID;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
     public DietType getDietType(){
