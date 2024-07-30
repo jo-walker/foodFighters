@@ -1,13 +1,9 @@
 package Servlets;
 
-import BusinessLogic.RetailersBusinessLogic;
 import DTO.ProductDTO;
 import DAO.RetailerDAOImpl;
 import java.io.IOException;
 import java.sql.Date;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -41,13 +37,9 @@ public class CreateProductServlet extends HttpServlet {
         product.setSurplus(isSurplus);
         product.setRetailerID(retailerID);
 
-        RetailersBusinessLogic logic = new RetailersBusinessLogic();
-        try {
-            logic.addProduct(product);
-        } catch (SQLException ex) {
-            Logger.getLogger(CreateProductServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        RetailerDAOImpl retailerDAO = new RetailerDAOImpl();
+        retailerDAO.addItem(product);
 
-        response.sendRedirect("retailerDashboard.jsp");
+        response.sendRedirect("productCreated.jsp");
     }
 }

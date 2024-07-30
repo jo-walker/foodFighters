@@ -11,8 +11,6 @@ import DAO.RetailerDAOImpl;
 import DTO.ProductDTO;
 import DTO.RetailerDTO;
 import Utilities.Validator;
-import java.sql.SQLException;
-import java.util.List;
 
 /**
  *
@@ -29,16 +27,11 @@ public class RetailersBusinessLogic {
         productDAO = new ProductDAOImpl();
     }
 
-    public List<ProductDTO> getProductsByRetailerID(int retailerID){
-        return productDAO.getProductsByRetailerID(retailerID);
-    }
-    
     /**
      * Interacts with a productDAO to add a product to the database
      * @param product The product to add to the database
-     * @throws java.sql.SQLException
      */
-    public void addProduct(ProductDTO product) throws SQLException {
+    public void addProduct(ProductDTO product) {
         validator.validateProduct(product);
         productDAO.addProduct(product);
         // Implementation
@@ -47,20 +40,18 @@ public class RetailersBusinessLogic {
     /**
      * Updates a product's quantity
      * @param product 
-     * @throws java.sql.SQLException 
      */
-    public void updateQty(ProductDTO product) throws SQLException {
-        productDAO.updateProductQuantity(product);
+    public void updateQty(ProductDTO product) {
+        productDAO.updateProduct(product);
         // Implementation
     }
 
     /**
      * Marks a product as surplus
      * @param product 
-     * @throws java.sql.SQLException 
      */
-    public void listSurplusProduct(ProductDTO product) throws SQLException {
-        productDAO.setSurplus(product);
+    public void listSurplusProduct(ProductDTO product) {
+        productDAO.updateProduct(product);
         // Implementation
     }
 
@@ -68,9 +59,9 @@ public class RetailersBusinessLogic {
      * Validates and adds a retailer to the database
      * @param retailer 
      */
-    public int addRetailer(RetailerDTO retailer) {
+    public void addRetailer(RetailerDTO retailer) {
         //validator.validateRetailer(retailer);
-        return retailerDAO.addRetailer(retailer);  
+        retailerDAO.addRetailer(retailer);  
     }
 }
 

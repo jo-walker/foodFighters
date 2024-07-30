@@ -4,6 +4,7 @@
  */
 package DAO;
 
+import DTO.ProductDTO;
 import DTO.RetailerDTO;
 import Utilities.DataSource;
 import java.sql.Connection;
@@ -19,8 +20,7 @@ import java.sql.ResultSet;
 public class RetailerDAOImpl implements RetailerDAO {
 
     @Override
-    public int addRetailer(RetailerDTO retailer) {
-        
+    public void addRetailer(RetailerDTO retailer) {
         
         Connection con = null;
         PreparedStatement pstmt = null;
@@ -48,24 +48,20 @@ public class RetailerDAOImpl implements RetailerDAO {
             // Use the retrieved key in the second PreparedStatement
             pstmt = con.prepareStatement(
                 "INSERT INTO retailer (userID, retailerName) "
-                + "VALUES(?, ?)", Statement.RETURN_GENERATED_KEYS);
+                + "VALUES(?, ?)");
             pstmt.setInt(1, userID);
             pstmt.setString(2, retailer.getName());
             pstmt.executeUpdate();
-            
-            // Retrieve the generated keys
-            generatedKeys = pstmt.getGeneratedKeys();
-            int retailerID = 0;
-            if (generatedKeys.next()) {
-                retailerID = generatedKeys.getInt(1);
-            }
-            return retailerID;
 
         }
              catch (SQLException e) {
             e.printStackTrace();
-            // Optionally, you can throw a custom exception here
-            throw new RuntimeException("Error adding retailer", e);
         }
+    
+    }
+
+    @Override
+    public void addItem(ProductDTO product) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

@@ -4,21 +4,23 @@ USE ProjectJava;
 
 -- Table for user
 CREATE TABLE user(
-    userID INT AUTO_INCREMENT NOT NULL,
-    username VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(100) NOT NULL,
+    userID int auto_increment NOT NULL,
+    username varchar(100) NOT NULL,
+    password varchar(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
-    userRole INT NOT NULL, /*1 customers, 2 retailer, 3 charity*/
+    userRole int NOT NULL, /*1 costumers, 2 retailer, 3 charity*/
     PRIMARY KEY (userID)
 );
 
--- Table for Customer
+
+
+-- Table for user
 CREATE TABLE Customer (
     customerID INT AUTO_INCREMENT NOT NULL,
     userID INT NOT NULL,
     firstName VARCHAR(100) NOT NULL,
     lastName VARCHAR(100) NOT NULL,
-    mobile VARCHAR(15) NOT NULL,    
+    mobile INT NOT NULL,    
     FOREIGN KEY (userID) REFERENCES user(userID),
     PRIMARY KEY (customerID)
 );
@@ -43,21 +45,20 @@ CREATE TABLE Retailer (
 
 -- Table for Product
 CREATE TABLE Product (
-    productID INT AUTO_INCREMENT NOT NULL,
-    productName VARCHAR(100) NOT NULL,
-    price INT NOT NULL,
-    dietType VARCHAR(100) NOT NULL,
+    productID int auto_increment NOT NULL,
+    productName varchar(100) NOT NULL,
+    price int NOT NULL,
     PRIMARY KEY (productID)
 );
 
 -- Table for associative table between Product and Retailer
 CREATE TABLE ProductRetailer (
-    productRetailerID INT AUTO_INCREMENT NOT NULL,
+    productRetailerID INT auto_increment NOT NULL,
     productID INT NOT NULL,
     retailerID INT NOT NULL,
-    productQuantity INT NOT NULL,
-    expiryDate DATE NOT NULL,
-    isSurplus BOOLEAN,
+	productQuantity int NOT NULL,
+    expiryDate date NOT NULL,
+    isSurplus Boolean,
     PRIMARY KEY (productRetailerID),
     FOREIGN KEY (productID) REFERENCES Product(productID),
     FOREIGN KEY (retailerID) REFERENCES Retailer(retailerID)
@@ -73,10 +74,18 @@ CREATE TABLE CharityRetailer (
     FOREIGN KEY (retailerID) REFERENCES Retailer(retailerID)
 );
 
--- Sample SELECT statements to view the tables
+
+
+
+
+
+
+
 SELECT * FROM CharityOrg;
 SELECT * FROM Customer;
 SELECT * FROM Product;
 SELECT * FROM ProductRetailer;
 SELECT * FROM Retailer;
 SELECT * FROM user;
+
+

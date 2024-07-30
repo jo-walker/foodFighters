@@ -9,7 +9,6 @@ import DAO.ProductDAO;
 import DTO.ConsumerDTO;
 import DTO.ProductDTO;
 import Utilities.Validator;
-import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -33,7 +32,7 @@ public class ConsumersBusinessLogic {
         
     }
     
-    public List<ProductDTO> displayAllProducts() throws SQLException {
+    public List<ProductDTO> displayAllProducts() {
         
         return product.getAllProducts();
         

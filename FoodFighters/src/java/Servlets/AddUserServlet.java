@@ -16,7 +16,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 @WebServlet(name = "AddUserServlet", urlPatterns = {"/AddUserServlet"})
 public class AddUserServlet extends HttpServlet {
@@ -31,7 +30,6 @@ public class AddUserServlet extends HttpServlet {
         String password = request.getParameter("password");
         String email = request.getParameter("email");
         int role = Integer.parseInt(request.getParameter("role"));
-        HttpSession session = request.getSession();
 
         if (role == 1) {  // Consumer
             String firstName = request.getParameter("firstName");
@@ -53,8 +51,7 @@ public class AddUserServlet extends HttpServlet {
 
             consumerLogic.addConsumer(consumer);
 
-        } 
-        else if (role == 2) {  // Retailer
+        } else if (role == 2) {  // Retailer
             String retailerName = request.getParameter("retailerName");
 
             RetailerDTO retailer = new RetailerDTO();
@@ -64,13 +61,9 @@ public class AddUserServlet extends HttpServlet {
             retailer.setRole(role);
             retailer.setName(retailerName);
 
-            session.setAttribute("retailerID", retailerLogic.addRetailer(retailer));
-            
-            request.setAttribute("message", "Sign up successful!");
-            request.getRequestDispatcher("retailerDashboard.jsp").forward(request, response);
+            retailerLogic.addRetailer(retailer);
 
-        } 
-        else if (role == 3) {  // Charity Organization
+        } else if (role == 3) {  // Charity Organization
             String charityName = request.getParameter("charityName");
 
             OrganizationDTO charity = new OrganizationDTO();
@@ -83,7 +76,8 @@ public class AddUserServlet extends HttpServlet {
             charityLogic.addOrganization(charity);
         }
 
-        
+        request.setAttribute("message", "Sign up successful!");
+        request.getRequestDispatcher("confirmation.jsp").forward(request, response);
     }
 
     @Override

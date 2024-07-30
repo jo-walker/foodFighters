@@ -20,11 +20,7 @@ public class NewsletterAlert {
      * @param product 
      */
     public void sendNotification(ProductDTO product) {
-        String notification = product.getName() + " now on discount";
-        for(ConsumerDTO consumer : mailingList){
-            // ADD LOGIC FOR SENDING THE NOTIFICATION BASED ON THE DIE AND PRODUCT TYPE (SUITABLE FOR "HALAL", "HINDU", ETC..)
-            consumer.addNotification(notification);
-        }
+        // TODO IMPLEMENTATION
     }
 
     /**
@@ -33,13 +29,5 @@ public class NewsletterAlert {
      */
     public static void addConsumer(ConsumerDTO consumer) {
         mailingList.add(consumer);
-    }
-    
-    /**
-     * Removes an existing consumer from the mailing list
-     * @param consumer 
-     */
-    public static void removeConsumer(ConsumerDTO consumer) {
-        mailingList.remove(consumer);
     }
 }

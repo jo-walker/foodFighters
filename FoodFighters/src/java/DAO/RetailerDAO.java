@@ -12,12 +12,6 @@ import DTO.RetailerDTO;
  * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
 public interface RetailerDAO {
-    
-    /**
-     * Adds a retailer and returns its ID
-     * @param retailer
-     * @return the retailer ID
-     */
-    int addRetailer(RetailerDTO retailer);
-
+    void addRetailer(RetailerDTO retailer);
+    void addItem(ProductDTO product);
 }

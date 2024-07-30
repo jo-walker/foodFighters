@@ -1,11 +1,14 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package DTO;
 
-import Utilities.DietType;
 import java.util.Date;
 
 /**
  *
- * @author Baasanlkham Gurvantamir 041129783 gurv0003@algonquinlive.com
+ * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
 public class ProductDTO {
     private int id;
@@ -14,26 +17,10 @@ public class ProductDTO {
     private Date expiryDate;
     private boolean surplus;
     private int retailerID;
-    private double price;
-    private DietType dietType;
+    private int price;
 
     // Constructors, getters, and setters
-    // Constructor
-    public ProductDTO(int id, String name, int quantity, Date expiryDate, boolean surplus, int retailerID, double price, DietType dietType) {
-        this.id = id;
-        this.name = name;
-        this.quantity = quantity;
-        this.expiryDate = expiryDate;
-        this.surplus = surplus;
-        this.retailerID = retailerID;
-        this.price = price;
-        this.dietType=dietType;
-    }
 
-    public ProductDTO() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    
     public int getId() {
         return id;
     }
@@ -82,17 +69,17 @@ public class ProductDTO {
         this.retailerID = retailerID;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
-    public DietType getDietType(){
-        return dietType;
-    }
-    public void setDietType(DietType dietType){
-        this.dietType=dietType;
-    }
+    
+    
+    
+    
+    
+    
 }
