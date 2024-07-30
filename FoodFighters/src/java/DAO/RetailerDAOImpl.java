@@ -22,6 +22,7 @@ public class RetailerDAOImpl implements RetailerDAO {
     @Override
     public void addRetailer(RetailerDTO retailer) {
         
+        
         Connection con = null;
         PreparedStatement pstmt = null;
 
