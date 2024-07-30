@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DTO;
 
 import java.util.Date;
@@ -18,10 +14,11 @@ public class ProductDTO {
     private boolean surplus;
     private int retailerID;
     private int price;
+    private String dietType;
 
     // Constructors, getters, and setters
     // Constructor
-    public ProductDTO(int id, String name, int quantity, Date expiryDate, boolean surplus, int retailerID, int price) {
+    public ProductDTO(int id, String name, int quantity, Date expiryDate, boolean surplus, int retailerID, int price, String dietType) {
         this.id = id;
         this.name = name;
         this.quantity = quantity;
@@ -29,6 +26,7 @@ public class ProductDTO {
         this.surplus = surplus;
         this.retailerID = retailerID;
         this.price = price;
+        this.dietType=dietType;
     }
 
     public ProductDTO() {
@@ -90,10 +88,10 @@ public class ProductDTO {
     public void setPrice(int price) {
         this.price = price;
     }
-    
-    
-    
-    
-    
-    
+    public String getDietType(){
+        return dietType;
+    }
+    public void setDietType(String dietType){
+        this.dietType=dietType;
+    }
 }
