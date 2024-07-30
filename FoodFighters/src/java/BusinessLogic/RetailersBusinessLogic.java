@@ -11,6 +11,8 @@ import DAO.RetailerDAOImpl;
 import DTO.ProductDTO;
 import DTO.RetailerDTO;
 import Utilities.Validator;
+import java.sql.SQLException;
+import java.util.List;
 
 /**
  *
@@ -27,11 +29,16 @@ public class RetailersBusinessLogic {
         productDAO = new ProductDAOImpl();
     }
 
+    public List<ProductDTO> getProductsByRetailerID(int retailerID){
+        return productDAO.getProductsByRetailerID(retailerID);
+    }
+    
     /**
      * Interacts with a productDAO to add a product to the database
      * @param product The product to add to the database
+     * @throws java.sql.SQLException
      */
-    public void addProduct(ProductDTO product) {
+    public void addProduct(ProductDTO product) throws SQLException {
         validator.validateProduct(product);
         productDAO.addProduct(product);
         // Implementation
@@ -40,8 +47,9 @@ public class RetailersBusinessLogic {
     /**
      * Updates a product's quantity
      * @param product 
+     * @throws java.sql.SQLException 
      */
-    public void updateQty(ProductDTO product) {
+    public void updateQty(ProductDTO product) throws SQLException {
         productDAO.updateProduct(product);
         // Implementation
     }
@@ -49,8 +57,9 @@ public class RetailersBusinessLogic {
     /**
      * Marks a product as surplus
      * @param product 
+     * @throws java.sql.SQLException 
      */
-    public void listSurplusProduct(ProductDTO product) {
+    public void listSurplusProduct(ProductDTO product) throws SQLException {
         productDAO.updateProduct(product);
         // Implementation
     }
