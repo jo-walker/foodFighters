@@ -1,5 +1,6 @@
 package DTO;
 
+import Utilities.DietType;
 import java.util.Date;
 
 /**
@@ -14,11 +15,11 @@ public class ProductDTO {
     private boolean surplus;
     private int retailerID;
     private int price;
-    private String dietType;
+    private DietType dietType;
 
     // Constructors, getters, and setters
     // Constructor
-    public ProductDTO(int id, String name, int quantity, Date expiryDate, boolean surplus, int retailerID, int price, String dietType) {
+    public ProductDTO(int id, String name, int quantity, Date expiryDate, boolean surplus, int retailerID, int price, DietType dietType) {
         this.id = id;
         this.name = name;
         this.quantity = quantity;
@@ -88,10 +89,10 @@ public class ProductDTO {
     public void setPrice(int price) {
         this.price = price;
     }
-    public String getDietType(){
+    public DietType getDietType(){
         return dietType;
     }
-    public void setDietType(String dietType){
+    public void setDietType(DietType dietType){
         this.dietType=dietType;
     }
 }
