@@ -12,12 +12,15 @@ import java.io.Serializable;
  * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
 public class ConsumerDTO extends User implements Serializable{
+    private int customerID; //jo added
+    private int userID; //jo added
     private String firstName;
     private String lastName;
     private String location;
-    private String phone;
-    private String dietType;
+    private String phone; //note: its called mobile in db schema
+    private String dietPreference; //jo added
 
+    // observer pattern
     public void subscribeAlert() {
         NewsletterAlert.addConsumer(this);
     }
@@ -25,7 +28,15 @@ public class ConsumerDTO extends User implements Serializable{
     
 
     // Constructors, getters, and setters
-
+    public CustomerDTO(int customerID, int userID, String firstName, String lastName, String mobile, String dietPreference) {
+        this.customerID = customerID;
+        this.userID = userID;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = mobile;
+        this.dietPreference = dietPreference;
+    }
+    
     public String getFirstName() {
         return firstName;
     }
@@ -58,12 +69,12 @@ public class ConsumerDTO extends User implements Serializable{
         this.phone = phone;
     }
 
-    public String getDietType() {
-        return dietType;
+    public String getDietPreference() {
+        return dietPreference;
     }
 
-    public void setDietType(String dietType) {
-        this.dietType = dietType;
+    public void setDietPreference(String dietPreference) {
+        this.dietPreference = dietPreference;
     }
 
     public int getId() {
