@@ -28,7 +28,7 @@ public class ConsumerDTO extends User implements Serializable{
     
 
     // Constructors, getters, and setters
-    public CustomerDTO(int customerID, int userID, String firstName, String lastName, String mobile, String dietPreference) {
+    public ConsumerDTO(int customerID, int userID, String firstName, String lastName, String mobile, String dietPreference) {
         this.customerID = customerID;
         this.userID = userID;
         this.firstName = firstName;
