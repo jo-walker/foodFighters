@@ -53,7 +53,8 @@ public class AddUserServlet extends HttpServlet {
 
             consumerLogic.addConsumer(consumer);
 
-        } else if (role == 2) {  // Retailer
+        } 
+        else if (role == 2) {  // Retailer
             String retailerName = request.getParameter("retailerName");
 
             RetailerDTO retailer = new RetailerDTO();
@@ -63,12 +64,13 @@ public class AddUserServlet extends HttpServlet {
             retailer.setRole(role);
             retailer.setName(retailerName);
 
-            retailerLogic.addRetailer(retailer);
+            session.setAttribute("retailerID", retailerLogic.addRetailer(retailer));
             
             request.setAttribute("message", "Sign up successful!");
             request.getRequestDispatcher("retailerDashboard.jsp").forward(request, response);
 
-        } else if (role == 3) {  // Charity Organization
+        } 
+        else if (role == 3) {  // Charity Organization
             String charityName = request.getParameter("charityName");
 
             OrganizationDTO charity = new OrganizationDTO();

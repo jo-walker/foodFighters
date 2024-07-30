@@ -20,7 +20,7 @@ import java.sql.ResultSet;
 public class RetailerDAOImpl implements RetailerDAO {
 
     @Override
-    public void addRetailer(RetailerDTO retailer) {
+    public int addRetailer(RetailerDTO retailer) {
         
         
         Connection con = null;
@@ -53,11 +53,16 @@ public class RetailerDAOImpl implements RetailerDAO {
             pstmt.setInt(1, userID);
             pstmt.setString(2, retailer.getName());
             pstmt.executeUpdate();
+            return userID;
 
         }
              catch (SQLException e) {
             e.printStackTrace();
+            // Optionally, you can throw a custom exception here
+            throw new RuntimeException("Error adding retailer", e);
         }
+        
+        
     
     }
 
