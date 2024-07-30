@@ -15,7 +15,7 @@ import java.sql.ResultSet;
 
 /**
  *
- * @author Baasanlkham Gurvantamir 041129783 gurv0003@algonquinlive.com
+ * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
 public class RetailerDAOImpl implements RetailerDAO {
 
@@ -60,12 +60,4 @@ public class RetailerDAOImpl implements RetailerDAO {
     
     }
 
-    @Override
-    public void addItem(ProductDTO product) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    @Override
-    public void getProductsByRetailerID(int retailerID){
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }

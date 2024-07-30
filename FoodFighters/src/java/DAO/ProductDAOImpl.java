@@ -11,16 +11,16 @@ import java.util.Date;
 import java.util.List;
 
 public class ProductDAOImpl implements ProductDAO {
-    private DataSource dataSource;
+    
 
-    public ProductDAOImpl(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public ProductDAOImpl() {
+       
     }
 
     @Override
     public void addProduct(ProductDTO product) throws SQLException {
         String query = "INSERT INTO Product (name, quantity, expiryDate, surplus, retailerID, price) VALUES (?, ?, ?, ?, ?, ?)";
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = DataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, product.getName());
             preparedStatement.setInt(2, product.getQuantity());
@@ -35,7 +35,7 @@ public class ProductDAOImpl implements ProductDAO {
     @Override
     public ProductDTO getProductByID(int productID) throws SQLException {
         String query = "SELECT * FROM Product WHERE id = ?";
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = DataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, productID);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -59,7 +59,7 @@ public class ProductDAOImpl implements ProductDAO {
     public List<ProductDTO> getProductByName(String name) throws SQLException {
         List<ProductDTO> products = new ArrayList<>();
         String query = "SELECT * FROM Product WHERE name LIKE ?";
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = DataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, "%" + name + "%");
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -83,7 +83,7 @@ public class ProductDAOImpl implements ProductDAO {
     public List<ProductDTO> getAllProducts() throws SQLException {
         List<ProductDTO> products = new ArrayList<>();
         String query = "SELECT * FROM Product";
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = DataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query);
              ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
@@ -104,7 +104,7 @@ public class ProductDAOImpl implements ProductDAO {
     @Override
     public void updateProduct(ProductDTO product) throws SQLException {
         String query = "UPDATE Product SET name = ?, quantity = ?, expiryDate = ?, surplus = ?, retailerID = ?, price = ? WHERE id = ?";
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = DataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, product.getName());
             preparedStatement.setInt(2, product.getQuantity());
@@ -120,7 +120,7 @@ public class ProductDAOImpl implements ProductDAO {
     @Override
     public void deleteProduct(int productID) throws SQLException {
         String query = "DELETE FROM Product WHERE id = ?";
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = DataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, productID);
             preparedStatement.executeUpdate();

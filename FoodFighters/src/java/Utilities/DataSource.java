@@ -28,8 +28,8 @@ public class DataSource {
 
         try {
             if (connection == null) { // || connection.isClosed()) { // used if connection is closed in other DAO implementations
-                connection = DriverManager.getConnection(connectionInfo[0], connectionInfo[1], connectionInfo[2]);
-                //connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/foodFighters", "root", "N@s-402@Av-131811");
+                //connection = DriverManager.getConnection(connectionInfo[0], connectionInfo[1], connectionInfo[2]);
+                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/foodFighters", "root", "N@s-402@Av-131811");
             } else {
                 System.out.println("Cannot create new connection, using existing one");
             }
