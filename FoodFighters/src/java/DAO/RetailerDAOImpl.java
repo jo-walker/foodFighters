@@ -4,7 +4,6 @@
  */
 package DAO;
 
-import DTO.ProductDTO;
 import DTO.RetailerDTO;
 import Utilities.DataSource;
 import java.sql.Connection;
@@ -49,11 +48,18 @@ public class RetailerDAOImpl implements RetailerDAO {
             // Use the retrieved key in the second PreparedStatement
             pstmt = con.prepareStatement(
                 "INSERT INTO retailer (userID, retailerName) "
-                + "VALUES(?, ?)");
+                + "VALUES(?, ?)", Statement.RETURN_GENERATED_KEYS);
             pstmt.setInt(1, userID);
             pstmt.setString(2, retailer.getName());
             pstmt.executeUpdate();
-            return userID;
+            
+            // Retrieve the generated keys
+            generatedKeys = pstmt.getGeneratedKeys();
+            int retailerID = 0;
+            if (generatedKeys.next()) {
+                retailerID = generatedKeys.getInt(1);
+            }
+            return retailerID;
 
         }
              catch (SQLException e) {
@@ -61,9 +67,5 @@ public class RetailerDAOImpl implements RetailerDAO {
             // Optionally, you can throw a custom exception here
             throw new RuntimeException("Error adding retailer", e);
         }
-        
-        
-    
     }
-
 }

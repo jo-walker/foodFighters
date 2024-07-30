@@ -39,6 +39,8 @@
                 <th>Description</th>
                 <th>Price</th>
                 <th>Quantity</th>
+                <th>Is Surplus</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -50,10 +52,14 @@
                     for (ProductDTO product : products) {
             %>
             <tr>
-                <td><%=product.getName() %></td>
-                <td><%= product.getQuantity() %></td>
-                <td><%= product.getExpiryDate()%></td>
+                <td><%= product.getId() %></td>
+                <td><%= product.getName() %></td>
                 <td><%= product.getPrice() %></td>
+                <td><%= product.getQuantity() %></td>
+                <td><%= product.isSurplus() %></td>
+                <td>
+                    <button onclick="location.href='editProduct.jsp?id=<%= product.getId() %>'">Edit</button>
+                </td>
             </tr>
             <%
                     }
