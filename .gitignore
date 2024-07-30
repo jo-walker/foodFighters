@@ -1,7 +1,5 @@
-/FoodFighters/nbproject/private/
+# Ignore the entire nbproject directory within FoodFighters
+/FoodFighters/nbproject/
+
 # Ignore all .log files
 *.log
-
-# Ignore a directory
-nbproject/s
-./FoodFighters/nbproject
