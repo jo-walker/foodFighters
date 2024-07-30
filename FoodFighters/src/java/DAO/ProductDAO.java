@@ -22,4 +22,5 @@ public interface ProductDAO {
     void updateProduct(ProductDTO product) throws SQLException;
     void deleteProduct(int productID) throws SQLException;
     
+    
 }

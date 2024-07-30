@@ -30,6 +30,10 @@ public class ProductDTO {
         this.retailerID = retailerID;
         this.price = price;
     }
+
+    public ProductDTO() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
     public int getId() {
         return id;
