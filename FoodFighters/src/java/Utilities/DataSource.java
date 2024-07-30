@@ -22,19 +22,20 @@ public class DataSource {
      * Gets the singleton connection instance.
      * @return the database connection.
      */
-    public static Connection getConnection() {
-        if (connection == null || isConnectionClosed()) {
-            String[] connectionInfo = openPropsFile();
-            try {
-                connection = DriverManager.getConnection(connectionInfo[0], connectionInfo[1], connectionInfo[2]);
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-        } else {
-            System.out.println("Cannot create new connection, using existing one");
+   public static Connection getConnection() {
+    if (connection == null || isConnectionClosed()) {
+        String[] connectionInfo = openPropsFile();
+        try {
+            connection = DriverManager.getConnection(connectionInfo[0], connectionInfo[1], connectionInfo[2]);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
-        return connection;
+    } else {
+        System.out.println("Cannot create new connection, using existing one");
     }
+    return connection;
+}
+
 
     /**
      * Checks if the current connection is closed.
