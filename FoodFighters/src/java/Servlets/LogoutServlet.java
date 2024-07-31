@@ -4,12 +4,9 @@
  */
 package Servlets;
 
-import BusinessLogic.RetailersBusinessLogic;
-import DTO.RetailerDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,11 +16,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
-@WebServlet(name = "AddRetailerServlet", urlPatterns = {"/AddRetailerServlet-URL"})
-public class AddRetailerServlet extends HttpServlet {
-    
-    private RetailersBusinessLogic retailerLogic = new RetailersBusinessLogic();
-    private RetailerDTO retailer = new RetailerDTO();
+public class LogoutServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,6 +29,7 @@ public class AddRetailerServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+<<<<<<< HEAD:FoodFighters/src/java/Servlets/AddRetailerServlet.java
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             
@@ -60,7 +54,15 @@ public class AddRetailerServlet extends HttpServlet {
             out.println("</html>");
             
             
+=======
+        // Terminate the session
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+>>>>>>> origin/AndreaVisani:FoodFighters/src/java/Servlets/LogoutServlet.java
         }
+        // Redirect to index.html
+        response.sendRedirect("index.html");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -21,6 +21,5 @@ public interface ProductDAO {
     List<ProductDTO> getAllProducts() throws SQLException;
     void updateProduct(ProductDTO product) throws SQLException;
     void deleteProduct(int productID) throws SQLException;
-    
-    
+    List<ProductDTO> getProductsByRetailerID(int retailerID) throws SQLException;
 }

@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet(name = "AddUserServlet", urlPatterns = {"/AddUserServlet"})
 public class AddUserServlet extends HttpServlet {
@@ -38,6 +39,7 @@ public class AddUserServlet extends HttpServlet {
         String password = request.getParameter("password");
         String email = request.getParameter("email");
         int role = Integer.parseInt(request.getParameter("role"));
+        HttpSession session = request.getSession();
 
         if (role == 1) {  // Consumer
             String firstName = request.getParameter("firstName");
@@ -67,7 +69,8 @@ public class AddUserServlet extends HttpServlet {
                 request.getRequestDispatcher("errorPage.jsp").forward(request, response);
             }
 
-        } else if (role == 2) {  // Retailer
+        } 
+        else if (role == 2) {  // Retailer
             String retailerName = request.getParameter("retailerName");
 
             RetailerDTO retailer = new RetailerDTO();
@@ -77,11 +80,18 @@ public class AddUserServlet extends HttpServlet {
             retailer.setRole(role);
             retailer.setName(retailerName);
 
+<<<<<<< HEAD
             retailerLogic.addRetailer(retailer);
             request.setAttribute("message", "Retailer added successfully!");
+=======
+            session.setAttribute("retailerID", retailerLogic.addRetailer(retailer));
+            
+            request.setAttribute("message", "Sign up successful!");
+>>>>>>> origin/AndreaVisani
             request.getRequestDispatcher("retailerDashboard.jsp").forward(request, response);
 
-        } else if (role == 3) {  // Charity Organization
+        } 
+        else if (role == 3) {  // Charity Organization
             String charityName = request.getParameter("charityName");
 
             OrganizationDTO charity = new OrganizationDTO();
@@ -90,10 +100,14 @@ public class AddUserServlet extends HttpServlet {
             request.setAttribute("message", "Charity organization added successfully!");
             request.getRequestDispatcher("charityDashboard.jsp").forward(request, response);
 
+<<<<<<< HEAD
         } else {
             request.setAttribute("error", "Invalid role specified.");
             request.getRequestDispatcher("errorPage.jsp").forward(request, response);
         }
+=======
+        
+>>>>>>> origin/AndreaVisani
     }
 
     @Override
