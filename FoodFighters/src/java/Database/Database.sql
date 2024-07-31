@@ -19,6 +19,7 @@ CREATE TABLE Customer (
     firstName VARCHAR(100) NOT NULL,
     lastName VARCHAR(100) NOT NULL,
     mobile VARCHAR(15) NOT NULL,    
+    isVegetarian BOOLEAN NOT NULL,
     FOREIGN KEY (userID) REFERENCES user(userID),
     PRIMARY KEY (customerID)
 );
@@ -46,7 +47,7 @@ CREATE TABLE Product (
     productID INT AUTO_INCREMENT NOT NULL,
     productName VARCHAR(100) NOT NULL,
     price INT NOT NULL,
-    dietType VARCHAR(100) NOT NULL,
+    isVeggie BOOLEAN NOT NULL,
     PRIMARY KEY (productID)
 );
 
