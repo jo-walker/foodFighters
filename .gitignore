@@ -5,3 +5,6 @@
 # Ignore all .log files
 *.log
 /FoodFighters/build/
+/FoodFighters/dist/
+.DS_Store
+Thumbs.db
