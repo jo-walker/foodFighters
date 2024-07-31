@@ -2,20 +2,24 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group name="Week05"/>
+        <group name="Week05">
+            <file>file:/C:/Users/visan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/web/signup.jsp</file>
+            <file>file:/C:/Users/visan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/BusinessLogic/RetailersBusinessLogic.java</file>
+            <file>file:/C:/Users/visan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/web/addProduct.jsp</file>
+            <file>file:/C:/Users/visan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/DAO/RetailerDAOImpl.java</file>
+            <file>file:/C:/Users/visan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/DAO/RetailerDAO.java</file>
+            <file>file:/C:/Users/visan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/Utilities/DataSource.java</file>
+        </group>
         <group>
-            <file>file:/D:/AC/AC%202024Spring/cst8288/FoodFighters/foodFighters/FoodFighters/src/java/DTO/ConsumerDTO.java</file>
-            <file>file:/D:/AC/AC%202024Spring/cst8288/FoodFighters/foodFighters/FoodFighters/src/java/DTO/User.java</file>
-            <file>file:/D:/AC/AC%202024Spring/cst8288/FoodFighters/foodFighters/FoodFighters/src/java/DAO/ProductDAO.java</file>
-            <file>file:/D:/AC/AC%202024Spring/cst8288/FoodFighters/foodFighters/FoodFighters/src/java/DAO/RetailerDAOImpl.java</file>
-            <file>file:/D:/AC/AC%202024Spring/cst8288/FoodFighters/foodFighters/FoodFighters/src/java/DAO/ConsumerDAO.java</file>
-            <file>file:/D:/AC/AC%202024Spring/cst8288/FoodFighters/foodFighters/FoodFighters/src/java/DAO/ProductDAOImpl.java</file>
-            <file>file:/D:/AC/AC%202024Spring/cst8288/FoodFighters/foodFighters/FoodFighters/src/java/DTO/RetailerDTO.java</file>
-            <file>file:/D:/AC/AC%202024Spring/cst8288/FoodFighters/foodFighters/FoodFighters/src/java/DAO/OrganizationDAOImpl.java</file>
-            <file>file:/D:/AC/AC%202024Spring/cst8288/FoodFighters/foodFighters/FoodFighters/src/java/DAO/RetailerDAO.java</file>
-            <file>file:/D:/AC/AC%202024Spring/cst8288/FoodFighters/foodFighters/FoodFighters/src/java/DTO/ProductDTO.java</file>
-            <file>file:/D:/AC/AC%202024Spring/cst8288/FoodFighters/foodFighters/FoodFighters/src/java/Database/Database.sql</file>
-            <file>file:/D:/AC/AC%202024Spring/cst8288/FoodFighters/foodFighters/FoodFighters/src/java/DAO/ConsumerDAOImpl.java</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/foodfighters/FoodFighters/src/java/Servlets/AddRetailerServlet.java</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/foodfighters/FoodFighters/src/java/DTO/OrganizationDTO.java</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/foodfighters/FoodFighters/src/java/DAO/RetailerDAOImpl.java</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/foodfighters/FoodFighters/src/java/DTO/RetailerDTO.java</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/foodfighters/FoodFighters/src/java/Servlets/AddCharOrgServlet.java</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/foodfighters/FoodFighters/src/java/DAO/OrganizationDAOImpl.java</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/foodfighters/FoodFighters/src/java/DAO/OrganizationDAO.java</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/foodfighters/FoodFighters/src/java/Servlets/AddUserServlet.java</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/foodfighters/FoodFighters/src/java/DTO/ConsumerDTO.java</file>
         </group>
     </open-files>
 </project-private>
