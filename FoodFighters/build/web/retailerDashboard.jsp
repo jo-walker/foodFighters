@@ -30,6 +30,7 @@
 <body>
     <h1>Retailer Dashboard</h1>
     <button onclick="location.href='addProduct.jsp'">Add Product</button>
+    <button onclick="location.href='LogoutServlet'">Logout</button>
     <table>
         <thead>
             <tr>
@@ -38,9 +39,32 @@
                 <th>Description</th>
                 <th>Price</th>
                 <th>Quantity</th>
+                <th>Is Surplus</th>
+                <th>Actions</th>
             </tr>
         </thead>
-
+        <tbody>
+            <%
+                RetailersBusinessLogic retailerLogic = new RetailersBusinessLogic();
+                int retailerID = (int) session.getAttribute("retailerID"); //LOGIC FOR GETTING THE ID FROM THE SESSION
+                List<ProductDTO> products = retailerLogic.getProductsByRetailerID(retailerID);
+                if (products != null) {
+                    for (ProductDTO product : products) {
+            %>
+            <tr>
+                <td><%= product.getId() %></td>
+                <td><%= product.getName() %></td>
+                <td><%= product.getPrice() %></td>
+                <td><%= product.getQuantity() %></td>
+                <td><%= product.isSurplus() %></td>
+                <td>
+                    <button onclick="location.href='editProduct.jsp?id=<%= product.getId() %>'">Edit</button>
+                </td>
+            </tr>
+            <%
+                    }
+                }
+            %>
         </tbody>
     </table>
 </body>

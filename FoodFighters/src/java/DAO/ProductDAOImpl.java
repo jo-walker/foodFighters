@@ -21,6 +21,7 @@ public class ProductDAOImpl implements ProductDAO {
 
     @Override
     public void addProduct(ProductDTO product) throws SQLException {
+<<<<<<< HEAD
         String productQuery = "INSERT INTO Product (productName, price, isVeggie) VALUES (?, ?, ?)";
         String productRetailerQuery = "INSERT INTO ProductRetailer (productID, retailerID, productQuantity, expiryDate, isSurplus) VALUES (?, ?, ?, ?, ?)";
 
@@ -48,6 +49,19 @@ public class ProductDAOImpl implements ProductDAO {
                 }
             }
             connection.commit();
+=======
+        String query = "INSERT INTO Product (name, quantity, expiryDate, surplus, retailerID, price, dietType) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try (Connection connection = DataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, product.getName());
+            preparedStatement.setInt(2, product.getQuantity());
+            preparedStatement.setDate(3, new java.sql.Date(product.getExpiryDate().getTime()));
+            preparedStatement.setBoolean(4, product.isSurplus());
+            preparedStatement.setInt(5, product.getRetailerID());
+            preparedStatement.setDouble(6, product.getPrice());
+            preparedStatement.setString(7, product.getDietType().getValue());
+            preparedStatement.executeUpdate();
+>>>>>>> origin/consumer
         }
     }
 
@@ -178,6 +192,7 @@ public class ProductDAOImpl implements ProductDAO {
             connection.commit();
         }
     }
+<<<<<<< HEAD
 
     @Override
     public List<ProductDTO> getProductsByRetailerID(int retailerID) throws SQLException {
@@ -185,6 +200,14 @@ public class ProductDAOImpl implements ProductDAO {
         String query = "SELECT p.productID, p.productName, p.price, p.isVeggie, pr.retailerID, pr.productQuantity, pr.expiryDate, pr.isSurplus " +
                        "FROM Product p JOIN ProductRetailer pr ON p.productID = pr.productID WHERE pr.retailerID = ?";
 
+=======
+    
+    @Override
+        String query = "SELECT p.id, p.name, p.quantity, p.expiryDate, p.surplus, pr.retailerID, p.price, p.dietType " +
+                       "FROM Product p " +
+                       "JOIN ProductRetailer pr ON p.id = pr.productID " +
+                       "WHERE pr.retailerID = ?";
+>>>>>>> origin/consumer
         try (Connection connection = DataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, retailerID);
@@ -204,6 +227,11 @@ public class ProductDAOImpl implements ProductDAO {
             }
         }
         return products;
+
+    @Override
+    public List<ProductDTO> getProductsByRetailerID(int retailerID) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     }
 }
     

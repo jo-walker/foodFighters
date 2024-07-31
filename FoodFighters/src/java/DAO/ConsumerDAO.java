@@ -3,11 +3,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
 package DAO;
+import DTO.ConsumerDTO; 
+import DTO.ProductDTO;
+import java.sql.SQLException;
 
 /**
  *
- * @author Andrea Visani 041104651 visa0004@algonquinlive.com
+ * @author Anugrah Rai 041099878 rai00049@algonquinlive.com
  */
 public interface ConsumerDAO {
-    void purchaseItem();
+    void addConsumer(ConsumerDTO consumer) throws SQLException;
+    void purchaseItem(ConsumerDTO consumer, ProductDTO product) throws SQLException;
+    void subscribeToAlert(ConsumerDTO consumer, String alertType) throws SQLException;
 }

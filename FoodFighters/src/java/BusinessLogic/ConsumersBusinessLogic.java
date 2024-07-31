@@ -1,41 +1,54 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package BusinessLogic;
 
 import DAO.ConsumerDAO;
+import DAO.ConsumerDAOImpl;
 import DAO.ProductDAO;
+import DAO.ProductDAOImpl;
 import DTO.ConsumerDTO;
 import DTO.ProductDTO;
 import Utilities.Validator;
 import java.sql.SQLException;
 import java.util.List;
 
-/**
- *
- * @author Andrea Visani 041104651 visa0004@algonquinlive.com
- */
+///**
+// * Business logic for handling consumer-related operations.
+// * Author: Anugrah 
+// * 
+// 
+
 public class ConsumersBusinessLogic {
-    private ConsumerDAO consumer;
+    private ConsumerDAO consumerDAO;
     private Validator validator;
-    private ProductDAO product;
+    private ProductDAO productDAO;
 
-    public void purchaseProduct() {
-        
+    // Constructor to initialize DAOs and validator
+    public ConsumersBusinessLogic() {
+        this.consumerDAO = new ConsumerDAOImpl();
+        this.validator = new Validator();
+        this.productDAO = new ProductDAOImpl();
     }
 
-    public void addConsumer(ConsumerDTO consumer) {
-        // Implementation
+    // Method to handle product purchase logic
+    public void purchaseProduct(ConsumerDTO consumer, ProductDTO product) throws SQLException {
+            validator.validateProduct(product); 
+            // Assuming ConsumerDAO has a method to add purchase details
+            consumerDAO.purchaseItem(consumer, product);
     }
-    
-    public void subscribeAlert(){
-        
+
+    // Method to add a new consumer
+    public void addConsumer(ConsumerDTO consumer) throws SQLException {
+            validator.validateConsumer(consumer); 
+            consumerDAO.addConsumer(consumer);
     }
-    
+
+    // Method to subscribe consumer to alerts
+    public void subscribeAlert(ConsumerDTO consumer, String alertType) throws SQLException {
+            validator.validateConsumer(consumer); 
+            consumerDAO.subscribeToAlert(consumer, alertType);
+    }
+
+    // Method to display all products
     public List<ProductDTO> displayAllProducts() throws SQLException {
-        
-        return product.getAllProducts();
-        
+        return productDAO.getAllProducts();
     }
 }

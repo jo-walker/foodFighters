@@ -4,12 +4,9 @@
  */
 package Servlets;
 
-import BusinessLogic.RetailersBusinessLogic;
-import DTO.RetailerDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,11 +16,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
-@WebServlet(name = "AddRetailerServlet", urlPatterns = {"/AddRetailerServlet-URL"})
-public class AddRetailerServlet extends HttpServlet {
-    
-    private RetailersBusinessLogic retailerLogic = new RetailersBusinessLogic();
-    private RetailerDTO retailer = new RetailerDTO();
+public class LogoutServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,31 +29,13 @@ public class AddRetailerServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            
-            HttpSession session = request.getSession();
-            
-            retailer.setUsername(request.getParameter("username"));
-            retailer.setPassword(request.getParameter("password"));
-            retailer.setEmail(request.getParameter("email"));
-            retailer.setName(request.getParameter("retailerName"));
-            retailerLogic.addRetailer(retailer);
-            
-            
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet AddRetailerServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet AddRetailerServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-            
-            
+        // Terminate the session
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
         }
+        // Redirect to index.html
+        response.sendRedirect("index.html");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -4,3 +4,4 @@
 
 # Ignore all .log files
 *.log
+/FoodFighters/build/

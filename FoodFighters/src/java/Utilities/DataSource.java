@@ -1,8 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Utilities;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -13,8 +10,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 /**
- *
- * @author Andrea Visani 041104651 visa0004@algonquinlive.com
+ * Provides a single database connection instance for the application.
  */
 public class DataSource {
 
@@ -22,11 +18,16 @@ public class DataSource {
 
     private DataSource() { }
 
-    /* Only use one connection for this application, prevent memory leaks. */
-    public static Connection getConnection() {
+    /**
+     * Gets the singleton connection instance.
+     * @return the database connection.
+     */
+   public static Connection getConnection() {
+    if (connection == null || isConnectionClosed()) {
         String[] connectionInfo = openPropsFile();
-
         try {
+
+            connection = DriverManager.getConnection(connectionInfo[0], connectionInfo[1], connectionInfo[2]);
             if (connection == null) { // || connection.isClosed()) { // used if connection is closed in other DAO implementations
                 //connection = DriverManager.getConnection(connectionInfo[0], connectionInfo[1], connectionInfo[2]);
                 connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/foodFighters", "root", "N@s-402@Av-131811");
@@ -36,31 +37,55 @@ public class DataSource {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return connection;
+    } else {
+        System.out.println("Cannot create new connection, using existing one");
+    }
+    return connection;
+}
+
+
+    /**
+     * Checks if the current connection is closed.
+     * @return true if the connection is closed, false otherwise.
+     */
+    private static boolean isConnectionClosed() {
+        try {
+            return connection.isClosed();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return true;
+        }
     }
 
+    /**
+     * Loads database properties from the properties file.
+     * @return an array containing JDBC URL, username, and password.
+     */
     private static String[] openPropsFile() {
         Properties props = new Properties();
+        String[] info = new String[3];
         
-
-        /** 
-         * =================================================================================================================
-         * ============  WE NEED TO FIX THIS ISSUE, NOT WORKING IN MY MACHINE (ANDREA) IF USING RELATIVE PATH ==============
-         * =================================================================================================================
-         */
-        try (InputStream inputStream = Files.newInputStream(Paths.get("C:\\Users\\visan\\OneDrive\\Documents\\NetBeansProjects\\fFighters\\FoodFighters\\src\\java\\Database\\database.properties"))) {
+        // Update file path to be a valid relative or absolute path
+        String filePath = "C:\\Users\\Owner\\Documents\\NetBeansProjects\\Lab2-maven\\data\\database.properties";
+        try (InputStream inputStream = Files.newInputStream(Paths.get(filePath))) {
             props.load(inputStream);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String connectionString = props.getProperty("jdbc.url");
-        String username = props.getProperty("jdbc.username");
-        String password = props.getProperty("jdbc.password");
 
-        String[] info = new String[3];
-        info[0] = connectionString;
-        info[1] = username;
-        info[2] = password;
+        // Construct JDBC URL from properties
+        String db = props.getProperty("db");
+        String name = props.getProperty("name");
+        String host = props.getProperty("host");
+        String port = props.getProperty("port");
+        String user = props.getProperty("user");
+        String pass = props.getProperty("pass");
+
+        String jdbcUrl = String.format("jdbc:%s://%s:%s/%s", db, host, port, name);
+
+        info[0] = jdbcUrl;
+        info[1] = user;
+        info[2] = pass;
 
         return info;
     }
