@@ -3,6 +3,7 @@ package DAO;
 import DTO.ProductDTO;
 import Utilities.DataSource;
 import Utilities.DietType;
+import Utilities.Exception.ValidationException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -204,6 +205,35 @@ public class ProductDAOImpl implements ProductDAO {
             }
         }
         return products;
+    }
+    @Override
+    public void updateProductQuantity(ProductDTO product) throws SQLException {
+        String query = "UPDATE ProductRetailer SET productQuantity = ? WHERE productID = ? AND retailerID = ?";
+        try (Connection connection = DataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, product.getQuantity());
+            preparedStatement.setInt(2, product.getId());
+            preparedStatement.setInt(3, product.getRetailerID());
+            preparedStatement.executeUpdate();
+        }
+    }
+
+    public void validateSurplusProduct(ProductDTO product) throws ValidationException {
+        if (product.isSurplus() && product.getQuantity() <= 0) {
+            throw new ValidationException("Cannot mark a product with zero or negative quantity as surplus");
+        }
+    }
+
+    @Override
+    public void setSurplus(ProductDTO product) throws SQLException {
+        String query = "UPDATE ProductRetailer SET isSurplus = ? WHERE productID = ? AND retailerID = ?";
+        try (Connection connection = DataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setBoolean(1, product.isSurplus());
+            preparedStatement.setInt(2, product.getId());
+            preparedStatement.setInt(3, product.getRetailerID());
+            preparedStatement.executeUpdate();
+        }
     }
 }
     
