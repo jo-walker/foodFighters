@@ -29,7 +29,7 @@ public class RetailersBusinessLogic {
         productDAO = new ProductDAOImpl();
     }
 
-    public List<ProductDTO> getProductsByRetailerID(int retailerID){
+    public List<ProductDTO> getProductsByRetailerID(int retailerID) throws SQLException{
         return productDAO.getProductsByRetailerID(retailerID);
     }
     

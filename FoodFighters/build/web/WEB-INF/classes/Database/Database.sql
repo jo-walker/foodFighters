@@ -8,7 +8,11 @@ CREATE TABLE user(
     username VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
+<<<<<<< HEAD
+    userRole INT NOT NULL, /**1 customers, 2 retailer, 3 charity**/
+=======
     userRole INT NOT NULL, /*1 customers, 2 retailer, 3 charity*/
+>>>>>>> origin/AndreaVisani
     PRIMARY KEY (userID)
 );
 
@@ -19,9 +23,13 @@ CREATE TABLE Customer (
     firstName VARCHAR(100) NOT NULL,
     lastName VARCHAR(100) NOT NULL,
     mobile VARCHAR(15) NOT NULL,    
+<<<<<<< HEAD
+=======
     isVegetarian BOOLEAN NOT NULL,
+>>>>>>> origin/AndreaVisani
     FOREIGN KEY (userID) REFERENCES user(userID),
-    PRIMARY KEY (customerID)
+    PRIMARY KEY (customerID),
+    isVeggie BOOLEAN NOT NULL
 );
 
 -- Table for Charity Organization
@@ -80,4 +88,8 @@ SELECT * FROM Customer;
 SELECT * FROM Product;
 SELECT * FROM ProductRetailer;
 SELECT * FROM Retailer;
+<<<<<<< HEAD
+SELECT * FROM user;
+=======
 SELECT * FROM user;
+>>>>>>> origin/AndreaVisani

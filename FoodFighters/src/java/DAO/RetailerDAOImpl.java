@@ -68,11 +68,9 @@ public class RetailerDAOImpl implements RetailerDAO {
             // Optionally, you can throw a custom exception here
             throw new RuntimeException("Error adding retailer", e);
         }
-<<<<<<< HEAD
+
     
     }
 
-=======
-    }
->>>>>>> origin/AndreaVisani
-}
+   }
+

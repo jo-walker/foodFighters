@@ -19,11 +19,7 @@ public class ProductDTO {
 
     // Constructors, getters, and setters
     // Constructor
-<<<<<<< HEAD
-    public ProductDTO(int id, String name, int quantity, Date expiryDate, boolean surplus, int retailerID, int price) {
-=======
     public ProductDTO(int id, String name, int quantity, Date expiryDate, boolean surplus, int retailerID, double price, DietType dietType) {
->>>>>>> origin/AndreaVisani
         this.id = id;
         this.name = name;
         this.quantity = quantity;
@@ -31,10 +27,7 @@ public class ProductDTO {
         this.surplus = surplus;
         this.retailerID = retailerID;
         this.price = price;
-<<<<<<< HEAD
-=======
         this.dietType=dietType;
->>>>>>> origin/AndreaVisani
     }
 
     public ProductDTO() {

@@ -28,7 +28,7 @@ public class ProductDAOImpl implements ProductDAO {
             preparedStatement.setDate(3, new java.sql.Date(product.getExpiryDate().getTime()));
             preparedStatement.setBoolean(4, product.isSurplus());
             preparedStatement.setInt(5, product.getRetailerID());
-            preparedStatement.setInt(6, product.getPrice());
+            preparedStatement.setDouble(6, product.getPrice());
             preparedStatement.setString(7, product.getDietType().getValue());
             preparedStatement.executeUpdate();
         }
@@ -132,6 +132,7 @@ public class ProductDAOImpl implements ProductDAO {
             preparedStatement.executeUpdate();
         }
     }
+    
     @Override
         String query = "SELECT p.id, p.name, p.quantity, p.expiryDate, p.surplus, pr.retailerID, p.price, p.dietType " +
                        "FROM Product p " +
@@ -156,6 +157,11 @@ public class ProductDAOImpl implements ProductDAO {
             }
         }
         return products;
+
+    @Override
+    public List<ProductDTO> getProductsByRetailerID(int retailerID) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     }
 }
     

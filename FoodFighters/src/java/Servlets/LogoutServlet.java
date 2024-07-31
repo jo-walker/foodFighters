@@ -29,37 +29,10 @@ public class LogoutServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-<<<<<<< HEAD:FoodFighters/src/java/Servlets/AddRetailerServlet.java
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            
-            HttpSession session = request.getSession();
-            
-            retailer.setUsername(request.getParameter("username"));
-            retailer.setPassword(request.getParameter("password"));
-            retailer.setEmail(request.getParameter("email"));
-            retailer.setName(request.getParameter("retailerName"));
-            retailerLogic.addRetailer(retailer);
-            
-            
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet AddRetailerServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet AddRetailerServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-            
-            
-=======
         // Terminate the session
         HttpSession session = request.getSession(false);
         if (session != null) {
             session.invalidate();
->>>>>>> origin/AndreaVisani:FoodFighters/src/java/Servlets/LogoutServlet.java
         }
         // Redirect to index.html
         response.sendRedirect("index.html");

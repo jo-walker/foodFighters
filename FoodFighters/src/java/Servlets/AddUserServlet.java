@@ -40,7 +40,7 @@ public class AddUserServlet extends HttpServlet {
         String email = request.getParameter("email");
         int role = Integer.parseInt(request.getParameter("role"));
         HttpSession session = request.getSession();
-
+        
         if (role == 1) {  // Consumer
             String firstName = request.getParameter("firstName");
             String lastName = request.getParameter("lastName");
@@ -57,7 +57,7 @@ public class AddUserServlet extends HttpServlet {
             consumer.setLastName(lastName);
             consumer.setLocation(location);
             consumer.setPhone(phone);
-            consumer.setDietType(dietType);
+            //consumer.setDietType(dietType);
 
             try {
                 consumerLogic.addConsumer(consumer);
@@ -69,8 +69,7 @@ public class AddUserServlet extends HttpServlet {
                 request.getRequestDispatcher("errorPage.jsp").forward(request, response);
             }
 
-        } 
-        else if (role == 2) {  // Retailer
+        } else if (role == 2) {  // Retailer
             String retailerName = request.getParameter("retailerName");
 
             RetailerDTO retailer = new RetailerDTO();
@@ -80,14 +79,9 @@ public class AddUserServlet extends HttpServlet {
             retailer.setRole(role);
             retailer.setName(retailerName);
 
-<<<<<<< HEAD
-            retailerLogic.addRetailer(retailer);
-            request.setAttribute("message", "Retailer added successfully!");
-=======
             session.setAttribute("retailerID", retailerLogic.addRetailer(retailer));
             
-            request.setAttribute("message", "Sign up successful!");
->>>>>>> origin/AndreaVisani
+            request.setAttribute("message", "Sign up successful!"); 
             request.getRequestDispatcher("retailerDashboard.jsp").forward(request, response);
 
         } 
@@ -100,14 +94,10 @@ public class AddUserServlet extends HttpServlet {
             request.setAttribute("message", "Charity organization added successfully!");
             request.getRequestDispatcher("charityDashboard.jsp").forward(request, response);
 
-<<<<<<< HEAD
         } else {
             request.setAttribute("error", "Invalid role specified.");
             request.getRequestDispatcher("errorPage.jsp").forward(request, response);
         }
-=======
-        
->>>>>>> origin/AndreaVisani
     }
 
     @Override
