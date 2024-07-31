@@ -1,5 +1,1 @@
-# Ignore the entire nbproject directory within FoodFighters
-/FoodFighters/nbproject/
-
-# Ignore all .log files
-*.log
+/FoodFighters/build/
