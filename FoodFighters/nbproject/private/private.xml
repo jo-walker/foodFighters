@@ -3,17 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group name="Week05">
-            <file>file:/C:/Users/visan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/web/signup.jsp</file>
             <file>file:/C:/Users/visan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/BusinessLogic/RetailersBusinessLogic.java</file>
+            <file>file:/C:/Users/visan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/Servlets/AddUserServlet.java</file>
+            <file>file:/C:/Users/visan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/web/retailerDashboard.jsp</file>
             <file>file:/C:/Users/visan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/web/addProduct.jsp</file>
+            <file>file:/C:/Users/visan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/DAO/ProductDAOImpl.java</file>
             <file>file:/C:/Users/visan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/DAO/RetailerDAOImpl.java</file>
-            <file>file:/C:/Users/visan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/DAO/RetailerDAO.java</file>
-            <file>file:/C:/Users/visan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/Utilities/DataSource.java</file>
-        </group>
-        <group>
-            <file>file:/C:/Users/Owner/Desktop/School%20Work/Semester3/OOP/foodfighters/FoodFighters/web/index.html</file>
-            <file>file:/C:/Users/Owner/Desktop/School%20Work/Semester3/OOP/foodfighters/FoodFighters/web/login.jsp</file>
-            <file>file:/C:/Users/Owner/Desktop/School%20Work/Semester3/OOP/foodfighters/FoodFighters/src/java/Servlets/AddUserServlet.java</file>
+            <file>file:/C:/Users/visan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/Servlets/CreateProductServlet.java</file>
         </group>
     </open-files>
 </project-private>

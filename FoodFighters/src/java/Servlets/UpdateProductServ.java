@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
-public class UpdateProductServlet extends HttpServlet {
+public class UpdateProductServ extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,20 +33,25 @@ public class UpdateProductServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
         ProductDTO product = new ProductDTO();
         
         product.setId(Integer.parseInt(request.getParameter("id")));
         product.setName(request.getParameter("name"));
-        String description = request.getParameter("description");
         product.setPrice(Double.parseDouble(request.getParameter("price")));
         product.setQuantity(Integer.parseInt(request.getParameter("quantity")));
         product.setSurplus(request.getParameter("surplus") != null);
+        product.setExpiryDate(new java.util.Date(java.sql.Date.valueOf(request.getParameter("expiryDate")).getTime()));
+        product.setVeggie(request.getParameter("isVeggie") != null);
+        product.setRetailerID(Integer.parseInt(request.getParameter("retailerID")));
 
         ProductDAO productDAO = new ProductDAOImpl();
-        productDAO.updateProduct(product);
+        try {
+            productDAO.updateProduct(product);
+        } catch (SQLException ex) {
+            Logger.getLogger(UpdateProductServ.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         response.sendRedirect("retailerDashboard.jsp");
     }
@@ -63,11 +68,7 @@ public class UpdateProductServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(UpdateProductServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -81,11 +82,7 @@ public class UpdateProductServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(UpdateProductServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**

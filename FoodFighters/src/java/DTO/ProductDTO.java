@@ -18,6 +18,24 @@ public class ProductDTO {
     private double price;
     private boolean isVeggie;
 
+    /**
+     * Default constructor
+     */
+    public ProductDTO(){
+        
+    }
+    
+    // Constructor for insertion, without id
+    public ProductDTO(String name, int quantity, Date expiryDate, boolean surplus, int retailerID, double price, boolean isVeggie) {
+        this.name = name;
+        this.quantity = quantity;
+        this.expiryDate = expiryDate;
+        this.surplus = surplus;
+        this.retailerID = retailerID;
+        this.price = price;
+        this.isVeggie = isVeggie;
+    }
+    
     // Constructors, getters, and setters
     public ProductDTO(int id, String name, int quantity, Date expiryDate, boolean surplus, int retailerID, double price, boolean isVeggie) {
         this.id = id;
