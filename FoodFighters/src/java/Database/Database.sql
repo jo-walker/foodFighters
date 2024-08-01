@@ -47,7 +47,7 @@ CREATE TABLE Retailer (
 CREATE TABLE Product (
     productID INT AUTO_INCREMENT NOT NULL,
     productName VARCHAR(100) NOT NULL,
-    price INT NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
     isVeggie BOOLEAN NOT NULL,
     PRIMARY KEY (productID)
 );

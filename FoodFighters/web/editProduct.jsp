@@ -19,6 +19,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Edit Product</title>
+    <link rel="stylesheet" type="text/css" href="./Css/retailer_style.css">
 </head>
 <body>
     <h1>Edit Product</h1>

@@ -9,6 +9,7 @@
 <html>
 <head>
   <title>Create New Product</title>
+  <link rel="stylesheet" type="text/css" href="./Css/retailer_style.css">
 </head>
 <body bgcolor="#FDF5E6">
   <center>
@@ -27,7 +28,11 @@
       <input type="number" name="price" step="0.01" required><br><br>
       Vegetarian compatible:
       <input type="checkbox" name="isVeggie"><br><br>
-      <input type="submit" value="Create Product">
+      
+      <div class="form-buttons">
+        <input type="submit" value="Create Product">
+        <button type="button" onclick="location.href='retailerDashboard.jsp'">Back to Dashboard</button>
+      </div>
     </form>
   </center>
 </body>

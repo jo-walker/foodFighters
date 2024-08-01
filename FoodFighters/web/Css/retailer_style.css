@@ -1,0 +1,153 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Aug. 1, 2024, 5:46:15 p.m.
+    Author     : Andrea Visani 041104651 visa0004@algonquinlive.com
+*/
+
+/* General page styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header styling */
+h1, h2 {
+    color: #0071ce; /* Walmart Blue */
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Container styling */
+.container {
+    width: 80%;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+/* Button styling */
+.buttons, .form-buttons {
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.buttons button, .form-buttons input[type="submit"] {
+    background-color: #0071ce;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+.buttons button:hover, .form-buttons input[type="submit"]:hover {
+    background-color: #005fa3;
+}
+
+/* Table styling for dashboard */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid #dddddd;
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+td {
+    background-color: #fff;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.edit_button {
+    background-color: #ADD8E6;
+    color: #333;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+.edit_button:hover {
+    background-color: #0071ce;
+    color: white;
+}
+
+td button {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+td button:hover {
+    background-color: #c9302c;
+}
+
+/* Form styling for add product */
+form {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+form input[type="text"], form input[type="number"], form input[type="date"], form input[type="checkbox"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+form input[type="checkbox"] {
+    width: auto;
+}
+
+form input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #0071ce;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+form input[type="submit"]:hover {
+    background-color: #005fa3;
+}
+

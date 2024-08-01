@@ -6,8 +6,8 @@ package Servlets;
 
 import DAO.ProductDAO;
 import DAO.ProductDAOImpl;
-import DTO.ProductDTO;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,10 +17,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
+ * Servlet that handles the deletion of a product by a retailer
  * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
-public class UpdateProductServ extends HttpServlet {
+public class DeleteProductServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,26 +33,16 @@ public class UpdateProductServ extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        ProductDTO product = new ProductDTO();
-        
-        product.setId(Integer.parseInt(request.getParameter("id")));
-        product.setName(request.getParameter("name"));
-        product.setPrice(Double.parseDouble(request.getParameter("price")));
-        product.setQuantity(Integer.parseInt(request.getParameter("quantity")));
-        product.setSurplus(request.getParameter("surplus") != null);
-        product.setExpiryDate(new java.util.Date(java.sql.Date.valueOf(request.getParameter("expiryDate")).getTime()));
-        product.setVeggie(request.getParameter("isVeggie") != null);
-        product.setRetailerID(Integer.parseInt(request.getParameter("retailerID")));
+        int productId = Integer.parseInt(request.getParameter("id"));
 
         ProductDAO productDAO = new ProductDAOImpl();
         try {
-            productDAO.updateProduct(product);
-        } catch (SQLException ex) {
-            Logger.getLogger(UpdateProductServ.class.getName()).log(Level.SEVERE, null, ex);
+            productDAO.deleteProduct(productId);
+            response.sendRedirect("retailerDashboard.jsp"); // Redirect to the list of products after deletion
+        } catch (SQLException e) {
+            e.printStackTrace();
+            response.sendRedirect("productList.jsp");
         }
-
-        response.sendRedirect("retailerDashboard.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
