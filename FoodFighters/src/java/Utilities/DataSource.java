@@ -26,11 +26,9 @@ public class DataSource {
     if (connection == null || isConnectionClosed()) {
         String[] connectionInfo = openPropsFile();
         try {
-
             connection = DriverManager.getConnection(connectionInfo[0], connectionInfo[1], connectionInfo[2]);
-            if (connection == null) { // || connection.isClosed()) { // used if connection is closed in other DAO implementations
-                //connection = DriverManager.getConnection(connectionInfo[0], connectionInfo[1], connectionInfo[2]);
-                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/foodFighters", "root", "N@s-402@Av-131811");
+            if (connection == null) {
+                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/foodFighters", "root", "");
             } else {
                 System.out.println("Cannot create new connection, using existing one");
             }
@@ -66,7 +64,7 @@ public class DataSource {
         String[] info = new String[3];
         
         // Update file path to be a valid relative or absolute path
-        String filePath = "C:\\Users\\Owner\\Documents\\NetBeansProjects\\Lab2-maven\\data\\database.properties";
+        String filePath = "C:\\Users\\Owner\\Documents\\NetBeansProjects\\Lab2-maven\\data\\database.properties"; 
         try (InputStream inputStream = Files.newInputStream(Paths.get(filePath))) {
             props.load(inputStream);
         } catch (IOException e) {
