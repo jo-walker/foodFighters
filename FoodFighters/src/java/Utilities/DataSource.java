@@ -30,7 +30,7 @@ public class DataSource {
             if (connection == null) {
                 connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/foodFighters", "root", "");
             } else {
-                System.out.println("Cannot create new connection, using existing one");
+                System.out.println("Connection made using props");
             }
         } catch (SQLException ex) {
             ex.printStackTrace();

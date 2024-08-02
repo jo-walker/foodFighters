@@ -4,7 +4,7 @@
  */
 package DTO;
 
-import Utilities.NewsletterAlert;
+// import Utilities.NewsletterAlert;
 import java.io.Serializable;
 
 /**
@@ -21,9 +21,9 @@ public class ConsumerDTO extends User implements Serializable{
     private String dietPreference; //jo added
 
     // observer pattern
-    public void subscribeAlert() {
-        NewsletterAlert.addConsumer(this);
-    }
+//    public void subscribeAlert() {
+//        NewsletterAlert.addConsumer(this);
+//    }
 
     public int getCustomerID() {
         return customerID;

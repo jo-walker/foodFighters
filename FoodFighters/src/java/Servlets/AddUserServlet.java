@@ -61,6 +61,7 @@ public class AddUserServlet extends HttpServlet {
 
             try {
                 consumerLogic.addConsumer(consumer);
+                
                 request.setAttribute("message", "Consumer added successfully!");
                 request.getRequestDispatcher("consumerDashboard.jsp").forward(request, response);
             } catch (SQLException ex) {
