@@ -39,9 +39,10 @@ public class AddUserServlet extends HttpServlet {
         String password = request.getParameter("password");
         String email = request.getParameter("email");
         int role = Integer.parseInt(request.getParameter("role"));
-        HttpSession session = request.getSession();
+        
         
         if (role == 1) {  // Consumer
+            HttpSession session = request.getSession();
             String firstName = request.getParameter("firstName");
             String lastName = request.getParameter("lastName");
             String location = request.getParameter("location");
@@ -71,6 +72,8 @@ public class AddUserServlet extends HttpServlet {
             }
 
         } else if (role == 2) {  // Retailer
+            HttpSession session = request.getSession(); //CREATES THE 1ST SESSION FOR THIS USER
+            
             String retailerName = request.getParameter("retailerName");
 
             RetailerDTO retailer = new RetailerDTO();

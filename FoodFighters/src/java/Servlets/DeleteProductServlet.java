@@ -6,7 +6,6 @@ package Servlets;
 
 import DAO.ProductDAO;
 import DAO.ProductDAOImpl;
-import DTO.ProductDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -18,10 +17,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
+ * Servlet that handles the deletion of a product by a retailer
  * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
-public class UpdateProductServlet extends HttpServlet {
+public class DeleteProductServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,22 +32,17 @@ public class UpdateProductServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
-        response.setContentType("text/html;charset=UTF-8");
-        
-        ProductDTO product = new ProductDTO();
-        
-        product.setId(Integer.parseInt(request.getParameter("id")));
-        product.setName(request.getParameter("name"));
-        String description = request.getParameter("description");
-        product.setPrice(Double.parseDouble(request.getParameter("price")));
-        product.setQuantity(Integer.parseInt(request.getParameter("quantity")));
-        product.setSurplus(request.getParameter("surplus") != null);
+            throws ServletException, IOException {
+        int productId = Integer.parseInt(request.getParameter("id"));
 
         ProductDAO productDAO = new ProductDAOImpl();
-        productDAO.updateProduct(product);
-
-        response.sendRedirect("retailerDashboard.jsp");
+        try {
+            productDAO.deleteProduct(productId);
+            response.sendRedirect("retailerDashboard.jsp"); // Redirect to the list of products after deletion
+        } catch (SQLException e) {
+            e.printStackTrace();
+            response.sendRedirect("productList.jsp");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -63,11 +57,7 @@ public class UpdateProductServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(UpdateProductServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -81,11 +71,7 @@ public class UpdateProductServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(UpdateProductServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**

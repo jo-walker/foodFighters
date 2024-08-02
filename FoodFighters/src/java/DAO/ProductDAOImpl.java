@@ -181,12 +181,19 @@ public class ProductDAOImpl implements ProductDAO {
 
     @Override
     public List<ProductDTO> getProductsByRetailerID(int retailerID) throws SQLException {
+        
+        Connection con = null;
+        PreparedStatement preparedStatement = null;
+        
         List<ProductDTO> products = new ArrayList<>();
         String query = "SELECT p.productID, p.productName, p.price, p.isVeggie, pr.retailerID, pr.productQuantity, pr.expiryDate, pr.isSurplus " +
                        "FROM Product p JOIN ProductRetailer pr ON p.productID = pr.productID WHERE pr.retailerID = ?";
 
-        try (Connection connection = DataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try {
+            
+            con = DataSource.getConnection();
+            preparedStatement = con.prepareStatement(query);
+            
             preparedStatement.setInt(1, retailerID);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
@@ -202,6 +209,8 @@ public class ProductDAOImpl implements ProductDAO {
                     ));
                 }
             }
+        } catch (SQLException e){
+            e.printStackTrace();
         }
         return products;
     }

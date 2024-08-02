@@ -8,64 +8,75 @@
 <%@ page import="java.util.List" %>
 <%@ page import="DTO.ProductDTO" %>
 <%@ page import="BusinessLogic.RetailersBusinessLogic" %>
+<%@ page import="javax.servlet.http.HttpSession"%>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>Retailer Dashboard</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
+    <link rel="stylesheet" type="text/css" href="./Css/retailer_style.css">
+    <script>
+        function confirmDeletion(productId) {
+            var confirmation = confirm("Are you sure you want to delete this product?");
+            if (confirmation) {
+                window.location.href = 'DeleteProductServlet?id=' + productId;
+            }
         }
-        table, th, td {
-            border: 1px solid black;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-    </style>
+    </script>
 </head>
 <body>
-    <h1>Retailer Dashboard</h1>
-    <button onclick="location.href='addProduct.jsp'">Add Product</button>
-    <button onclick="location.href='LogoutServlet'">Logout</button>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Is Surplus</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <%
-                RetailersBusinessLogic retailerLogic = new RetailersBusinessLogic();
-                int retailerID = (int) session.getAttribute("retailerID"); //LOGIC FOR GETTING THE ID FROM THE SESSION
-                List<ProductDTO> products = retailerLogic.getProductsByRetailerID(retailerID);
-                if (products != null) {
-                    for (ProductDTO product : products) {
-            %>
-            <tr>
-                <td><%= product.getId() %></td>
-                <td><%= product.getName() %></td>
-                <td><%= product.getPrice() %></td>
-                <td><%= product.getQuantity() %></td>
-                <td><%= product.isSurplus() %></td>
-                <td>
-                    <button onclick="location.href='editProduct.jsp?id=<%= product.getId() %>'">Edit</button>
-                </td>
-            </tr>
-            <%
+    <%
+        session = request.getSession(false);
+        Integer retailerID = (Integer) session.getAttribute("retailerID");
+    %>
+    <div class="container">
+        <h1>Retailer Dashboard - ID: <%= retailerID %></h1>
+        <div class="buttons">
+            <button onclick="location.href='addProduct.jsp'">Add Product</button>
+            <button onclick="location.href='LogoutServlet'">Logout</button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Expiry Date</th>
+                    <th>Is Surplus</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%
+                    RetailersBusinessLogic retailerLogic = new RetailersBusinessLogic();
+                    List<ProductDTO> products = retailerLogic.getProductsByRetailerID(retailerID);
+                    if (products == null || products.isEmpty()) {
+                        out.println("<tr><td colspan='8'>No products found for this retailer.</td></tr>");
+                    } else {
+                        for (ProductDTO product : products) {
+                %>
+                <tr>
+                    <td><%= product.getId() %></td>
+                    <td><%= product.getName() %></td>
+                    <td><%= String.format("%.2f", product.getPrice()) %></td>
+                    <td><%= product.getQuantity() %></td>
+                    <td><%= product.getExpiryDate()%></td>
+                    <td><%= product.isSurplus() %></td>
+                    <td>
+                        <button class="edit_button" onclick="location.href='editProduct.jsp?id=<%= product.getId() %>'">Edit</button>
+                    </td>
+                    <td>
+                        <button onclick="confirmDeletion(<%= product.getId() %>)">Delete</button>
+                    </td>
+                </tr>
+                <%
+                        }
                     }
-                }
-            %>
-        </tbody>
-    </table>
+                %>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

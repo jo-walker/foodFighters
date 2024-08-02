@@ -15,13 +15,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 @WebServlet("/CreateProductServlet")
 public class CreateProductServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
         Integer retailerID = (Integer) session.getAttribute("retailerID");
 
         if (retailerID == null) {
@@ -31,15 +32,19 @@ public class CreateProductServlet extends HttpServlet {
 
         String name = request.getParameter("productName");
         int quantity = Integer.parseInt(request.getParameter("quantity"));
-        Date expiryDate = Date.valueOf(request.getParameter("expiryDate"));
+        java.util.Date expiryDate = new java.util.Date(java.sql.Date.valueOf(request.getParameter("expiryDate")).getTime());
         boolean isSurplus = request.getParameter("isSurplus") != null;
-
-        ProductDTO product = new ProductDTO();
-        product.setName(name);
-        product.setQuantity(quantity);
-        product.setExpiryDate(expiryDate);
-        product.setSurplus(isSurplus);
-        product.setRetailerID(retailerID);
+        double price = Double.parseDouble(request.getParameter("price"));
+        boolean isVeggie = request.getParameter("isVeggie") != null;
+        
+        ProductDTO product = new ProductDTO(name, quantity, expiryDate, isSurplus, retailerID, price, isVeggie);
+//        product.setName(name);
+//        product.setQuantity(quantity);
+//        product.setExpiryDate(expiryDate);
+//        product.setSurplus(isSurplus);
+//        product.setRetailerID(retailerID);
+//        product.setPrice(price);
+//        product.setVeggie(isVeggie);
 
         RetailersBusinessLogic logic = new RetailersBusinessLogic();
         try {
