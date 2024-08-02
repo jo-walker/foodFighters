@@ -15,7 +15,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 @WebServlet(name = "AddUserServlet", urlPatterns = {"/AddUserServlet"})
 public class AddUserServlet extends HttpServlet {
@@ -26,80 +25,83 @@ public class AddUserServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        super.init();
-        // Initialize Business Logic with appropriate DAO instances
-        consumerLogic = new ConsumersBusinessLogic(); 
-        retailerLogic = new RetailersBusinessLogic(); 
-        charityLogic = new OrganizationBusinessLogic(); 
+        try {
+            // Initialize Business Logic with appropriate DAO instances
+            consumerLogic = new ConsumersBusinessLogic();
+            retailerLogic = new RetailersBusinessLogic();
+            charityLogic = new OrganizationBusinessLogic();
+        } catch (Exception e) {
+            throw new ServletException("Initialization failed in AddUserServlet", e);
+        }
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String email = request.getParameter("email");
-        int role = Integer.parseInt(request.getParameter("role"));
-        
-        
-        if (role == 1) {  // Consumer
-            HttpSession session = request.getSession();
-            String firstName = request.getParameter("firstName");
-            String lastName = request.getParameter("lastName");
-            String location = request.getParameter("location");
-            String phone = request.getParameter("phone");
-            String dietType = request.getParameter("dietType");
+            throws ServletException, IOException {
+        try {
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            String email = request.getParameter("email");
+            int role = Integer.parseInt(request.getParameter("role"));
 
-            ConsumerDTO consumer = new ConsumerDTO();
-            consumer.setUsername(username);
-            consumer.setPassword(password);
-            consumer.setEmail(email);
-            consumer.setRole(role);
-            consumer.setFirstName(firstName);
-            consumer.setLastName(lastName);
-            consumer.setLocation(location);
-            consumer.setPhone(phone);
-            //consumer.setDietType(dietType);
-
-            try {
-                consumerLogic.addConsumer(consumer);
+            if (role == 1) {  // Consumer
                 
-                request.setAttribute("message", "Consumer added successfully!");
-                request.getRequestDispatcher("consumerDashboard.jsp").forward(request, response);
-            } catch (SQLException ex) {
-                Logger.getLogger(AddUserServlet.class.getName()).log(Level.SEVERE, null, ex);
-                request.setAttribute("error", "Failed to add consumer.");
+                    ConsumerDTO consumer = new ConsumerDTO();
+                    consumer.setUsername(request.getParameter("username"));
+                    consumer.setPassword(request.getParameter("password"));
+                    consumer.setEmail(request.getParameter("email"));
+                    consumer.setRole(Integer.parseInt(request.getParameter("role")));
+                    consumer.setFirstName(request.getParameter("firstName"));
+                    consumer.setLastName(request.getParameter("lastName"));
+                    consumer.setLocation(request.getParameter("location"));
+                    consumer.setPhone(request.getParameter("phone"));
+                    consumer.setDietType(Boolean.parseBoolean(request.getParameter("dietType")));
+
+                    consumerLogic.addConsumer(consumer);
+                    request.setAttribute("message", "Consumer added successfully!");
+                    request.getRequestDispatcher("consumerDashboard.jsp").forward(request, response);
+
+            } else if (role == 2) {  // Retailer
+                String retailerName = request.getParameter("retailerName");
+
+                RetailerDTO retailer = new RetailerDTO();
+                retailer.setUsername(username);
+                retailer.setPassword(password);
+                retailer.setEmail(email);
+                retailer.setRole(role);
+                retailer.setName(retailerName);
+
+                int retailerId = retailerLogic.addRetailer(retailer);
+                request.setAttribute("message", "Sign up successful!");
+                request.getSession().setAttribute("retailerID", retailerId);
+                request.getRequestDispatcher("retailerDashboard.jsp").forward(request, response);
+
+            } else if (role == 3) {  // Charity Organization
+                String charityName = request.getParameter("charityName");
+
+                OrganizationDTO charity = new OrganizationDTO();
+//                charity.setUsername(username);
+//                charity.setPassword(password);
+//                charity.setEmail(email);
+//                charity.setRole(role);
+//                charity.setName(charityName);
+                // Set other necessary fields if required
+
+                charityLogic.addOrganization(charity);
+                request.setAttribute("message", "Charity organization added successfully!");
+                request.getRequestDispatcher("charityDashboard.jsp").forward(request, response);
+
+            } else {
+                request.setAttribute("error", "Invalid role specified.");
                 request.getRequestDispatcher("errorPage.jsp").forward(request, response);
             }
 
-        } else if (role == 2) {  // Retailer
-            HttpSession session = request.getSession(); //CREATES THE 1ST SESSION FOR THIS USER
-            
-            String retailerName = request.getParameter("retailerName");
-
-            RetailerDTO retailer = new RetailerDTO();
-            retailer.setUsername(username);
-            retailer.setPassword(password);
-            retailer.setEmail(email);
-            retailer.setRole(role);
-            retailer.setName(retailerName);
-
-            session.setAttribute("retailerID", retailerLogic.addRetailer(retailer));
-            
-            request.setAttribute("message", "Sign up successful!"); 
-            request.getRequestDispatcher("retailerDashboard.jsp").forward(request, response);
-
-        } 
-        else if (role == 3) {  // Charity Organization
-            String charityName = request.getParameter("charityName");
-
-            OrganizationDTO charity = new OrganizationDTO();
-            // Set other necessary fields if required
-            charityLogic.addOrganization(charity);
-            request.setAttribute("message", "Charity organization added successfully!");
-            request.getRequestDispatcher("charityDashboard.jsp").forward(request, response);
-
-        } else {
-            request.setAttribute("error", "Invalid role specified.");
+        } catch (SQLException ex) {
+            Logger.getLogger(AddUserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", "SQL error occurred.");
+            request.getRequestDispatcher("errorPage.jsp").forward(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(AddUserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", "An error occurred while processing your request.");
             request.getRequestDispatcher("errorPage.jsp").forward(request, response);
         }
     }
@@ -107,25 +109,13 @@ public class AddUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(AddUserServlet.class.getName()).log(Level.SEVERE, null, ex);
-            request.setAttribute("error", "SQL error occurred.");
-            request.getRequestDispatcher("errorPage.jsp").forward(request, response);
-        }
+        processRequest(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(AddUserServlet.class.getName()).log(Level.SEVERE, null, ex);
-            request.setAttribute("error", "SQL error occurred.");
-            request.getRequestDispatcher("errorPage.jsp").forward(request, response);
-        }
+        processRequest(request, response);
     }
 
     @Override

@@ -17,13 +17,13 @@ import java.util.List;
 // 
 
 public class ConsumersBusinessLogic {
-    private ConsumerDAO consumerDAO;
+    private ConsumerDAO consumerDAOImpl;
     private Validator validator;
     private ProductDAO productDAO;
 
     // Constructor to initialize DAOs and validator
     public ConsumersBusinessLogic() {
-        this.consumerDAO = new ConsumerDAOImpl();
+        this.consumerDAOImpl = new ConsumerDAOImpl();
         this.validator = new Validator();
         this.productDAO = new ProductDAOImpl();
     }
@@ -32,19 +32,19 @@ public class ConsumersBusinessLogic {
     public void purchaseProduct(ConsumerDTO consumer, ProductDTO product) throws SQLException {
             validator.validateProduct(product); 
             // Assuming ConsumerDAO has a method to add purchase details
-            consumerDAO.purchaseItem(consumer, product);
+            consumerDAOImpl.purchaseItem(consumer, product);
     }
 
     // Method to add a new consumer
     public void addConsumer(ConsumerDTO consumer) throws SQLException {
             validator.validateConsumer(consumer); 
-            consumerDAO.addConsumer(consumer);
+            consumerDAOImpl.addConsumer(consumer);
     }
 
     // Method to subscribe consumer to alerts
     public void subscribeAlert(ConsumerDTO consumer, String alertType) throws SQLException {
             validator.validateConsumer(consumer); 
-            consumerDAO.subscribeToAlert(consumer, alertType);
+            consumerDAOImpl.subscribeToAlert(consumer, alertType);
     }
 
     // Method to display all products

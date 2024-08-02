@@ -49,7 +49,8 @@
         Phone:
         <input type="text" name="phone"><br><br>
         Diet Type:
-        <input type="text" name="dietType"><br><br>
+        <input type="checkbox" name="dietType" value="true"> Vegetarian<br><br>
+
       </div>
 
       <div id="retailerFields" style="display:none;">

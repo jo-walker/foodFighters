@@ -18,7 +18,7 @@ public class ConsumerDTO extends User implements Serializable{
     private String lastName;
     private String location;
     private String phone; //note: its called mobile in db schema
-    private String dietPreference; //jo added
+    private boolean isVeg; //jo added
 
     // observer pattern
 //    public void subscribeAlert() {
@@ -45,13 +45,13 @@ public class ConsumerDTO extends User implements Serializable{
         
     }
     // Constructors, getters, and setters
-    public ConsumerDTO(int customerID, int userID, String firstName, String lastName, String mobile, String dietPreference) {
+    public ConsumerDTO(int customerID, int userID, String firstName, String lastName, String mobile, boolean isVeg) {
         this.customerID = customerID;
         this.userID = userID;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = mobile;
-        this.dietPreference = dietPreference;
+        this.isVeg = isVeg;
     }
     
     public String getFirstName() {
@@ -84,14 +84,6 @@ public class ConsumerDTO extends User implements Serializable{
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public String getDietPreference() {
-        return dietPreference;
-    }
-
-    public void setDietPreference(String dietPreference) {
-        this.dietPreference = dietPreference;
     }
 
     public int getId() {
@@ -134,12 +126,12 @@ public class ConsumerDTO extends User implements Serializable{
         this.role = role;
     }
     
-    public String getDietType() {
-        return dietPreference; 
+    public boolean getVeg() {
+        return isVeg; 
     }
     
-    public void setDietType() {
-        this.dietPreference = dietPreference; 
+    public void setDietType(boolean isVeg) {
+        this.isVeg = isVeg; 
     }
     
     
