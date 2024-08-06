@@ -24,9 +24,26 @@ public class ConsumerDTO extends User implements Serializable{
     public void subscribeAlert() {
         NewsletterAlert.addConsumer(this);
     }
-    
-    
 
+    public int getCustomerID() {
+        return customerID;
+    }
+
+    public void setCustomerID(int customerID) {
+        this.customerID = customerID;
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+    
+    public ConsumerDTO(){
+        
+    }
     // Constructors, getters, and setters
     public ConsumerDTO(int customerID, int userID, String firstName, String lastName, String mobile, String dietPreference) {
         this.customerID = customerID;
@@ -116,4 +133,15 @@ public class ConsumerDTO extends User implements Serializable{
     public void setRole(int role) {
         this.role = role;
     }
+    
+    public String getDietType() {
+        return dietPreference; 
+    }
+    
+    public void setDietType() {
+        this.dietPreference = dietPreference; 
+    }
+    
+    
+    
 }

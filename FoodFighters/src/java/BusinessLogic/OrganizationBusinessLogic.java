@@ -10,27 +10,30 @@ import DTO.OrganizationDTO;
 import Utilities.Validator;
 
 /**
- *
- * @author Andrea Visani 041104651 visa0004@algonquinlive.com
+ * Business logic for managing charity organizations.
+ * Provides methods to interact with OrganizationDAO.
  */
+
+
 public class OrganizationBusinessLogic {
-    private OrganizationDAO organization = null;
-    private Validator validator;
+
+    private OrganizationDAO organizationDAO;
 
     public OrganizationBusinessLogic() {
-        organization = new OrganizationDAOImpl();
-        validator = new Validator();
-    }
-    
-    
-
-    public void claimFood() {
-        // Implementation
+        this.organizationDAO = new OrganizationDAOImpl();
     }
 
-    public void addOrganization(OrganizationDTO organ) {
-        validator.validateOrganization(organ);
-        organization.addOrganization();
+    /**
+     * Adds an organization to the database.
+     * @param organization The organization to be added.
+     * 
+     */
+    public void addOrganization(OrganizationDTO organization) {
+        // Directly delegate to DAO without validation
+         organizationDAO.addOrganization(organization);
     }
 }
+
+
+
 

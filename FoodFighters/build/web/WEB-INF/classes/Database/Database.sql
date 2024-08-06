@@ -1,28 +1,28 @@
-DROP DATABASE IF EXISTS ProjectJava;
-CREATE DATABASE ProjectJava;
-USE ProjectJava;
+DROP DATABASE IF EXISTS projectjava;
+CREATE DATABASE projectjava;
+USE projectjava;
 
 -- Table for user
 CREATE TABLE user(
-    userID int auto_increment NOT NULL,
-    username varchar(100) NOT NULL UNIQUE,
-    password varchar(100) NOT NULL,
+    userID INT AUTO_INCREMENT NOT NULL,
+    username VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
-    userRole int NOT NULL, /*1 costumers, 2 retailer, 3 charity*/
+    userRole INT NOT NULL, /*1 customers, 2 retailer, 3 charity*/
     PRIMARY KEY (userID)
 );
 
-
-
--- Table for user
+-- Table for Customer
 CREATE TABLE Customer (
     customerID INT AUTO_INCREMENT NOT NULL,
     userID INT NOT NULL,
     firstName VARCHAR(100) NOT NULL,
     lastName VARCHAR(100) NOT NULL,
-    mobile INT NOT NULL,    
+    mobile VARCHAR(15) NOT NULL,    
+    isVegetarian BOOLEAN NOT NULL,
     FOREIGN KEY (userID) REFERENCES user(userID),
-    PRIMARY KEY (customerID)
+    PRIMARY KEY (customerID),
+    isVeggie BOOLEAN NOT NULL
 );
 
 -- Table for Charity Organization
@@ -45,20 +45,21 @@ CREATE TABLE Retailer (
 
 -- Table for Product
 CREATE TABLE Product (
-    productID int auto_increment NOT NULL,
-    productName varchar(100) NOT NULL,
-    price int NOT NULL,
+    productID INT AUTO_INCREMENT NOT NULL,
+    productName VARCHAR(100) NOT NULL,
+    price INT NOT NULL,
+    isVeggie BOOLEAN NOT NULL,
     PRIMARY KEY (productID)
 );
 
 -- Table for associative table between Product and Retailer
 CREATE TABLE ProductRetailer (
-    productRetailerID INT auto_increment NOT NULL,
+    productRetailerID INT AUTO_INCREMENT NOT NULL,
     productID INT NOT NULL,
     retailerID INT NOT NULL,
-	productQuantity int NOT NULL,
-    expiryDate date NOT NULL,
-    isSurplus Boolean,
+    productQuantity INT NOT NULL,
+    expiryDate DATE NOT NULL,
+    isSurplus BOOLEAN,
     PRIMARY KEY (productRetailerID),
     FOREIGN KEY (productID) REFERENCES Product(productID),
     FOREIGN KEY (retailerID) REFERENCES Retailer(retailerID)
@@ -74,18 +75,11 @@ CREATE TABLE CharityRetailer (
     FOREIGN KEY (retailerID) REFERENCES Retailer(retailerID)
 );
 
-
-
-
-
-
-
-
+-- Sample SELECT statements to view the tables
 SELECT * FROM CharityOrg;
 SELECT * FROM Customer;
 SELECT * FROM Product;
 SELECT * FROM ProductRetailer;
 SELECT * FROM Retailer;
-SELECT * FROM user;
 
 

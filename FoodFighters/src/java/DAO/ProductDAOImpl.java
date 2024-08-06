@@ -18,39 +18,58 @@ public class ProductDAOImpl implements ProductDAO {
        
     }
 
+
     @Override
     public void addProduct(ProductDTO product) throws SQLException {
-        String query = "INSERT INTO Product (name, quantity, expiryDate, surplus, retailerID, price, dietType) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try (Connection connection = DataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, product.getName());
-            preparedStatement.setInt(2, product.getQuantity());
-            preparedStatement.setDate(3, new java.sql.Date(product.getExpiryDate().getTime()));
-            preparedStatement.setBoolean(4, product.isSurplus());
-            preparedStatement.setInt(5, product.getRetailerID());
-            preparedStatement.setInt(6, product.getPrice());
-            preparedStatement.setString(7, product.getDietType().getValue());
-            preparedStatement.executeUpdate();
+        String productQuery = "INSERT INTO Product (productName, price, isVeggie) VALUES (?, ?, ?)";
+        String productRetailerQuery = "INSERT INTO ProductRetailer (productID, retailerID, productQuantity, expiryDate, isSurplus) VALUES (?, ?, ?, ?, ?)";
+
+        try (Connection connection = DataSource.getConnection()) {
+            connection.setAutoCommit(false);
+            try (PreparedStatement productStmt = connection.prepareStatement(productQuery, PreparedStatement.RETURN_GENERATED_KEYS)) {
+                productStmt.setString(1, product.getName());
+                productStmt.setDouble(2, product.getPrice());
+                productStmt.setBoolean(3, product.isVeggie());
+                productStmt.executeUpdate();
+
+                try (ResultSet generatedKeys = productStmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        int productId = generatedKeys.getInt(1);
+
+                        try (PreparedStatement productRetailerStmt = connection.prepareStatement(productRetailerQuery)) {
+                            productRetailerStmt.setInt(1, productId);
+                            productRetailerStmt.setInt(2, product.getRetailerID());
+                            productRetailerStmt.setInt(3, product.getQuantity());
+                            productRetailerStmt.setDate(4, new java.sql.Date(product.getExpiryDate().getTime()));
+                            productRetailerStmt.setBoolean(5, product.isSurplus());
+                            productRetailerStmt.executeUpdate();
+                        }
+                    }
+                }
+            }
+            connection.commit();
         }
     }
 
     @Override
     public ProductDTO getProductByID(int productID) throws SQLException {
-        String query = "SELECT * FROM Product WHERE id = ?";
+        String query = "SELECT p.productID, p.productName, p.price, p.isVeggie, pr.retailerID, pr.productQuantity, pr.expiryDate, pr.isSurplus " +
+                       "FROM Product p JOIN ProductRetailer pr ON p.productID = pr.productID WHERE p.productID = ?";
+
         try (Connection connection = DataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, productID);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     return new ProductDTO(
-                        resultSet.getInt("id"),
-                        resultSet.getString("name"),
-                        resultSet.getInt("quantity"),
+                        resultSet.getInt("productID"),
+                        resultSet.getString("productName"),
+                        resultSet.getInt("productQuantity"),
                         resultSet.getDate("expiryDate"),
-                        resultSet.getBoolean("surplus"),
+                        resultSet.getBoolean("isSurplus"),
                         resultSet.getInt("retailerID"),
-                        resultSet.getInt("price"),
-                        DietType.fromValue(resultSet.getString("dietType"))
+                        resultSet.getDouble("price"),
+                        resultSet.getBoolean("isVeggie")
                     );
                 }
             }
@@ -58,24 +77,27 @@ public class ProductDAOImpl implements ProductDAO {
         return null;
     }
 
+
     @Override
     public List<ProductDTO> getProductByName(String name) throws SQLException {
         List<ProductDTO> products = new ArrayList<>();
-        String query = "SELECT * FROM Product WHERE name LIKE ?";
+        String query = "SELECT p.productID, p.productName, p.price, p.isVeggie, pr.retailerID, pr.productQuantity, pr.expiryDate, pr.isSurplus " +
+                       "FROM Product p JOIN ProductRetailer pr ON p.productID = pr.productID WHERE p.productName LIKE ?";
+
         try (Connection connection = DataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, "%" + name + "%");
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     products.add(new ProductDTO(
-                        resultSet.getInt("id"),
-                        resultSet.getString("name"),
-                        resultSet.getInt("quantity"),
+                        resultSet.getInt("productID"),
+                        resultSet.getString("productName"),
+                        resultSet.getInt("productQuantity"),
                         resultSet.getDate("expiryDate"),
-                        resultSet.getBoolean("surplus"),
+                        resultSet.getBoolean("isSurplus"),
                         resultSet.getInt("retailerID"),
-                        resultSet.getInt("price"),
-                        DietType.fromValue(resultSet.getString("dietType"))
+                        resultSet.getDouble("price"),
+                        resultSet.getBoolean("isVeggie")
                     ));
                 }
             }
@@ -83,76 +105,100 @@ public class ProductDAOImpl implements ProductDAO {
         return products;
     }
 
+
     @Override
     public List<ProductDTO> getAllProducts() throws SQLException {
         List<ProductDTO> products = new ArrayList<>();
-        String query = "SELECT * FROM Product";
+        String query = "SELECT p.productID, p.productName, p.price, p.isVeggie, pr.retailerID, pr.productQuantity, pr.expiryDate, pr.isSurplus " +
+                       "FROM Product p JOIN ProductRetailer pr ON p.productID = pr.productID";
+
         try (Connection connection = DataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query);
              ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
                 products.add(new ProductDTO(
-                    resultSet.getInt("id"),
-                    resultSet.getString("name"),
-                    resultSet.getInt("quantity"),
+                    resultSet.getInt("productID"),
+                    resultSet.getString("productName"),
+                    resultSet.getInt("productQuantity"),
                     resultSet.getDate("expiryDate"),
-                    resultSet.getBoolean("surplus"),
+                    resultSet.getBoolean("isSurplus"),
                     resultSet.getInt("retailerID"),
-                    resultSet.getInt("price"),
-                    DietType.fromValue(resultSet.getString("dietType"))
+                    resultSet.getDouble("price"),
+                    resultSet.getBoolean("isVeggie")
                 ));
             }
         }
         return products;
     }
 
+
     @Override
     public void updateProduct(ProductDTO product) throws SQLException {
-        String query = "UPDATE Product SET name = ?, quantity = ?, expiryDate = ?, surplus = ?, retailerID = ?, price = ?, dietType = ? WHERE id = ?";
-        try (Connection connection = DataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, product.getName());
-            preparedStatement.setInt(2, product.getQuantity());
-            preparedStatement.setDate(3, new java.sql.Date(product.getExpiryDate().getTime()));
-            preparedStatement.setBoolean(4, product.isSurplus());
-            preparedStatement.setInt(5, product.getRetailerID());
-            preparedStatement.setInt(6, product.getPrice());
-            preparedStatement.setString(7, product.getDietType().getValue());
-            preparedStatement.setInt(8, product.getId());
-            preparedStatement.executeUpdate();
+        String productQuery = "UPDATE Product SET productName = ?, price = ?, isVeggie = ? WHERE productID = ?";
+        String productRetailerQuery = "UPDATE ProductRetailer SET retailerID = ?, productQuantity = ?, expiryDate = ?, isSurplus = ? WHERE productID = ?";
+
+        try (Connection connection = DataSource.getConnection()) {
+            connection.setAutoCommit(false);
+            try (PreparedStatement productStmt = connection.prepareStatement(productQuery)) {
+                productStmt.setString(1, product.getName());
+                productStmt.setDouble(2, product.getPrice());
+                productStmt.setBoolean(3, product.isVeggie());
+                productStmt.setInt(4, product.getId());
+                productStmt.executeUpdate();
+
+                try (PreparedStatement productRetailerStmt = connection.prepareStatement(productRetailerQuery)) {
+                    productRetailerStmt.setInt(1, product.getRetailerID());
+                    productRetailerStmt.setInt(2, product.getQuantity());
+                    productRetailerStmt.setDate(3, new java.sql.Date(product.getExpiryDate().getTime()));
+                    productRetailerStmt.setBoolean(4, product.isSurplus());
+                    productRetailerStmt.setInt(5, product.getId());
+                    productRetailerStmt.executeUpdate();
+                }
+            }
+            connection.commit();
         }
     }
 
     @Override
     public void deleteProduct(int productID) throws SQLException {
-        String query = "DELETE FROM Product WHERE id = ?";
-        try (Connection connection = DataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, productID);
-            preparedStatement.executeUpdate();
+        String productQuery = "DELETE FROM Product WHERE productID = ?";
+        String productRetailerQuery = "DELETE FROM ProductRetailer WHERE productID = ?";
+
+        try (Connection connection = DataSource.getConnection()) {
+            connection.setAutoCommit(false);
+            try (PreparedStatement productRetailerStmt = connection.prepareStatement(productRetailerQuery)) {
+                productRetailerStmt.setInt(1, productID);
+                productRetailerStmt.executeUpdate();
+
+                try (PreparedStatement productStmt = connection.prepareStatement(productQuery)) {
+                    productStmt.setInt(1, productID);
+                    productStmt.executeUpdate();
+                }
+            }
+            connection.commit();
         }
     }
+
     @Override
     public List<ProductDTO> getProductsByRetailerID(int retailerID) throws SQLException {
         List<ProductDTO> products = new ArrayList<>();
-        String query = "SELECT p.id, p.name, p.quantity, p.expiryDate, p.surplus, pr.retailerID, p.price, p.dietType " +
-                       "FROM Product p " +
-                       "JOIN ProductRetailer pr ON p.id = pr.productID " +
-                       "WHERE pr.retailerID = ?";
+        String query = "SELECT p.productID, p.productName, p.price, p.isVeggie, pr.retailerID, pr.productQuantity, pr.expiryDate, pr.isSurplus " +
+                       "FROM Product p JOIN ProductRetailer pr ON p.productID = pr.productID WHERE pr.retailerID = ?";
+
         try (Connection connection = DataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, retailerID);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     products.add(new ProductDTO(
-                        resultSet.getInt("id"),
-                        resultSet.getString("name"),
-                        resultSet.getInt("quantity"),
+                        resultSet.getInt("productID"),
+                        resultSet.getString("productName"),
+                        resultSet.getInt("productQuantity"),
                         resultSet.getDate("expiryDate"),
-                        resultSet.getBoolean("surplus"),
+                        resultSet.getBoolean("isSurplus"),
                         resultSet.getInt("retailerID"),
-                        resultSet.getInt("price"),
-                        DietType.fromValue(resultSet.getString("dietType"))
+                        resultSet.getDouble("price"),
+                        resultSet.getBoolean("isVeggie")
                     ));
                 }
             }

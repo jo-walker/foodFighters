@@ -4,11 +4,14 @@
  */
 package DAO;
 
+import DTO.OrganizationDTO;
+
 /**
  *
  * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
 public interface OrganizationDAO {
     void claimFood();
-    void addOrganization();
+    void addOrganization(OrganizationDTO charityOrg);
+    public OrganizationDTO getOrganizationById(int orgId);
 }

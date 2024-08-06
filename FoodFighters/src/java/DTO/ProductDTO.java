@@ -7,7 +7,8 @@ import java.util.Date;
  *
  * @author Baasanlkham Gurvantamir 041129783 gurv0003@algonquinlive.com
  */
-public class ProductDTO {
+public class ProductDTO {  
+    
     private int id;
     private String name;
     private int quantity;
@@ -15,11 +16,10 @@ public class ProductDTO {
     private boolean surplus;
     private int retailerID;
     private double price;
-    private DietType dietType;
+    private boolean isVeggie;
 
     // Constructors, getters, and setters
-    // Constructor
-    public ProductDTO(int id, String name, int quantity, Date expiryDate, boolean surplus, int retailerID, double price, DietType dietType) {
+    public ProductDTO(int id, String name, int quantity, Date expiryDate, boolean surplus, int retailerID, double price, boolean isVeggie) {
         this.id = id;
         this.name = name;
         this.quantity = quantity;
@@ -27,13 +27,9 @@ public class ProductDTO {
         this.surplus = surplus;
         this.retailerID = retailerID;
         this.price = price;
-        this.dietType=dietType;
+        this.isVeggie = isVeggie;
     }
 
-    public ProductDTO() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    
     public int getId() {
         return id;
     }
@@ -70,8 +66,8 @@ public class ProductDTO {
         return surplus;
     }
 
-    public void setSurplus(boolean isSurplus) {
-        this.surplus = isSurplus;
+    public void setSurplus(boolean surplus) {
+        this.surplus = surplus;
     }
 
     public int getRetailerID() {
@@ -89,10 +85,12 @@ public class ProductDTO {
     public void setPrice(double price) {
         this.price = price;
     }
-    public DietType getDietType(){
-        return dietType;
+
+    public boolean isVeggie() {
+        return isVeggie;
     }
-    public void setDietType(DietType dietType){
-        this.dietType=dietType;
+
+    public void setVeggie(boolean isVeggie) {
+        this.isVeggie = isVeggie;
     }
 }

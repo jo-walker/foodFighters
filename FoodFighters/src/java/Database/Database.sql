@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS ProjectJava;
-CREATE DATABASE ProjectJava;
-USE ProjectJava;
+DROP DATABASE IF EXISTS projectjava;
+CREATE DATABASE projectjava;
+USE projectjava;
 
 -- Table for user
 CREATE TABLE user(
@@ -19,8 +19,10 @@ CREATE TABLE Customer (
     firstName VARCHAR(100) NOT NULL,
     lastName VARCHAR(100) NOT NULL,
     mobile VARCHAR(15) NOT NULL,    
+    isVegetarian BOOLEAN NOT NULL,
     FOREIGN KEY (userID) REFERENCES user(userID),
-    PRIMARY KEY (customerID)
+    PRIMARY KEY (customerID),
+    isVeggie BOOLEAN NOT NULL
 );
 
 -- Table for Charity Organization
@@ -46,7 +48,7 @@ CREATE TABLE Product (
     productID INT AUTO_INCREMENT NOT NULL,
     productName VARCHAR(100) NOT NULL,
     price INT NOT NULL,
-    dietType VARCHAR(100) NOT NULL,
+    isVeggie BOOLEAN NOT NULL,
     PRIMARY KEY (productID)
 );
 
@@ -79,4 +81,5 @@ SELECT * FROM Customer;
 SELECT * FROM Product;
 SELECT * FROM ProductRetailer;
 SELECT * FROM Retailer;
-SELECT * FROM user;
+
+

@@ -22,6 +22,7 @@ public class RetailerDAOImpl implements RetailerDAO {
     public int addRetailer(RetailerDTO retailer) {
         
         
+        
         Connection con = null;
         PreparedStatement pstmt = null;
 
@@ -67,5 +68,9 @@ public class RetailerDAOImpl implements RetailerDAO {
             // Optionally, you can throw a custom exception here
             throw new RuntimeException("Error adding retailer", e);
         }
+
+    
     }
-}
+
+   }
+
