@@ -43,22 +43,22 @@ public class AddUserServlet extends HttpServlet {
             String email = request.getParameter("email");
             int role = Integer.parseInt(request.getParameter("role"));
 
-            if (role == 1) {  // Consumer
+            if (role == 1) {   // Consumer
                 
-                    ConsumerDTO consumer = new ConsumerDTO();
-                    consumer.setUsername(request.getParameter("username"));
-                    consumer.setPassword(request.getParameter("password"));
-                    consumer.setEmail(request.getParameter("email"));
-                    consumer.setRole(Integer.parseInt(request.getParameter("role")));
-                    consumer.setFirstName(request.getParameter("firstName"));
-                    consumer.setLastName(request.getParameter("lastName"));
-                    consumer.setLocation(request.getParameter("location"));
-                    consumer.setPhone(request.getParameter("phone"));
-                    consumer.setDietType(Boolean.parseBoolean(request.getParameter("dietType")));
+            ConsumerDTO consumer = new ConsumerDTO();
+            consumer.setUsername(request.getParameter("username"));
+            consumer.setPassword(request.getParameter("password"));
+            consumer.setEmail(request.getParameter("email"));
+            consumer.setRole(Integer.parseInt(request.getParameter("role")));
+            consumer.setFirstName(request.getParameter("firstName"));
+            consumer.setLastName(request.getParameter("lastName"));
+            consumer.setLocation(request.getParameter("location"));
+            consumer.setPhone(request.getParameter("phone"));
+            consumer.setDietType(Boolean.parseBoolean(request.getParameter("dietType")));
 
-                    consumerLogic.addConsumer(consumer);
-                    request.setAttribute("message", "Consumer added successfully!");
-                    request.getRequestDispatcher("consumerDashboard.jsp").forward(request, response);
+            consumerLogic.addConsumer(consumer);
+            request.setAttribute("message", "Consumer added successfully!");
+            request.getRequestDispatcher("ConsumerDashboard.jsp").forward(request, response);
 
             } else if (role == 2) {  // Retailer
                 String retailerName = request.getParameter("retailerName");
@@ -85,7 +85,6 @@ public class AddUserServlet extends HttpServlet {
 //                charity.setRole(role);
 //                charity.setName(charityName);
                 // Set other necessary fields if required
-
                 charityLogic.addOrganization(charity);
                 request.setAttribute("message", "Charity organization added successfully!");
                 request.getRequestDispatcher("charityDashboard.jsp").forward(request, response);
@@ -101,7 +100,7 @@ public class AddUserServlet extends HttpServlet {
             request.getRequestDispatcher("errorPage.jsp").forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(AddUserServlet.class.getName()).log(Level.SEVERE, null, ex);
-            request.setAttribute("error", "An error occurred while processing your request.");
+            request.setAttribute("error", "An Mula k bhayo yeta.");
             request.getRequestDispatcher("errorPage.jsp").forward(request, response);
         }
     }

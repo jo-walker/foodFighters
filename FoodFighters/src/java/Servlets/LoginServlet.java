@@ -7,7 +7,6 @@ package Servlets;
 
 import Utilities.DataSource;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -62,8 +61,35 @@ public class LoginServlet extends HttpServlet {
 
                 // Redirect based on user role
                 if (userRole == 1) {
-                    // For customer, redirect to customer dashboard
-                    
+                   rs.close();
+                   ps.close();
+
+                   // Prepare SQL query to get additional customer information (if needed)
+                   // Example: Fetching customer details (adjust the query as necessary)
+                   String sql2 = "SELECT customerID, firstName, lastName FROM Customer WHERE userID = ?";
+                   ps = con.prepareStatement(sql2);
+                   ps.setInt(1, userID);
+                   rs = ps.executeQuery();
+
+                   if (rs.next()) {
+                       int customerID = rs.getInt("customerID");
+                       String firstName = rs.getString("firstName");
+                       String lastName = rs.getString("lastName");
+
+                       // Create a session and set the customer-related attributes
+                       HttpSession session = request.getSession();
+                       session.setAttribute("userID", userID);
+                       session.setAttribute("customerID", customerID);
+                       session.setAttribute("firstName", firstName);
+                       session.setAttribute("lastName", lastName);
+
+                       // Redirect to customer dashboard
+                       response.sendRedirect("ConsumerDashboard.jsp");
+                       return; // Ensure no further code is executed
+                   } else {
+                       response.sendRedirect("login.jsp?error=Customer details not found");
+                       return;
+                   }//
 
                 } else if (userRole == 2) {
                     // Close previous PreparedStatement and ResultSet

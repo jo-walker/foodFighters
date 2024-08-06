@@ -17,13 +17,18 @@ public class ConsumerDAOImpl implements ConsumerDAO {
         this.connection = DataSource.getConnection();
     }
 
-        @Override
+    /**
+     *
+     * @param customer
+     * @throws SQLException
+     */
+    @Override
         public void addConsumer(ConsumerDTO customer) throws SQLException {
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet generatedKeys = null;
 
-        try {
+                try {
             // Obtain a connection
             con = DataSource.getConnection();
 
@@ -37,6 +42,7 @@ public class ConsumerDAOImpl implements ConsumerDAO {
             pstmt.setInt(4, customer.getRole());
             pstmt.executeUpdate();
 
+            // Retrieve generated user ID
             generatedKeys = pstmt.getGeneratedKeys();
             int userID = 0;
             if (generatedKeys.next()) {
@@ -51,23 +57,15 @@ public class ConsumerDAOImpl implements ConsumerDAO {
 
             // Insert into Customer table using the generated user ID
             pstmt = con.prepareStatement(
-                "INSERT INTO Customer (userID, firstName, lastName, mobile, isVegetarian) VALUES(?, ?, ?, ?, ?)", 
+                "INSERT INTO Customer (userID, firstName, lastName, mobile, isVegetarian) VALUES(?, ?, ?, ?, ?)",
                 Statement.RETURN_GENERATED_KEYS);
-            pstmt.setInt(1, userID);
-            pstmt.setString(2, customer.getFirstName());
-            pstmt.setString(3, customer.getLastName());
-            pstmt.setString(4, customer.getPhone());
-            pstmt.setBoolean(5, customer.getVeg()); // Mapping the isVeg field
-            pstmt.executeUpdate();
-
-            generatedKeys = pstmt.getGeneratedKeys();
-            int customerID = 0;
-            if (generatedKeys.next()) {
-                customerID = generatedKeys.getInt(1);
-            } else {
-                throw new SQLException("Creating customer failed, no ID obtained.");
-            }
-
+                    pstmt.setInt(1, userID);
+                    pstmt.setString(2, customer.getFirstName());
+                    pstmt.setString(3, customer.getLastName());
+                    pstmt.setString(4, customer.getPhone());
+                    pstmt.setBoolean(5, customer.getVeg());
+                    pstmt.executeUpdate();
+                    System.out.println("this is working");
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException("Error adding customer", e);
@@ -81,6 +79,7 @@ public class ConsumerDAOImpl implements ConsumerDAO {
                 e.printStackTrace();
             }
         }
+
     }
 
     @Override
