@@ -79,15 +79,15 @@ public class AddUserServlet extends HttpServlet {
                 String charityName = request.getParameter("charityName");
 
                 OrganizationDTO charity = new OrganizationDTO();
-//                charity.setUsername(username);
-//                charity.setPassword(password);
-//                charity.setEmail(email);
-//                charity.setRole(role);
-//                charity.setName(charityName);
-                // Set other necessary fields if required
+                charity.setUsername(username);
+                charity.setPassword(password);
+                charity.setEmail(email);
+                charity.setRole(role);
+                charity.setName(charityName);
+                
                 charityLogic.addOrganization(charity);
                 request.setAttribute("message", "Charity organization added successfully!");
-                request.getRequestDispatcher("charityDashboard.jsp").forward(request, response);
+                request.getRequestDispatcher("organizationDashboard.jsp").forward(request, response);
 
             } else {
                 request.setAttribute("error", "Invalid role specified.");

@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS ProjectJava;
-CREATE DATABASE ProjectJava;
-USE ProjectJava;
+DROP DATABASE IF EXISTS projectjava;
+CREATE DATABASE projectjava;
+USE projectjava;
 
 -- Table for user
 CREATE TABLE user(
@@ -9,7 +9,6 @@ CREATE TABLE user(
     password VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
     userRole INT NOT NULL, /*1 customers, 2 retailer, 3 charity*/
-    isSubscribed BOOLEAN,
     PRIMARY KEY (userID)
 );
 
@@ -48,7 +47,7 @@ CREATE TABLE Retailer (
 CREATE TABLE Product (
     productID INT AUTO_INCREMENT NOT NULL,
     productName VARCHAR(100) NOT NULL,
-    price DECIMAL(10, 2) NOT NULL,
+    price INT NOT NULL,
     isVeggie BOOLEAN NOT NULL,
     PRIMARY KEY (productID)
 );
@@ -76,28 +75,14 @@ CREATE TABLE CharityRetailer (
     FOREIGN KEY (retailerID) REFERENCES Retailer(retailerID)
 );
 
--- Table for Notifications
-CREATE TABLE Notifications (
-    notificationID INT AUTO_INCREMENT NOT NULL,
-    text VARCHAR(500) NOT NULL,
-    PRIMARY KEY (notificationID)
-);
-
--- Associative table between Customer and Notifications
-CREATE TABLE CustomerNotification (
-    customerNotificationID INT AUTO_INCREMENT NOT NULL,
-    customerID INT NOT NULL,
-    notificationID INT NOT NULL,
-    PRIMARY KEY (customerNotificationID),
-    FOREIGN KEY (customerID) REFERENCES Customer(customerID),
-    FOREIGN KEY (notificationID) REFERENCES Notifications(notificationID)
-);
-
 -- Sample SELECT statements to view the tables
 SELECT * FROM CharityOrg;
 SELECT * FROM Customer;
 SELECT * FROM Product;
 SELECT * FROM ProductRetailer;
 SELECT * FROM Retailer;
+SELECT * FROM user;
+
+
 
 

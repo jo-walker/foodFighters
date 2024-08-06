@@ -4,11 +4,16 @@
  */
 package DAO;
 
+import DTO.OrganizationDTO;
+import java.sql.SQLException;
+import java.util.List;
+
 /**
  *
  * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
 public interface OrganizationDAO {
-    void claimFood();
-    void addOrganization();
+//    public List<SurplusProductDTO> getSurplusProducts(int charityOrgID) throws SQLException;
+    void addOrganization(OrganizationDTO charityOrg);
+     void donateProduct(int charityOrgID, String productName, int quantity, java.sql.Date expiryDate) throws SQLException;
 }
