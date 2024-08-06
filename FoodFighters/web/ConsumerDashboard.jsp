@@ -11,7 +11,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consumer Dashboard</title>
     <link rel="stylesheet" type="text/css" href="./Css/consumer.css">
-     <script>
+     
+    <script>
         function openModal(productId, productName) {
             document.getElementById('modalProductId').value = productId;
             document.getElementById('modalProductName').value = productName;
@@ -37,6 +38,50 @@
             }
         }
     </script>
+    
+            <script>
+        function showBasket() {
+            // Create a new XMLHttpRequest
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'ViewBasketServlet', true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    var basket = JSON.parse(xhr.responseText);
+                    var basketItems = document.getElementById('basketItems');
+                    basketItems.innerHTML = ''; // Clear previous items
+
+                    if (Object.keys(basket).length > 0) {
+                        // Loop through basket items and display them
+                        for (var key in basket) {
+                            var item = basket[key];
+                            basketItems.innerHTML += '<p>Product Name: ' + item.productName + ', Quantity: ' + item.quantity + '</p>';
+                        }
+                    } else {
+                        basketItems.innerHTML = '<p>Your basket is empty.</p>';
+                    }
+                    // Display the modal
+                    document.getElementById('basketModal').style.display = 'block';
+                }
+            };
+            xhr.send();
+        }
+
+        function closeBasketModal() {
+            document.getElementById('basketModal').style.display = 'none';
+        }
+        
+        function checkoutBasket() {
+        window.location.href = 'CheckoutServlet';
+        }
+
+        // Close the modal when clicking outside of the modal content
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('basketModal')) {
+                document.getElementById('basketModal').style.display = 'none';
+            }
+        };
+        </script>
+
 </head>
 <body>
     <div class="header">
@@ -51,7 +96,24 @@
     </div>
 
     <h1>Consumer Dashboard</h1>
-    <h2> Surplus Items </h2>
+    
+    <form action="ViewBasketServlet" method="get" onsubmit="showBasket(); return false;">
+    <button type="submit">View Basket</button>
+    </form>
+
+    <!-- Modal HTML -->
+    <div id="basketModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeBasketModal()">&times;</span>
+            <h2>Basket Contents</h2>
+            <div id="basketItems">
+                <!-- Basket items will be inserted here -->
+            </div>
+            <button id="checkoutButton" onclick="checkoutBasket()">Checkout</button>
+        </div>
+    </div>
+    
+    <h2> Surplus Items: </h2>
      <div class="surplus-container">
         <%
             // Instantiate the business logic class
@@ -117,16 +179,18 @@
         <span class="close" onclick="closeModal()">&times;</span>
         <h2>Add Product to Basket</h2>
         
-        <form id="basketForm" action="AddToBasketServlet" method="post">
-            <input type="hidden" name="productId" id="modalProductId">
-            <input type="hidden" name="productName" id="modalProductName">
-            <div class="quantity-controls">
+                <form id="basketForm" action="addToBasketServlet" method="post">
+                <input type="hidden" name="productId" id="modalProductId">
+                <input type="hidden" name="productName" id="modalProductName">
+                <input type="hidden" name="retailerID" id="modalRetailerID"> <!-- Include retailerID -->
+                <div class="quantity-controls">
                 <button type="button" onclick="changeQuantity(-1)">-</button>
                 <input type="text" id="quantityInput" name="quantity" value="1" readonly>
                 <button type="button" onclick="changeQuantity(1)">+</button>
-            </div>
-            <button type="submit">Add to basket</button>
-        </form>
+                </div>
+                <button type="submit">Add to basket</button>
+                </form>
+
         
     </div>
     </div>

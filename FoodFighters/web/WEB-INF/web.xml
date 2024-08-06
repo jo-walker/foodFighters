@@ -16,6 +16,18 @@
         <servlet-name>AddToBasketServlet</servlet-name>
         <servlet-class>Servlets.AddToBasketServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ViewBasketServlet</servlet-name>
+        <servlet-class>Servlets.ViewBasketServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CheckoutServlet</servlet-name>
+        <servlet-class>Servlets.CheckoutServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>checkoutServlet</servlet-name>
+        <servlet-class>Servlets.checkoutServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CreateProductServlet</servlet-name>
         <url-pattern>/CreateProductServlet-URL</url-pattern>
@@ -71,6 +83,18 @@
     <servlet-mapping>
         <servlet-name>AddToBasketServlet</servlet-name>
         <url-pattern>/AddToBasketServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewBasketServlet</servlet-name>
+        <url-pattern>/ViewBasketServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CheckoutServlet</servlet-name>
+        <url-pattern>/CheckoutServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>checkoutServlet</servlet-name>
+        <url-pattern>/checkoutServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

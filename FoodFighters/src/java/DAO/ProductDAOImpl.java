@@ -403,5 +403,15 @@ public List<ProductDTO> getSurplusProducts() throws SQLException {
     return products;
 }
 
-        
+    @Override
+      public void updateProductQuantity(int productId, int quantity, int retailerID) throws SQLException {
+        String query = "UPDATE ProductRetailer SET productQuantity = productQuantity - ? WHERE productID = ? AND retailerID = ?";
+        try (Connection con = DataSource.getConnection();
+             PreparedStatement preparedStatement = con.prepareStatement(query)) {
+            preparedStatement.setInt(1, quantity);
+            preparedStatement.setInt(2, productId);
+            preparedStatement.setInt(3, retailerID);
+            preparedStatement.executeUpdate();
+        }
+    }  
 }
