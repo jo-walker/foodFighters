@@ -4,9 +4,12 @@
  */
 package Newsletter;
 
+import BusinessLogic.ConsumersBusinessLogic;
 import DTO.ConsumerDTO;
+import DTO.NewsletterDTO;
 import DTO.ProductDTO;
 import DTO.RetailerDTO;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,21 +18,10 @@ import java.util.List;
  * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
 public class NewsletterAlert {
-//    private static List<ConsumerDTO> mailingList;
-//
-//    /**
-//     * sends a notification that the product is marked as Surplus
-//     * @param product 
-//     */
-//    public void sendNotification(ProductDTO product, RetailerDTO retailer) {
-//        String notification = product.getName() + " from " + retailer.getName() +" is now on discount";
-//        for(ConsumerDTO consumer : mailingList){
-//            // ADD LOGIC FOR SENDING THE NOTIFICATION BASED ON THE DIET AND PRODUCT TYPE 
-//            consumer.addNotification(notification);
-//        }
-//    }
 
-        // List of observers
+    private ConsumersBusinessLogic consumerLogic = new ConsumersBusinessLogic();
+
+        // List of observers, Actually USERS?
     private List<Subscriber> subscribers = new ArrayList<>();
 
     public void subscribe(Subscriber subscriber) {
@@ -40,8 +32,8 @@ public class NewsletterAlert {
         subscribers.remove(subscriber);
     }
 
-    public void notifyObservers(ProductDTO product, RetailerDTO retailer) {
-        String notification = product.getName() + " from " + retailer.getName() +" is now on discount";
+    public void notifyObservers(NewsletterDTO notification) throws SQLException {
+        subscribers = consumerLogic.getAllSubscribedConsumers();
         for (Subscriber subscriber : subscribers) {
             subscriber.update(notification);
         }

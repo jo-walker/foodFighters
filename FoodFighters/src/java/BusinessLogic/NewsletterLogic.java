@@ -6,6 +6,9 @@ package BusinessLogic;
 
 import DAO.NewsletterDAO;
 import DAO.NewsletterDAOImpl;
+import DTO.NewsletterDTO;
+import Newsletter.NewsletterAlert;
+import java.sql.SQLException;
 
 /**
  *
@@ -14,9 +17,14 @@ import DAO.NewsletterDAOImpl;
 public class NewsletterLogic {
     
     private NewsletterDAO newsDAO= new NewsletterDAOImpl();
+    private NewsletterAlert newsletter = new NewsletterAlert();
     
-    public void addMessage(String productName, int retailerID){
-        newsDAO.addMessage(productName, retailerID);
+    public NewsletterDTO addMessage(String productName, int retailerID){
+        return newsDAO.addMessage(productName, retailerID);
+    }
+    
+    public void notifyObservers(NewsletterDTO notification) throws SQLException{
+        newsletter.notifyObservers(notification);
     }
     
 }

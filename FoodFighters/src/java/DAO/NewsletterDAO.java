@@ -14,6 +14,6 @@ import java.util.List;
 public interface NewsletterDAO {
     
    List<NewsletterDTO> getMessagesByUserIDSortedDESC(int userID);
-   void addMessage(String productName, int retailerID);
+   NewsletterDTO addMessage(String productName, int retailerID);
   
 }

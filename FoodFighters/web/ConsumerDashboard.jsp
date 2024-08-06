@@ -120,12 +120,21 @@
     <div class="header">
         <div class="greeting">
             <%
+                // ANDREA: ADDED GET SESSION AND RETRIEVING CUSTOMERID
+                session = request.getSession(false);
+                Integer customerID = (Integer) session.getAttribute("customerID");
                 // Retrieve username from session
                 String username = (session != null) ? (String) session.getAttribute("username") : "Guest";
             %>
             Hi <%= username %>
         </div>
         <a href="LogoutServlet" class="logout-button">Logout</a>
+        
+        <!-- SUBSCRIBE TO NEWSLETTER -->
+        <form action="SubscribeServlet" method="post">
+            <input type="hidden" name="consumerID" value="<%= customerID %>">
+            <button type="submit" class="subscribe-button">Subscribe</button>
+        </form>
     </div>
 
     <h1>Consumer Dashboard</h1>

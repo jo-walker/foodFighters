@@ -4,6 +4,7 @@ import BusinessLogic.NewsletterLogic;
 import BusinessLogic.RetailersBusinessLogic;
 import DTO.ProductDTO;
 import DAO.RetailerDAOImpl;
+import DTO.NewsletterDTO;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -46,7 +47,8 @@ public class CreateProductServlet extends HttpServlet {
         try {
             logic.addProduct(product);
             if (product.isSurplus() == true){
-                newsletterLogic.addMessage(product.getName(), retailerID);
+                NewsletterDTO notification = newsletterLogic.addMessage(product.getName(), product.getRetailerID());
+                newsletterLogic.notifyObservers(notification);
             }
         } catch (SQLException ex) {
             Logger.getLogger(CreateProductServlet.class.getName()).log(Level.SEVERE, null, ex);

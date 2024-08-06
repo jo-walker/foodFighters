@@ -5,6 +5,8 @@
 package DTO;
 
 // import Utilities.NewsletterAlert;
+import DAO.ConsumerDAO;
+import DAO.ConsumerDAOImpl;
 import Newsletter.Subscriber;
 import java.io.Serializable;
 
@@ -20,6 +22,14 @@ public class ConsumerDTO extends User implements Serializable, Subscriber{
     private String location;
     private String phone; //note: its called mobile in db schema
     private boolean isVeg; //jo added
+
+    public boolean isIsSubscribed() {
+        return isSubscribed;
+    }
+
+    public void setIsSubscribed(boolean isSubscribed) {
+        this.isSubscribed = isSubscribed;
+    }
 
     public int getCustomerID() {
         return customerID;
@@ -128,13 +138,15 @@ public class ConsumerDTO extends User implements Serializable, Subscriber{
     
     public void setDietType(boolean isVeg) {
         this.isVeg = isVeg; 
-    }
+    }   
 
     @Override
-    public void update() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void update(NewsletterDTO notification) {
+        
+        ConsumerDAO cons = new ConsumerDAOImpl();
+        
+        cons.receiveNotification(this.id, notification);
+    
     }
-    
-    
     
 }

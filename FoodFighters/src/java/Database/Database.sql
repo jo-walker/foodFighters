@@ -9,6 +9,7 @@ CREATE TABLE user(
     password VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
     userRole INT NOT NULL, /*1 customers, 2 retailer, 3 charity*/
+    isSubscribed BOOLEAN,
     PRIMARY KEY (userID)
 );
 
@@ -85,7 +86,7 @@ CREATE TABLE Notifications (
 -- Associative table between Customer and Notifications
 CREATE TABLE CustomerNotification (
     customerNotificationID INT AUTO_INCREMENT NOT NULL,
-    charityOrgID INT NOT NULL,
+    customerID INT NOT NULL,
     notificationID INT NOT NULL,
     PRIMARY KEY (customerNotificationID),
     FOREIGN KEY (customerID) REFERENCES Customer(customerID),

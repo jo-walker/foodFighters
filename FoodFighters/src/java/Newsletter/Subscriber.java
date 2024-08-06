@@ -4,12 +4,14 @@
  */
 package Newsletter;
 
+import DTO.NewsletterDTO;
+
 /**
  * Interface for subscribers
  * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
 public interface Subscriber {
     
-    public void update(String norification);
+    public void update(NewsletterDTO notification);
     
 }

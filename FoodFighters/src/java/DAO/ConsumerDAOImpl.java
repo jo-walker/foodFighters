@@ -1,13 +1,19 @@
 package DAO;
 
 import DTO.ConsumerDTO;
+import DTO.NewsletterDTO;
 import DTO.ProductDTO;
+import Newsletter.Subscriber;
 import Utilities.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ConsumerDAOImpl implements ConsumerDAO {
     private Connection connection;
@@ -83,19 +89,18 @@ public class ConsumerDAOImpl implements ConsumerDAO {
     }
 
     @Override
-    public void subscribeToAlert(ConsumerDTO consumer, String alertType) throws SQLException {
-        String sql = "INSERT INTO Subscription (consumerID, alertType) VALUES (?, ?)";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, consumer.getCustomerID());
-            statement.setString(2, alertType);
+    public void subscribeToAlert(int consumerID) throws SQLException {
+        String query = "UPDATE customer SET isSubscribed = 0 WHERE consumerID = ?";
+       
+        try (Connection connection = DataSource.getConnection()) {
+            connection.setAutoCommit(false);
+            try (PreparedStatement productStmt = connection.prepareStatement(query)) {
+                productStmt.setInt(1, consumerID);
 
-            int affectedRows = statement.executeUpdate();
+                productStmt.executeUpdate();
 
-            if (affectedRows == 0) {
-                throw new SQLException("Subscribing to alert failed, no rows affected.");
             }
-        } catch (SQLException e) {
-            throw new SQLException("Error subscribing to alert", e);
+            connection.commit();
         }
     }
 
@@ -115,4 +120,54 @@ public class ConsumerDAOImpl implements ConsumerDAO {
             throw new SQLException("Error adding purchase", e);
         }
     }
+
+    @Override
+    public List<Subscriber> getAllSubscribedConsumers() throws SQLException {
+        
+        Connection con = null;
+        PreparedStatement preparedStatement = null;
+        
+        List<Subscriber> subscribedConsumers = new ArrayList<>();
+        String query = "SELECT c.customerID, c.isVegetarian FROM Customer c JOIN user u ON c.userID = u.userID WHERE u.isSubscribed = TRUE";
+
+        try {
+            con = DataSource.getConnection();
+            preparedStatement = con.prepareStatement(query);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    ConsumerDTO cons = new ConsumerDTO();
+                    cons.setId(resultSet.getInt("customerID"));
+                    cons.setDietType(resultSet.getBoolean("isVegetarian"));
+                    
+                    subscribedConsumers.add(cons);
+
+                }
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return subscribedConsumers;
+    }
+
+    @Override
+    public void receiveNotification(int id, NewsletterDTO notification) {
+        String sql = "INSERT INTO CustomerNotification (consumerID, notificationID) VALUES (?, ?)";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, id);
+            statement.setInt(2, notification.getId());
+
+            int affectedRows = statement.executeUpdate();
+
+            if (affectedRows == 0) {
+                throw new SQLException("Subscribing to add the message, no rows affected.");
+            }
+
+        }   
+        catch (SQLException ex) {
+                Logger.getLogger(ConsumerDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }
+    
+    
 }

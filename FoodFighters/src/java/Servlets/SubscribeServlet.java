@@ -4,12 +4,10 @@
  */
 package Servlets;
 
-import BusinessLogic.NewsletterLogic;
-import DAO.ProductDAO;
-import DAO.ProductDAOImpl;
-import DTO.NewsletterDTO;
-import DTO.ProductDTO;
+import DAO.ConsumerDAO;
+import DAO.ConsumerDAOImpl;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,9 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
-public class UpdateProductServ extends HttpServlet {
-    
-    private NewsletterLogic newsletterLogic = new NewsletterLogic();
+public class SubscribeServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,36 +30,17 @@ public class UpdateProductServ extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws java.sql.SQLException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+            throws ServletException, IOException, SQLException {
         
-        boolean originalSurplus = Boolean.parseBoolean(request.getParameter("originalSurplus"));
-        boolean newSurplusStatus = request.getParameter("surplus") != null;
-        ProductDTO product = new ProductDTO();
+        int customerID = Integer.parseInt(request.getParameter("customerID"));
         
-        product.setId(Integer.parseInt(request.getParameter("id")));
-        product.setName(request.getParameter("name"));
-        product.setPrice(Double.parseDouble(request.getParameter("price")));
-        product.setQuantity(Integer.parseInt(request.getParameter("quantity")));
-        product.setSurplus(request.getParameter("surplus") != null);
-        product.setExpiryDate(new java.util.Date(java.sql.Date.valueOf(request.getParameter("expiryDate")).getTime()));
-        product.setVeggie(request.getParameter("isVeggie") != null);
-        product.setRetailerID(Integer.parseInt(request.getParameter("retailerID")));
-
-        ProductDAO productDAO = new ProductDAOImpl();
-        try {
-            productDAO.updateProduct(product);
-            if (!originalSurplus && newSurplusStatus) {
-                NewsletterDTO notification = newsletterLogic.addMessage(product.getName(), product.getRetailerID());
-                newsletterLogic.notifyObservers(notification);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(UpdateProductServ.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        response.sendRedirect("RetailerDashboardServlet");
+        ConsumerDAO consDAO = new ConsumerDAOImpl();
+        
+        consDAO.subscribeToAlert(customerID);
+         
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -78,7 +55,11 @@ public class UpdateProductServ extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(SubscribeServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -92,7 +73,11 @@ public class UpdateProductServ extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(SubscribeServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

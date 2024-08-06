@@ -90,8 +90,9 @@ public class LoginServlet extends HttpServlet {
                        response.sendRedirect("login.jsp?error=Customer details not found");
                        return;
                    }//
-
-                } else if (userRole == 2) {
+                } 
+                
+                else if (userRole == 2) {
                     // Close previous PreparedStatement and ResultSet
                     rs.close();
                     ps.close();
@@ -114,13 +115,18 @@ public class LoginServlet extends HttpServlet {
                         return;
                     }
 
-                } else if (userRole == 3) {
+                } 
+                
+                else if (userRole == 3) {
                     // For charity role, redirect to charity dashboard
 
-                } else {
+                } 
+                
+                else {
                     response.sendRedirect("login.jsp?error=Unknown user role");
                     return;
                 }
+                
             } else {
                 // User not found or wrong credentials
                 response.sendRedirect("login.jsp?error=Invalid username or password");
