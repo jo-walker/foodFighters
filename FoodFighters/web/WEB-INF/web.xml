@@ -8,6 +8,10 @@
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>Servlets.LoginServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RetailerDashboardSerlvet</servlet-name>
+        <servlet-class>Servlets.RetailerDashboardSerlvet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CreateProductServlet</servlet-name>
         <url-pattern>/CreateProductServlet-URL</url-pattern>
@@ -55,6 +59,10 @@
     <servlet-mapping>
         <servlet-name>DeleteProductServlet</servlet-name>
         <url-pattern>/DeleteProductServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RetailerDashboardSerlvet</servlet-name>
+        <url-pattern>/RetailerDashboardSerlvet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

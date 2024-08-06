@@ -4,23 +4,27 @@
  */
 package Servlets;
 
-import DAO.ProductDAO;
-import DAO.ProductDAOImpl;
+import BusinessLogic.RetailersBusinessLogic;
 import DTO.ProductDTO;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
-public class UpdateProductServ extends HttpServlet {
+@WebServlet("/RetailerDashboardServlet")
+public class RetailerDashboardSerlvet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,27 +36,27 @@ public class UpdateProductServ extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
-        ProductDTO product = new ProductDTO();
-        
-        product.setId(Integer.parseInt(request.getParameter("id")));
-        product.setName(request.getParameter("name"));
-        product.setPrice(Double.parseDouble(request.getParameter("price")));
-        product.setQuantity(Integer.parseInt(request.getParameter("quantity")));
-        product.setSurplus(request.getParameter("surplus") != null);
-        product.setExpiryDate(new java.util.Date(java.sql.Date.valueOf(request.getParameter("expiryDate")).getTime()));
-        product.setVeggie(request.getParameter("isVeggie") != null);
-        product.setRetailerID(Integer.parseInt(request.getParameter("retailerID")));
+        HttpSession session = request.getSession(false);
+        Integer retailerID = (Integer) session.getAttribute("retailerID");
 
-        ProductDAO productDAO = new ProductDAOImpl();
-        try {
-            productDAO.updateProduct(product);
-        } catch (SQLException ex) {
-            Logger.getLogger(UpdateProductServ.class.getName()).log(Level.SEVERE, null, ex);
+        RetailersBusinessLogic retailerLogic = new RetailersBusinessLogic();
+        List<ProductDTO> products;
+
+        // CHECK THE SORTING
+        if (request.getParameter("sortByPrice") != null) {
+            products = retailerLogic.getProductsByRetailerIDSortedByPrice(retailerID);
+        } 
+        else if (request.getParameter("sortByExpiryDate") != null) {
+            products = retailerLogic.getProductsByRetailerIDSortedByExpiryDate(retailerID);
+        }
+        else {
+            products = retailerLogic.getProductsByRetailerID(retailerID);
         }
 
-        response.sendRedirect("RetailerDashboardServlet");
+        request.setAttribute("products", products);
+        request.getRequestDispatcher("/retailerDashboard.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -67,7 +71,11 @@ public class UpdateProductServ extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(RetailerDashboardSerlvet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -81,7 +89,11 @@ public class UpdateProductServ extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(RetailerDashboardSerlvet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

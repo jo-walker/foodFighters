@@ -32,6 +32,14 @@
     <div class="container">
         <h1>Retailer Dashboard - ID: <%= retailerID %></h1>
         <div class="buttons">
+            <!-- SORT BY EXPIRY DATE -->
+            <form action="${pageContext.request.contextPath}/RetailerDashboardServlet" method="get" style="display:inline;">
+                <button type="submit" name="sortByExpiryDate">Sort by Expiry Date</button>
+            </form>
+            <!-- SORT BY PRICE -->
+            <form action="${pageContext.request.contextPath}/RetailerDashboardServlet" method="get" style="display:inline;">
+                <button type="submit" name="sortByPrice">Sort by Price</button>
+            </form>
             <button onclick="location.href='addProduct.jsp'">Add Product</button>
             <button onclick="location.href='LogoutServlet'">Logout</button>
         </div>
@@ -51,7 +59,7 @@
             <tbody>
                 <%
                     RetailersBusinessLogic retailerLogic = new RetailersBusinessLogic();
-                    List<ProductDTO> products = retailerLogic.getProductsByRetailerID(retailerID);
+                    List<ProductDTO> products = (List<ProductDTO>) request.getAttribute("products");
                     if (products == null || products.isEmpty()) {
                         out.println("<tr><td colspan='8'>No products found for this retailer.</td></tr>");
                     } else {

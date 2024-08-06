@@ -38,7 +38,8 @@ public class DeleteProductServlet extends HttpServlet {
         ProductDAO productDAO = new ProductDAOImpl();
         try {
             productDAO.deleteProduct(productId);
-            response.sendRedirect("retailerDashboard.jsp"); // Redirect to the list of products after deletion
+            //NOW SEND TO SERVLET INSTEAD OF JSP, SO IT CAN HANDLE SORTING
+            response.sendRedirect("RetailerDashboardServlet");
         } catch (SQLException e) {
             e.printStackTrace();
             response.sendRedirect("productList.jsp");

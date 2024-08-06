@@ -31,9 +31,19 @@
       
       <div class="form-buttons">
         <input type="submit" value="Create Product">
-        <button type="button" onclick="location.href='retailerDashboard.jsp'">Back to Dashboard</button>
+        <button type="button" onclick="document.getElementById('backForm').submit();">Back to Dashboard</button>
       </div>
     </form>
+        
+        <!-- NOW BACK TO RETAILER SERVLET, NOT JSP -->
+    <form id="backForm" action="${pageContext.request.contextPath}/RetailerDashboardServlet" method="get" style="display:none;">
+        <input type="hidden" name="retailerID" value="<%= session.getAttribute("retailerID") %>">
+    </form>
+    
   </center>
 </body>
 </html>
+
+
+        
+    

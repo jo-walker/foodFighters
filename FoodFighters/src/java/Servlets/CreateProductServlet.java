@@ -38,13 +38,6 @@ public class CreateProductServlet extends HttpServlet {
         boolean isVeggie = request.getParameter("isVeggie") != null;
         
         ProductDTO product = new ProductDTO(name, quantity, expiryDate, isSurplus, retailerID, price, isVeggie);
-//        product.setName(name);
-//        product.setQuantity(quantity);
-//        product.setExpiryDate(expiryDate);
-//        product.setSurplus(isSurplus);
-//        product.setRetailerID(retailerID);
-//        product.setPrice(price);
-//        product.setVeggie(isVeggie);
 
         RetailersBusinessLogic logic = new RetailersBusinessLogic();
         try {
@@ -53,6 +46,7 @@ public class CreateProductServlet extends HttpServlet {
             Logger.getLogger(CreateProductServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        response.sendRedirect("retailerDashboard.jsp");
+        //NOW SEND TO SERVLET INSTEAD OF JSP, SO IT CAN HANDLE SORTING
+        response.sendRedirect("RetailerDashboardServlet");
     }
 }

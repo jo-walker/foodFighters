@@ -107,7 +107,7 @@ public class LoginServlet extends HttpServlet {
                         // Create a session and set the retailerID as an attribute
                         HttpSession session = request.getSession();
                         session.setAttribute("retailerID", retailerID);
-                        response.sendRedirect("retailerDashboard.jsp");
+                        response.sendRedirect("RetailerDashboardServlet");
                         return; // Ensure no further code is executed
                     } else {
                         response.sendRedirect("login.jsp?error=Retailer not found");

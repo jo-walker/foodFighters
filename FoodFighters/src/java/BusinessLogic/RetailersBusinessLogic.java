@@ -63,5 +63,13 @@ public class RetailersBusinessLogic {
             Logger.getLogger(RetailersBusinessLogic.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public List<ProductDTO> getProductsByRetailerIDSortedByPrice(int retailerID) throws SQLException{
+        return productDAO.getProductsByRetailerIDSortedByPrice(retailerID);
+    } 
+    
+    public List<ProductDTO> getProductsByRetailerIDSortedByExpiryDate(int retailerID) throws SQLException{
+        return productDAO.getProductsByRetailerIDSortedByExpiryDate(retailerID);
+    } 
 }
 

@@ -214,5 +214,108 @@ public class ProductDAOImpl implements ProductDAO {
         }
         return products;
     }
-}
+
+    /**
+     * Keeps track of the sorting logic for price
+     */
+    private static boolean priceSortedASC = true;
     
+    @Override
+    public List<ProductDTO> getProductsByRetailerIDSortedByPrice(int retailerID) throws SQLException {
+        Connection con = null;
+        PreparedStatement preparedStatement = null;
+        List<ProductDTO> products = new ArrayList<>();
+
+        String query = "SELECT p.productID, p.productName, p.price, p.isVeggie, pr.retailerID, pr.productQuantity, pr.expiryDate, pr.isSurplus " +
+                       "FROM Product p JOIN ProductRetailer pr ON p.productID = pr.productID WHERE pr.retailerID = ? " +
+                       "ORDER BY p.price " + (priceSortedASC ? "ASC" : "DESC");
+
+        try {
+            con = DataSource.getConnection();
+            preparedStatement = con.prepareStatement(query);
+            preparedStatement.setInt(1, retailerID);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    products.add(new ProductDTO(
+                        resultSet.getInt("productID"),
+                        resultSet.getString("productName"),
+                        resultSet.getInt("productQuantity"),
+                        resultSet.getDate("expiryDate"),
+                        resultSet.getBoolean("isSurplus"),
+                        resultSet.getInt("retailerID"),
+                        resultSet.getDouble("price"),
+                        resultSet.getBoolean("isVeggie")
+                    ));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Close resources
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+
+        // INVERT THE LOGIC
+        priceSortedASC = !priceSortedASC;
+
+        return products;
+    }
+
+    /**
+     * Keeps track of the sorting logic for Expiry Date
+     */
+    private static boolean expiryDateSortedASC = true;
+    
+    @Override
+    public List<ProductDTO> getProductsByRetailerIDSortedByExpiryDate(int retailerID) throws SQLException {
+        Connection con = null;
+        PreparedStatement preparedStatement = null;
+        List<ProductDTO> products = new ArrayList<>();
+
+        String query = "SELECT p.productID, p.productName, p.price, p.isVeggie, pr.retailerID, pr.productQuantity, pr.expiryDate, pr.isSurplus " +
+                       "FROM Product p JOIN ProductRetailer pr ON p.productID = pr.productID WHERE pr.retailerID = ? " +
+                       "ORDER BY pr.expiryDate " + (expiryDateSortedASC ? "ASC" : "DESC");
+
+        try {
+            con = DataSource.getConnection();
+            preparedStatement = con.prepareStatement(query);
+            preparedStatement.setInt(1, retailerID);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    products.add(new ProductDTO(
+                        resultSet.getInt("productID"),
+                        resultSet.getString("productName"),
+                        resultSet.getInt("productQuantity"),
+                        resultSet.getDate("expiryDate"),
+                        resultSet.getBoolean("isSurplus"),
+                        resultSet.getInt("retailerID"),
+                        resultSet.getDouble("price"),
+                        resultSet.getBoolean("isVeggie")
+                    ));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Close resources
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+
+        // INVERT THE LOGIC
+        expiryDateSortedASC = !expiryDateSortedASC;
+
+        return products;
+    }
+}

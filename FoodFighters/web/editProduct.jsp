@@ -39,7 +39,15 @@
         <label for="isVeggie">Is Veggie:</label>
         <input type="checkbox" id="isVeggie" name="isVeggie" <%= product.isVeggie() ? "checked" : "" %>><br><br>
         <button type="submit">Update</button>
-        <button type="button" onclick="location.href='retailerDashboard.jsp'">Back</button>
+        <button type="button" onclick="document.getElementById('backForm').submit();">Back</button>
     </form>
+        
+    <!-- NOW BACK TO RETAILER SERVLET, NOT JSP -->
+    <form id="backForm" action="${pageContext.request.contextPath}/RetailerDashboardServlet" method="get" style="display:none;">
+        <input type="hidden" name="retailerID" value="<%= product.getRetailerID() %>">
+    </form>
+
+    
+    
 </body>
 </html>

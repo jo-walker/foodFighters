@@ -22,4 +22,6 @@ public interface ProductDAO {
     void updateProduct(ProductDTO product) throws SQLException;
     void deleteProduct(int productID) throws SQLException;
     List<ProductDTO> getProductsByRetailerID(int retailerID) throws SQLException;
+    List<ProductDTO> getProductsByRetailerIDSortedByPrice(int retailerID) throws SQLException;
+    List<ProductDTO> getProductsByRetailerIDSortedByExpiryDate(int retailerID) throws SQLException;
 }
