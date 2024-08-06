@@ -1,22 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package BusinessLogic;
 
-import DAO.NewsletterDAO;
 import DAO.NewsletterDAOImpl;
+import DTO.NewsletterDTO;
 
-/**
- *
- * @author Andrea Visani 041104651 visa0004@algonquinlive.com
- */
 public class NewsletterLogic {
-    
-    private NewsletterDAO newsDAO= new NewsletterDAOImpl();
-    
-    public void addMessage(String productName, int retailerID){
-        newsDAO.addMessage(productName, retailerID);
+    private final NewsletterDAOImpl newsletterDAO = new NewsletterDAOImpl();
+
+    public NewsletterDTO addMessage(String productName, int retailerID) {
+        return newsletterDAO.addMessage(productName, retailerID);
     }
-    
+
+    public void notifyObservers(NewsletterDTO notification) {
+        // Implement the logic to notify customers
+        // For example, sending an email or updating a notifications table
+    }
 }

@@ -37,13 +37,13 @@ public class ConsumersBusinessLogic {
     }
 
     // Method to add a new consumer
-    public void addConsumer(ConsumerDTO consumer) throws SQLException {
+    public void addConsumer(ConsumerDTO consumer) throws SQLException, ValidationException {
             validator.validateConsumer(consumer); 
             consumerDAOImpl.addConsumer(consumer);
     }
 
     // Method to subscribe consumer to alerts
-    public void subscribeAlert(ConsumerDTO consumer, String alertType) throws SQLException {
+    public void subscribeAlert(ConsumerDTO consumer, String alertType) throws SQLException, ValidationException {
             validator.validateConsumer(consumer); 
             consumerDAOImpl.subscribeToAlert(consumer, alertType);
     }

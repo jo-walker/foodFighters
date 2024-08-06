@@ -3,11 +3,11 @@ package Servlets;
 import BusinessLogic.NewsletterLogic;
 import BusinessLogic.RetailersBusinessLogic;
 import DTO.ProductDTO;
-import DAO.RetailerDAOImpl;
+import DTO.NewsletterDTO;
 import Utilities.Exception.ValidationException;
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -17,11 +17,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
 @WebServlet("/CreateProductServlet")
 public class CreateProductServlet extends HttpServlet {
-    
-    private NewsletterLogic newsletterLogic = new NewsletterLogic();
+
+    private final NewsletterLogic newsletterLogic = new NewsletterLogic();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -34,30 +33,33 @@ public class CreateProductServlet extends HttpServlet {
             return;
         }
 
-        String name = request.getParameter("productName");
-        int quantity = Integer.parseInt(request.getParameter("quantity"));
-        java.util.Date expiryDate = new java.util.Date(java.sql.Date.valueOf(request.getParameter("expiryDate")).getTime());
-        boolean isSurplus = request.getParameter("isSurplus") != null;
-        double price = Double.parseDouble(request.getParameter("price"));
-        boolean isVeggie = request.getParameter("isVeggie") != null;
-        
-        ProductDTO product = new ProductDTO(name, quantity, expiryDate, isSurplus, retailerID, price, isVeggie);
-
-        RetailersBusinessLogic logic = new RetailersBusinessLogic();
         try {
-            try {
-                logic.addProduct(product);
-            } catch (ValidationException ex) {
-                Logger.getLogger(CreateProductServlet.class.getName()).log(Level.SEVERE, null, ex);
+            String name = request.getParameter("productName");
+            int quantity = Integer.parseInt(request.getParameter("quantity"));
+            Date expiryDate = java.sql.Date.valueOf(request.getParameter("expiryDate"));
+            boolean isSurplus = request.getParameter("isSurplus") != null;
+            double price = Double.parseDouble(request.getParameter("price"));
+            boolean isVeggie = request.getParameter("isVeggie") != null;
+
+            ProductDTO product = new ProductDTO(name, quantity, expiryDate, isSurplus, retailerID, price, isVeggie);
+
+            RetailersBusinessLogic logic = new RetailersBusinessLogic();
+            logic.addProduct(product);
+
+            if (product.isSurplus()) {
+                NewsletterDTO notification = newsletterLogic.addMessage(product.getName(), product.getRetailerID());
+                newsletterLogic.notifyObservers(notification);
             }
-            if (product.isSurplus() == true){
-                newsletterLogic.addMessage(product.getName(), retailerID);
-            }
+
+            response.sendRedirect("RetailerDashboardServlet");
         } catch (SQLException ex) {
             Logger.getLogger(CreateProductServlet.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error while adding product.");
+        } catch (NumberFormatException ex) {
+            Logger.getLogger(CreateProductServlet.class.getName()).log(Level.SEVERE, "Invalid input", ex);
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid input.");
+        } catch (ValidationException ex) {
+            Logger.getLogger(CreateProductServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        //NOW SEND TO SERVLET INSTEAD OF JSP, SO IT CAN HANDLE SORTING
-        response.sendRedirect("RetailerDashboardServlet");
     }
 }

@@ -6,6 +6,7 @@ import BusinessLogic.OrganizationBusinessLogic;
 import DTO.ConsumerDTO;
 import DTO.RetailerDTO;
 import DTO.OrganizationDTO;
+import Utilities.Validator;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -22,6 +23,7 @@ public class AddUserServlet extends HttpServlet {
     private ConsumersBusinessLogic consumerLogic;
     private RetailersBusinessLogic retailerLogic;
     private OrganizationBusinessLogic charityLogic;
+    private Validator validator;
 
     @Override
     public void init() throws ServletException {
@@ -30,6 +32,7 @@ public class AddUserServlet extends HttpServlet {
             consumerLogic = new ConsumersBusinessLogic();
             retailerLogic = new RetailersBusinessLogic();
             charityLogic = new OrganizationBusinessLogic();
+            validator = new Validator();
         } catch (Exception e) {
             throw new ServletException("Initialization failed in AddUserServlet", e);
         }
@@ -56,35 +59,34 @@ public class AddUserServlet extends HttpServlet {
             consumer.setPhone(request.getParameter("phone"));
             consumer.setDietType(Boolean.parseBoolean(request.getParameter("dietType")));
 
+            validator.validateConsumer(consumer);
             consumerLogic.addConsumer(consumer);
             request.setAttribute("message", "Consumer added successfully!");
             request.getRequestDispatcher("ConsumerDashboard.jsp").forward(request, response);
 
             } else if (role == 2) {  // Retailer
-                String retailerName = request.getParameter("retailerName");
-
                 RetailerDTO retailer = new RetailerDTO();
                 retailer.setUsername(username);
                 retailer.setPassword(password);
                 retailer.setEmail(email);
                 retailer.setRole(role);
-                retailer.setName(retailerName);
+                retailer.setName(request.getParameter("retailerName"));
 
+                validator.validateRetailer(retailer);
                 int retailerId = retailerLogic.addRetailer(retailer);
                 request.setAttribute("message", "Sign up successful!");
                 request.getSession().setAttribute("retailerID", retailerId);
                 request.getRequestDispatcher("retailerDashboard.jsp").forward(request, response);
 
             } else if (role == 3) {  // Charity Organization
-                String charityName = request.getParameter("charityName");
-
                 OrganizationDTO charity = new OrganizationDTO();
-//                charity.setUsername(username);
-//                charity.setPassword(password);
-//                charity.setEmail(email);
-//                charity.setRole(role);
-//                charity.setName(charityName);
-                // Set other necessary fields if required
+                charity.setUsername(username);
+                charity.setPassword(password);
+                charity.setEmail(email);
+                charity.setRole(role);
+                charity.setName(request.getParameter("charityName"));
+
+                validator.validateOrganization(charity);
                 charityLogic.addOrganization(charity);
                 request.setAttribute("message", "Charity organization added successfully!");
                 request.getRequestDispatcher("charityDashboard.jsp").forward(request, response);

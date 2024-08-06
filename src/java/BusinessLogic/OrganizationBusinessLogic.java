@@ -7,6 +7,7 @@ package BusinessLogic;
 import DAO.OrganizationDAO;
 import DAO.OrganizationDAOImpl;
 import DTO.OrganizationDTO;
+import Utilities.Exception.ValidationException;
 import Utilities.Validator;
 
 /**
@@ -28,7 +29,7 @@ public class OrganizationBusinessLogic {
         // Implementation
     }
 
-    public void addOrganization(OrganizationDTO organ) {
+    public void addOrganization(OrganizationDTO organ) throws ValidationException {
         validator.validateOrganization(organ);
         organization.addOrganization();
     }

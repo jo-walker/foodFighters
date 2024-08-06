@@ -67,6 +67,12 @@ public class Validator {
         if (organization.getName() == null || organization.getName().trim().isEmpty()){
             throw new ValidationException("Organization name cannnot be emmpty");
         }
+                if (!isValidEmail(organization.getEmail())) {
+            throw new ValidationException("Invalid email format");
+        }
+        if (organization.getPassword() == null || organization.getPassword().isEmpty()) {
+            throw new ValidationException("Password cannot be empty");
+        }
     }
 
     public void validateRetailer(RetailerDTO retailer) throws ValidationException {
@@ -76,6 +82,12 @@ public class Validator {
         if (retailer.getName() == null || retailer.getName().trim().isEmpty()) {
             throw new ValidationException("Retailer name cannot be empty");
         }
+        if (!isValidEmail(retailer.getEmail())) {
+            throw new ValidationException("Invalid email format");
+        }
+        if (retailer.getPassword() == null || retailer.getPassword().isEmpty()) {
+            throw new ValidationException("Password cannot be empty");
+        }
     }
 
 
@@ -83,20 +95,20 @@ public class Validator {
         if (consumer == null) {
             throw new ValidationException("Consumer cannot be null");
         }
-        if (consumer.getFirstName() == null || consumer.getFirstName().trim().isEmpty()) {
+        if (consumer.getFirstName() == null || consumer.getFirstName().isEmpty()) {
             throw new ValidationException("First name cannot be empty");
         }
-        if (consumer.getLastName() == null || consumer.getLastName().trim().isEmpty()) {
+        if (consumer.getLastName() == null || consumer.getLastName().isEmpty()) {
             throw new ValidationException("Last name cannot be empty");
-        }
-        if (consumer.getPhone() == null || consumer.getPhone().trim().isEmpty()) {
-            throw new ValidationException("Phone number cannot be empty");
-        }
-        if (consumer.getEmail() == null || consumer.getEmail().trim().isEmpty()) {
-            throw new ValidationException("Email cannot be empty");
         }
         if (!isValidEmail(consumer.getEmail())) {
             throw new ValidationException("Invalid email format");
+        }
+        if (consumer.getPhone() == null || consumer.getPhone().isEmpty()) {
+            throw new ValidationException("Phone number cannot be empty");
+        }
+        if (consumer.getPassword() == null || consumer.getPassword().isEmpty()) {
+            throw new ValidationException("Password cannot be empty");
         }
     }
     
