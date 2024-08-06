@@ -5,13 +5,14 @@
 package DTO;
 
 // import Utilities.NewsletterAlert;
+import Newsletter.Subscriber;
 import java.io.Serializable;
 
 /**
  *
  * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
-public class ConsumerDTO extends User implements Serializable{
+public class ConsumerDTO extends User implements Serializable, Subscriber{
     private int customerID; //jo added
     private int userID; //jo added
     private String firstName;
@@ -19,11 +20,6 @@ public class ConsumerDTO extends User implements Serializable{
     private String location;
     private String phone; //note: its called mobile in db schema
     private boolean isVeg; //jo added
-
-    // observer pattern
-//    public void subscribeAlert() {
-//        NewsletterAlert.addConsumer(this);
-//    }
 
     public int getCustomerID() {
         return customerID;
@@ -132,6 +128,11 @@ public class ConsumerDTO extends User implements Serializable{
     
     public void setDietType(boolean isVeg) {
         this.isVeg = isVeg; 
+    }
+
+    @Override
+    public void update() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     

@@ -4,6 +4,7 @@
  */
 package Servlets;
 
+import BusinessLogic.NewsletterLogic;
 import DAO.ProductDAO;
 import DAO.ProductDAOImpl;
 import DTO.ProductDTO;
@@ -21,6 +22,8 @@ import javax.servlet.http.HttpServletResponse;
  * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
 public class UpdateProductServ extends HttpServlet {
+    
+    private NewsletterLogic newsletterLogic = new NewsletterLogic();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -48,6 +51,9 @@ public class UpdateProductServ extends HttpServlet {
         ProductDAO productDAO = new ProductDAOImpl();
         try {
             productDAO.updateProduct(product);
+            if (product.isSurplus() == true){
+                newsletterLogic.addMessage(product.getName(), product.getRetailerID());
+            }
         } catch (SQLException ex) {
             Logger.getLogger(UpdateProductServ.class.getName()).log(Level.SEVERE, null, ex);
         }

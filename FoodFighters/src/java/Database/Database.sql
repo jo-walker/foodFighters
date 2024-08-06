@@ -75,6 +75,23 @@ CREATE TABLE CharityRetailer (
     FOREIGN KEY (retailerID) REFERENCES Retailer(retailerID)
 );
 
+-- Table for Notifications
+CREATE TABLE Notifications (
+    notificationID INT AUTO_INCREMENT NOT NULL,
+    text VARCHAR(500) NOT NULL,
+    PRIMARY KEY (notificationID)
+);
+
+-- Associative table between Customer and Notifications
+CREATE TABLE CustomerNotification (
+    customerNotificationID INT AUTO_INCREMENT NOT NULL,
+    charityOrgID INT NOT NULL,
+    notificationID INT NOT NULL,
+    PRIMARY KEY (customerNotificationID),
+    FOREIGN KEY (customerID) REFERENCES Customer(customerID),
+    FOREIGN KEY (notificationID) REFERENCES Notifications(notificationID)
+);
+
 -- Sample SELECT statements to view the tables
 SELECT * FROM CharityOrg;
 SELECT * FROM Customer;
