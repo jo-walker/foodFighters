@@ -360,6 +360,48 @@ public class ProductDAOImpl implements ProductDAO {
     return products;
 }
 
+@Override
+public List<ProductDTO> getSurplusProducts() throws SQLException {
+    Connection con = null;
+    PreparedStatement preparedStatement = null;
+    List<ProductDTO> products = new ArrayList<>();
+
+    String query = "SELECT p.productID, p.productName, p.price, p.isVeggie, pr.retailerID, pr.productQuantity, pr.expiryDate, pr.isSurplus " +
+                   "FROM Product p JOIN ProductRetailer pr ON p.productID = pr.productID " +
+                   "WHERE pr.isSurplus = true";
+
+    try {
+        con = DataSource.getConnection();
+        preparedStatement = con.prepareStatement(query);
+
+        try (ResultSet resultSet = preparedStatement.executeQuery()) {
+            while (resultSet.next()) {
+                products.add(new ProductDTO(
+                    resultSet.getInt("productID"),
+                    resultSet.getString("productName"),
+                    resultSet.getInt("productQuantity"),
+                    resultSet.getDate("expiryDate"),
+                    resultSet.getBoolean("isSurplus"),
+                    resultSet.getInt("retailerID"),
+                    resultSet.getDouble("price"),
+                    resultSet.getBoolean("isVeggie")
+                ));
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } finally {
+        // Close resources
+        if (preparedStatement != null) {
+            preparedStatement.close();
+        }
+        if (con != null) {
+            con.close();
+        }
+    }
+
+    return products;
+}
 
         
 }

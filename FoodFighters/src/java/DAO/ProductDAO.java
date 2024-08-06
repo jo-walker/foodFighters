@@ -25,4 +25,5 @@ public interface ProductDAO {
     List<ProductDTO> getProductsByRetailerIDSortedByPrice(int retailerID) throws SQLException;
     List<ProductDTO> getProductsByRetailerIDSortedByExpiryDate(int retailerID) throws SQLException;
     List<ProductDTO> getProductsByVegStatus(int isVeg) throws SQLException;
+    public List<ProductDTO> getSurplusProducts() throws SQLException; 
 }
