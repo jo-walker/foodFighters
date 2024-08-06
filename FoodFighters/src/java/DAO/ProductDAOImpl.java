@@ -130,6 +130,8 @@ public class ProductDAOImpl implements ProductDAO {
         }
         return products;
     }
+    
+    
 
 
     @Override
@@ -318,4 +320,46 @@ public class ProductDAOImpl implements ProductDAO {
 
         return products;
     }
+
+        
+    @Override
+    public List<ProductDTO> getProductsByVegStatus(int isVeg) throws SQLException {
+    List<ProductDTO> products = new ArrayList<>();
+    
+    // SQL query with conditional WHERE clause based on isVeg
+    String query = "SELECT p.productID, p.productName, p.price, p.isVeggie, pr.retailerID, pr.productQuantity, pr.expiryDate, pr.isSurplus " +
+                   "FROM Product p JOIN ProductRetailer pr ON p.productID = pr.productID";
+
+    if (isVeg == 1) {
+        query += " WHERE p.isVeggie = ?";
+    }
+
+    try (Connection connection = DataSource.getConnection();
+         PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        
+        // Set the parameter only if filtering for vegetarian items
+        if (isVeg == 1) {
+            preparedStatement.setBoolean(1, true);
+        }
+        
+        try (ResultSet resultSet = preparedStatement.executeQuery()) {
+            while (resultSet.next()) {
+                products.add(new ProductDTO(
+                    resultSet.getInt("productID"),
+                    resultSet.getString("productName"),
+                    resultSet.getInt("productQuantity"),
+                    resultSet.getDate("expiryDate"),
+                    resultSet.getBoolean("isSurplus"),
+                    resultSet.getInt("retailerID"),
+                    resultSet.getDouble("price"),
+                    resultSet.getBoolean("isVeggie")
+                ));
+            }
+        }
+    }
+    return products;
+}
+
+
+        
 }
