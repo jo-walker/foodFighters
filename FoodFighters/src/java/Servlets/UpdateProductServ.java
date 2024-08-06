@@ -37,6 +37,9 @@ public class UpdateProductServ extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
+        boolean originalSurplus = Boolean.parseBoolean(request.getParameter("originalSurplus"));
+        boolean newSurplusStatus = request.getParameter("surplus") != null;
         ProductDTO product = new ProductDTO();
         
         product.setId(Integer.parseInt(request.getParameter("id")));
@@ -51,7 +54,7 @@ public class UpdateProductServ extends HttpServlet {
         ProductDAO productDAO = new ProductDAOImpl();
         try {
             productDAO.updateProduct(product);
-            if (product.isSurplus() == true){
+            if (!originalSurplus && newSurplusStatus) {
                 newsletterLogic.addMessage(product.getName(), product.getRetailerID());
             }
         } catch (SQLException ex) {

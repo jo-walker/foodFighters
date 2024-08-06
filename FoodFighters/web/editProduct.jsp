@@ -36,6 +36,7 @@
         <label for="surplus">Is Surplus:</label>
         <input type="checkbox" id="surplus" name="surplus" <%= product.isSurplus() ? "checked" : "" %>><br><br>
         <input type="hidden" id="retailerID" name="retailerID" value="<%= product.getRetailerID() %>">
+        <input type="hidden" name="originalSurplus" value="<%= product.isSurplus() %>"> <!-- Hidden input for original surplus status -->
         <label for="isVeggie">Is Veggie:</label>
         <input type="checkbox" id="isVeggie" name="isVeggie" <%= product.isVeggie() ? "checked" : "" %>><br><br>
         <button type="submit">Update</button>
