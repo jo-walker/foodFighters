@@ -23,7 +23,6 @@ CREATE TABLE Customer (
     isVegetarian BOOLEAN NOT NULL,
     FOREIGN KEY (userID) REFERENCES user(userID),
     PRIMARY KEY (customerID),
-    isVeggie BOOLEAN NOT NULL
 );
 
 -- Table for Charity Organization
