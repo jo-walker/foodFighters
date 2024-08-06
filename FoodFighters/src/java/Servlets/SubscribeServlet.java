@@ -15,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -35,11 +36,15 @@ public class SubscribeServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         
-        int customerID = Integer.parseInt(request.getParameter("customerID"));
+        HttpSession session = request.getSession(false);
+        
+        int customerID = (Integer) session.getAttribute("customerID");
         
         ConsumerDAO consDAO = new ConsumerDAOImpl();
         
         consDAO.subscribeToAlert(customerID);
+        
+        response.sendRedirect("ConsumerDashboard.jsp");
          
     }
 

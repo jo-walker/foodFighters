@@ -123,8 +123,9 @@
                 // ANDREA: ADDED GET SESSION AND RETRIEVING CUSTOMERID
                 session = request.getSession(false);
                 Integer customerID = (Integer) session.getAttribute("customerID");
+                
                 // Retrieve username from session
-                String username = (session != null) ? (String) session.getAttribute("username") : "Guest";
+                String username = (String) session.getAttribute("fistName");
             %>
             Hi <%= username %>
         </div>

@@ -90,7 +90,7 @@ public class ConsumerDAOImpl implements ConsumerDAO {
 
     @Override
     public void subscribeToAlert(int consumerID) throws SQLException {
-        String query = "UPDATE customer SET isSubscribed = 0 WHERE consumerID = ?";
+        String query = "UPDATE user JOIN Customer ON user.userID = Customer.userID SET user.isSubscribed = TRUE WHERE Customer.customerID = ?";
        
         try (Connection connection = DataSource.getConnection()) {
             connection.setAutoCommit(false);
@@ -136,9 +136,11 @@ public class ConsumerDAOImpl implements ConsumerDAO {
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
+                    int id = resultSet.getInt("customerID");
+                    boolean vege = resultSet.getBoolean("isVegetarian");
                     ConsumerDTO cons = new ConsumerDTO();
-                    cons.setId(resultSet.getInt("customerID"));
-                    cons.setDietType(resultSet.getBoolean("isVegetarian"));
+                    cons.setCustomerID(id);
+                    cons.setDietType(vege);
                     
                     subscribedConsumers.add(cons);
 
@@ -152,7 +154,7 @@ public class ConsumerDAOImpl implements ConsumerDAO {
 
     @Override
     public void receiveNotification(int id, NewsletterDTO notification) {
-        String sql = "INSERT INTO CustomerNotification (consumerID, notificationID) VALUES (?, ?)";
+        String sql = "INSERT INTO CustomerNotification (customerID, notificationID) VALUES (?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, id);
             statement.setInt(2, notification.getId());

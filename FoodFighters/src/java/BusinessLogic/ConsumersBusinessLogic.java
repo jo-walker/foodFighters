@@ -45,7 +45,7 @@ public class ConsumersBusinessLogic {
     // Method to subscribe consumer to alerts
     public void subscribeAlert(ConsumerDTO consumer, String alertType) throws SQLException {
             validator.validateConsumer(consumer); 
-            consumerDAOImpl.subscribeToAlert(consumer.getId());
+            consumerDAOImpl.subscribeToAlert(consumer.getCustomerID());
     }
 
     // Method to display all products

@@ -92,14 +92,6 @@ public class ConsumerDTO extends User implements Serializable, Subscriber{
         this.phone = phone;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getUsername() {
         return username;
     }
@@ -145,7 +137,7 @@ public class ConsumerDTO extends User implements Serializable, Subscriber{
         
         ConsumerDAO cons = new ConsumerDAOImpl();
         
-        cons.receiveNotification(this.id, notification);
+        cons.receiveNotification(this.customerID, notification);
     
     }
     

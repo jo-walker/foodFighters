@@ -61,6 +61,7 @@ public class NewsletterDAOImpl implements NewsletterDAO {
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet resultSet = null;
+        ResultSet generatedKeys = null;
         String retailerName = "";
         NewsletterDTO notification = new NewsletterDTO();
 
@@ -77,14 +78,24 @@ public class NewsletterDAOImpl implements NewsletterDAO {
                 retailerName = resultSet.getString("retailerName");
             }
 
-            // Create the message
+            // CREATE MESSAGE
             String message = productName + " from " + retailerName + " is now on discount";
             notification.setNotification(message);
 
-            // Insert into the notifications
-            pstmt = con.prepareStatement("INSERT INTO Notifications (text) VALUES(?)");
+            pstmt = con.prepareStatement("INSERT INTO Notifications (text) VALUES(?)", Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, message);
             pstmt.executeUpdate();
+
+            // RETRIVE THE ID AND INSERT INTO THE NOTIFICATION
+            generatedKeys = pstmt.getGeneratedKeys();
+            int notificationID = 0;
+            if (generatedKeys.next()) {
+                notificationID = generatedKeys.getInt(1);
+            } else {
+                throw new SQLException("Creating notification failed, no ID obtained.");
+            }
+
+            notification.setId(notificationID);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -92,6 +103,7 @@ public class NewsletterDAOImpl implements NewsletterDAO {
         } finally {
             try {
                 if (resultSet != null) resultSet.close();
+                if (generatedKeys != null) generatedKeys.close();
                 if (pstmt != null) pstmt.close();
                 if (con != null) con.close();
             } catch (SQLException e) {

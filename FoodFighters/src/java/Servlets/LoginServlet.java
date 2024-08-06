@@ -66,7 +66,7 @@ public class LoginServlet extends HttpServlet {
 
                    // Prepare SQL query to get additional customer information (if needed)
                    // Example: Fetching customer details (adjust the query as necessary)
-                   String sql2 = "SELECT customerID, firstName, lastName FROM Customer WHERE userID = ?";
+                   String sql2 = "SELECT customerID, firstName, lastName, isVegetarian FROM Customer WHERE userID = ?";
                    ps = con.prepareStatement(sql2);
                    ps.setInt(1, userID);
                    rs = ps.executeQuery();
@@ -75,7 +75,8 @@ public class LoginServlet extends HttpServlet {
                        int customerID = rs.getInt("customerID");
                        String firstName = rs.getString("firstName");
                        String lastName = rs.getString("lastName");
-
+                       int isVeg = rs.getInt("isVegetarian");
+                       
                        // Create a session and set the customer-related attributes
                        HttpSession session = request.getSession();
                        session.setAttribute("userID", userID);
@@ -109,7 +110,7 @@ public class LoginServlet extends HttpServlet {
                         HttpSession session = request.getSession();
                         session.setAttribute("retailerID", retailerID);
                         response.sendRedirect("RetailerDashboardServlet");
-                        return; // Ensure no further code is executed
+                        return;
                     } else {
                         response.sendRedirect("login.jsp?error=Retailer not found");
                         return;
