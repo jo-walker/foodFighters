@@ -1,11 +1,7 @@
-
-# Ignore the entire nbproject directory within FoodFighters
 /FoodFighters/nbproject/
-
-# Ignore all .log files
 *.log
 /FoodFighters/build/
 /FoodFighters/dist/
 .DS_Store
 Thumbs.db
-/FoodFighters/src/java/Utilities/DataSource.java 
+/FoodFighters/src/java/Utilities/DataSource.java
