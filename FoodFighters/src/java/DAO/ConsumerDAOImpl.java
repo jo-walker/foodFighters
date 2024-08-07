@@ -103,6 +103,23 @@ public class ConsumerDAOImpl implements ConsumerDAO {
             connection.commit();
         }
     }
+    
+    @Override
+    public void unsubscribeToAlert(int consumerID) throws SQLException {
+        String query = "UPDATE user JOIN Customer ON user.userID = Customer.userID SET user.isSubscribed = FALSE WHERE Customer.customerID = ?";
+       
+        try (Connection connection = DataSource.getConnection()) {
+            connection.setAutoCommit(false);
+            try (PreparedStatement productStmt = connection.prepareStatement(query)) {
+                productStmt.setInt(1, consumerID);
+
+                productStmt.executeUpdate();
+
+            }
+            connection.commit();
+        }
+    
+    }
 
     @Override
     public void purchaseItem(ConsumerDTO consumer, ProductDTO product) throws SQLException {
@@ -170,6 +187,6 @@ public class ConsumerDAOImpl implements ConsumerDAO {
                 Logger.getLogger(ConsumerDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
     }
-    
-    
+
+      
 }

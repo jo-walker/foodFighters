@@ -17,8 +17,28 @@ import java.util.List;
 public interface ConsumerDAO {
     void addConsumer(ConsumerDTO consumer) throws SQLException;
     void purchaseItem(ConsumerDTO consumer, ProductDTO product) throws SQLException;
+    
+    /**
+     * Subscribes an user to the newsletter
+     * @param consumerID
+     * @throws SQLException 
+     * @author Andrea Visani 041104651 visa0004@algonquinlive.com
+     */
     void subscribeToAlert(int consumerID) throws SQLException;
+    /**
+     * Unsubscribes an user to the newsletter
+     * @param consumerID
+     * @throws SQLException 
+     * @author Andrea Visani 041104651 visa0004@algonquinlive.com
+     */
+    void unsubscribeToAlert(int consumerID) throws SQLException;
 
+    /**
+     * return all the subscribed consumers
+     * @return All the subscribed consumers
+     * @throws SQLException 
+     * @author Andrea Visani 041104651 visa0004@algonquinlive.com
+     */
     public List<Subscriber> getAllSubscribedConsumers() throws SQLException;
 
     public void receiveNotification(int id, NewsletterDTO notification);
