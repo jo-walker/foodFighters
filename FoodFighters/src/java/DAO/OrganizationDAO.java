@@ -5,15 +5,13 @@
 package DAO;
 
 import DTO.OrganizationDTO;
+import DTO.ProductDTO;
 import java.sql.SQLException;
 import java.util.List;
 
-/**
- *
- * @author Andrea Visani 041104651 visa0004@algonquinlive.com
- */
 public interface OrganizationDAO {
-//    public List<SurplusProductDTO> getSurplusProducts(int charityOrgID) throws SQLException;
-    void addOrganization(OrganizationDTO charityOrg);
-     void donateProduct(int charityOrgID, String productName, int quantity, java.sql.Date expiryDate) throws SQLException;
+    public int addOrganization(OrganizationDTO organization) throws SQLException;
+    void donateProduct(ProductDTO product, int charityOrgID) throws SQLException;
+    List<ProductDTO> getSurplusProducts() throws SQLException;
 }
+

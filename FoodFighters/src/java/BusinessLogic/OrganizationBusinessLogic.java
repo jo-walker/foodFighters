@@ -1,13 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package BusinessLogic;
 
 import DAO.OrganizationDAO;
 import DAO.OrganizationDAOImpl;
+import DAO.ProductDAO;
+import DAO.ProductDAOImpl;
 import DTO.OrganizationDTO;
+import DTO.ProductDTO;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Business logic for managing charity organizations.
@@ -16,34 +16,41 @@ import java.sql.SQLException;
 public class OrganizationBusinessLogic {
 
     private OrganizationDAO organizationDAO;
+    private ProductDAO productDAO;
 
     public OrganizationBusinessLogic() {
         this.organizationDAO = new OrganizationDAOImpl();
+        this.productDAO = new ProductDAOImpl();
     }
 
     /**
      * Adds an organization to the database.
      * @param organization The organization to be added.
      */
-    public void addOrganization(OrganizationDTO organization) {
-        // Directly delegate to DAO without validation
-        organizationDAO.addOrganization(organization);
+    public int addOrganization(OrganizationDTO organization) throws SQLException {
+           return organizationDAO.addOrganization(organization);
+    }
+    
+    public List<ProductDTO> getProductsByCharityOrgID(int charityID) throws SQLException{
+        return productDAO.getProductsByCharityOrgID(charityID);
     }
 
     /**
      * Handles product donation.
+     * @param product
      * @param charityOrgID The ID of the charity organization.
      * @param productName The name of the product being donated.
      * @param quantity The quantity of the product.
      * @param expiryDate The expiry date of the product.
+     * @param isVeggie Indicates if the product is vegetarian.
      * @throws SQLException If an SQL error occurs.
      */
-    public void donateProduct(int charityOrgID, String productName, int quantity, java.sql.Date expiryDate) throws SQLException {
-        organizationDAO.donateProduct(charityOrgID, productName, quantity, expiryDate);
+    public void donateProduct(ProductDTO product, int charityOrgID) throws SQLException {
+        if (organizationDAO == null) {
+            throw new IllegalStateException("OrganizationDAO is not initialized.");
+        }
+        organizationDAO.donateProduct(product, charityOrgID);
     }
+    
+    
 }
-
-
-
-
-

@@ -318,4 +318,34 @@ public class ProductDAOImpl implements ProductDAO {
 
         return products;
     }
+    
+    @Override
+   public List<ProductDTO> getProductsByCharityOrgID(int charityOrgID) throws SQLException {
+    List<ProductDTO> donations = new ArrayList<>();
+    String sql = "SELECT p.productID, p.productName, p.price, cpd.quantity, cpd.expiryDate, cpd.isSurplus " +
+                 "FROM Product p " +
+                 "JOIN CharityProductDonation cpd ON p.productID = cpd.productID " +
+                 "WHERE cpd.charityOrgID = ?";
+    try (Connection con = DataSource.getConnection();
+         PreparedStatement pstmt = con.prepareStatement(sql)) {
+        pstmt.setInt(1, charityOrgID);
+        try (ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                ProductDTO product = new ProductDTO();
+                product.setId(rs.getInt("productID"));
+                product.setName(rs.getString("productName"));
+                product.setPrice(rs.getDouble("price"));
+                product.setQuantity(rs.getInt("quantity"));
+                product.setExpiryDate(rs.getDate("expiryDate"));
+                product.setVeggie(rs.getBoolean("isSurplus"));
+                donations.add(product);
+            }
+        }
+    }
+    return donations;
+}
+    
+
+
+
 }

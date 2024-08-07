@@ -85,9 +85,12 @@ public class AddUserServlet extends HttpServlet {
                 charity.setRole(role);
                 charity.setName(charityName);
                 
-                charityLogic.addOrganization(charity);
+                
+                int charityOrgID = charityLogic.addOrganization(charity);
                 request.setAttribute("message", "Charity organization added successfully!");
+                request.getSession().setAttribute("charityOrgID", charityOrgID);
                 request.getRequestDispatcher("organizationDashboard.jsp").forward(request, response);
+                
 
             } else {
                 request.setAttribute("error", "Invalid role specified.");

@@ -1,123 +1,51 @@
 package DAO;
 
 import DTO.OrganizationDTO;
+import DTO.ProductDTO;
 import Utilities.DataSource;
-
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrganizationDAOImpl implements OrganizationDAO {
 
     @Override
-    public void addOrganization(OrganizationDTO organization) {
-        Connection con = null;
-        PreparedStatement pstmt = null;
-        int generatedId = -1; // Default value indicating failure
-
-        try {
-            con = DataSource.getConnection();
-             // Start transaction
-
-            // Insert into user table
-            String sqlInsertUser = "INSERT INTO user (username, password, email, userRole) VALUES (?, ?, ?, ?)";
-            pstmt = con.prepareStatement(sqlInsertUser, PreparedStatement.RETURN_GENERATED_KEYS);
-            pstmt.setString(1, organization.getUsername());
-            pstmt.setString(2, organization.getPassword());
-            pstmt.setString(3, organization.getEmail());
-            pstmt.setInt(4, organization.getRole());
-            pstmt.executeUpdate();
-
-            // Retrieve the generated user ID
-            ResultSet rs = pstmt.getGeneratedKeys();
-            if (rs.next()) {
-                generatedId = rs.getInt(1);
-            }
-
-            // Insert into organization table
-            String sqlInsertOrganization = "INSERT INTO organization (userID, organizationName) VALUES (?, ?)";
-            pstmt = con.prepareStatement(sqlInsertOrganization);
-            pstmt.setInt(1, generatedId);
-            pstmt.setString(2, organization.getName());
-            pstmt.executeUpdate();
-
-            con.commit(); // Commit transaction
-        } catch (SQLException e) {
-            e.printStackTrace();
-            if (con != null) {
-                try {
-                    con.rollback(); // Rollback transaction in case of error
-                } catch (SQLException rollbackEx) {
-                    rollbackEx.printStackTrace();
-                }
-            }
-        } finally {
-            try {
-                if (pstmt != null) pstmt.close();
-                if (con != null) con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        
-    }
-
-
-
-//    @Override
-//    public List<SurplusProductDTO> getSurplusProducts(int charityOrgID) throws Object {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-//    }
-
-    @Override
-public void donateProduct(int charityOrgID, String productName, int quantity, java.sql.Date expiryDate) throws SQLException {
+public int addOrganization(OrganizationDTO organization) throws SQLException {
     Connection con = null;
     PreparedStatement pstmt = null;
-    int productID = -1; // Default value indicating failure
+    int generatedId = -1; // Default value indicating failure
 
     try {
         con = DataSource.getConnection();
         con.setAutoCommit(false); // Start transaction
 
-        // Check if the product exists
-        String sqlSelectProduct = "SELECT productID FROM Product WHERE productName = ?";
-        pstmt = con.prepareStatement(sqlSelectProduct);
-        pstmt.setString(1, productName);
-        ResultSet rs = pstmt.executeQuery();
+        // Insert into user table
+        String sqlInsertUser = "INSERT INTO user (username, password, email, userRole) VALUES (?, ?, ?, ?)";
+        pstmt = con.prepareStatement(sqlInsertUser, PreparedStatement.RETURN_GENERATED_KEYS);
+        pstmt.setString(1, organization.getUsername());
+        pstmt.setString(2, organization.getPassword());
+        pstmt.setString(3, organization.getEmail());
+        pstmt.setInt(4, organization.getRole());
+        pstmt.executeUpdate();
 
+        // Retrieve the generated user ID
+        ResultSet rs = pstmt.getGeneratedKeys();
         if (rs.next()) {
-            // Product exists
-            productID = rs.getInt("productID");
-        } else {
-            // Product does not exist, insert it
-            String sqlInsertProduct = "INSERT INTO Product (productName, price) VALUES (?, ?)";
-            pstmt = con.prepareStatement(sqlInsertProduct, PreparedStatement.RETURN_GENERATED_KEYS);
-            pstmt.setString(1, productName);
-            pstmt.setInt(2, 0); // Set default price or modify to get from input
-            pstmt.executeUpdate();
-
-            // Retrieve the generated product ID
-            rs = pstmt.getGeneratedKeys();
-            if (rs.next()) {
-                productID = rs.getInt(1);
-            } else {
-                throw new SQLException("Failed to obtain product ID.");
-            }
+            generatedId = rs.getInt(1);
         }
 
-        // Insert into ProductRetailer table
-        String sqlInsertProductRetailer = "INSERT INTO ProductRetailer (productID, retailerID, productQuantity, expiryDate, isSurplus) VALUES (?, ?, ?, ?, ?)";
-        pstmt = con.prepareStatement(sqlInsertProductRetailer);
-        pstmt.setInt(1, productID);
-        pstmt.setInt(2, charityOrgID); // Assuming retailerID is the same as charityOrgID here
-        pstmt.setInt(3, quantity);
-        pstmt.setDate(4, expiryDate);
-        pstmt.setBoolean(5, true); // Set isSurplus to true for donations
+        // Insert into organization table
+        String sqlInsertOrganization = "INSERT INTO CharityOrg (userID, charityOrgName) VALUES (?, ?)";
+        pstmt = con.prepareStatement(sqlInsertOrganization, PreparedStatement.RETURN_GENERATED_KEYS);
+        pstmt.setInt(1, generatedId);
+        pstmt.setString(2, organization.getName());
         pstmt.executeUpdate();
+
+        // Retrieve the generated organization ID
+        rs = pstmt.getGeneratedKeys();
+        if (rs.next()) {
+            generatedId = rs.getInt(1);
+        }
 
         con.commit(); // Commit transaction
     } catch (SQLException e) {
@@ -130,13 +58,88 @@ public void donateProduct(int charityOrgID, String productName, int quantity, ja
             }
         }
     } finally {
-        try {
-            if (pstmt != null) pstmt.close();
-            if (con != null) con.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        if (pstmt != null) pstmt.close();
+        if (con != null) con.close();
     }
+
+    return generatedId;
 }
 
+@Override
+    public void donateProduct(ProductDTO product, int charityOrgID) throws SQLException {
+    String charityProductDonationQuery = "INSERT INTO CharityProductDonation (charityOrgID, productID, quantity, isSurplus) VALUES (?, ?, ?, ?)";
+
+    try (Connection connection = DataSource.getConnection()) {
+        connection.setAutoCommit(false);
+        
+        // Insert product if it does not exist
+        String productQuery = "INSERT INTO Product (productName, price, isVeggie) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE productName = VALUES(productName), price = VALUES(price), isVeggie = VALUES(isVeggie)";
+        
+        try (PreparedStatement productStmt = connection.prepareStatement(productQuery, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            productStmt.setString(1, product.getName());
+            productStmt.setDouble(2, product.getPrice());
+            productStmt.setBoolean(3, product.isVeggie());
+            productStmt.executeUpdate();
+            
+            try (ResultSet generatedKeys = productStmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    int productId = generatedKeys.getInt(1);
+                    
+                    // Insert into CharityProductDonation table
+                    try (PreparedStatement charityProductDonationStmt = connection.prepareStatement(charityProductDonationQuery)) {
+                        charityProductDonationStmt.setInt(1, charityOrgID);
+                        charityProductDonationStmt.setInt(2, productId);
+                        charityProductDonationStmt.setInt(3, product.getQuantity());
+                        charityProductDonationStmt.setBoolean(4, product.isSurplus());
+                        charityProductDonationStmt.executeUpdate();
+                    }
+                }
+            }
+        }
+        connection.commit();
+    }
+    }
+
+
+    @Override
+    public List<ProductDTO> getSurplusProducts() throws SQLException {
+        Connection con = null;
+        PreparedStatement preparedStatement = null;
+        List<ProductDTO> products = new ArrayList<>();
+
+        String query = "SELECT p.productID, p.productName, p.price, p.isVeggie, pr.retailerID, pr.productQuantity, pr.expiryDate, pr.isSurplus " +
+                       "FROM Product p JOIN ProductRetailer pr ON p.productID = pr.productID " +
+                       "WHERE pr.isSurplus = true";
+
+        try {
+            con = DataSource.getConnection();
+            preparedStatement = con.prepareStatement(query);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    products.add(new ProductDTO(
+                        resultSet.getInt("productID"),
+                        resultSet.getString("productName"),
+                        resultSet.getInt("productQuantity"),
+                        resultSet.getDate("expiryDate"),
+                        resultSet.getBoolean("isSurplus"),
+                        resultSet.getInt("retailerID"),
+                        resultSet.getDouble("price"),
+                        resultSet.getBoolean("isVeggie")
+                    ));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+
+        return products;
+    }
 }

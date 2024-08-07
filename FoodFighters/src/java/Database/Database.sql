@@ -75,6 +75,19 @@ CREATE TABLE CharityRetailer (
     FOREIGN KEY (retailerID) REFERENCES Retailer(retailerID)
 );
 
+CREATE TABLE CharityProductDonation (
+    donationID INT AUTO_INCREMENT NOT NULL,
+    charityOrgID INT NOT NULL,
+    productID INT NOT NULL,
+    quantity INT NOT NULL,
+    isSurplus BOOLEAN NOT NULL,
+    expiryDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (donationID),
+    FOREIGN KEY (charityOrgID) REFERENCES CharityOrg(charityOrgID),
+    FOREIGN KEY (productID) REFERENCES Product(productID)
+);
+
+
 -- Sample SELECT statements to view the tables
 SELECT * FROM CharityOrg;
 SELECT * FROM Customer;
@@ -82,6 +95,8 @@ SELECT * FROM Product;
 SELECT * FROM ProductRetailer;
 SELECT * FROM Retailer;
 SELECT * FROM user;
+SELECT * FROM CharityProductDonation;
+
 
 
 
