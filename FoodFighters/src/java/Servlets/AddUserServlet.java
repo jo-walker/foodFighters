@@ -6,6 +6,7 @@ import BusinessLogic.OrganizationBusinessLogic;
 import DTO.ConsumerDTO;
 import DTO.RetailerDTO;
 import DTO.OrganizationDTO;
+import Utilities.Exception.ValidationException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -117,11 +118,15 @@ public class AddUserServlet extends HttpServlet {
 
         } catch (SQLException ex) {
             Logger.getLogger(AddUserServlet.class.getName()).log(Level.SEVERE, null, ex);
-            request.setAttribute("error", "SQL error occurred.");
+            request.setAttribute("error", "SQL error occurred: " + ex.getMessage());
+            request.getRequestDispatcher("errorPage.jsp").forward(request, response);
+        } catch (ValidationException ex) {
+            Logger.getLogger(AddUserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", "Validation error occurred: " + ex.getMessage());
             request.getRequestDispatcher("errorPage.jsp").forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(AddUserServlet.class.getName()).log(Level.SEVERE, null, ex);
-            request.setAttribute("error", "An Mula k bhayo yeta.");
+            request.setAttribute("error", "An error occurred: " + ex.getMessage());
             request.getRequestDispatcher("errorPage.jsp").forward(request, response);
         }
     }
