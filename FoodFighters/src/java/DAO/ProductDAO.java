@@ -50,4 +50,7 @@ public interface ProductDAO {
      * @author Andrea Visani 041104651 visa0004@algonquinlive.com
      */
     List<ProductDTO> getProductsByRetailerIDSortedByExpiryDate(int retailerID) throws SQLException;
+    List<ProductDTO> getProductsByVegStatus(int isVeg) throws SQLException;
+    public List<ProductDTO> getSurplusProducts() throws SQLException; 
+    public void updateProductQuantity(int productId, int quantity, int retailerID) throws SQLException; 
 }

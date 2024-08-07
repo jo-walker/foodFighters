@@ -75,14 +75,17 @@ public class LoginServlet extends HttpServlet {
                        int customerID = rs.getInt("customerID");
                        String firstName = rs.getString("firstName");
                        String lastName = rs.getString("lastName");
+
                        int isVeg = rs.getInt("isVegetarian");
-                       
+
                        // Create a session and set the customer-related attributes
                        HttpSession session = request.getSession();
                        session.setAttribute("userID", userID);
                        session.setAttribute("customerID", customerID);
                        session.setAttribute("firstName", firstName);
                        session.setAttribute("lastName", lastName);
+                       session.setAttribute("lastName", lastName);
+                       session.setAttribute("isVeg", isVeg);
 
                        // Redirect to customer dashboard
                        response.sendRedirect("ConsumerDashboard.jsp");
