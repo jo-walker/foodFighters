@@ -53,6 +53,12 @@ public class ConsumersBusinessLogic {
         return productDAO.getAllProducts();
     }
     
+    /**
+     * uses the consumerDAO to retrieve a list of Subscriber
+     * @return a list of Subscriber
+     * @throws SQLException 
+     * @author Andrea Visani 041104651 visa0004@algonquinlive.com
+     */
     public List<Subscriber> getAllSubscribedConsumers() throws SQLException{
         return consumerDAOImpl.getAllSubscribedConsumers();
     }

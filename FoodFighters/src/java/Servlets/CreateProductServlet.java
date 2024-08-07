@@ -17,10 +17,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
+/**
+ * Servlet that handles the product creation
+ * @author Andrea Visani 041104651 visa0004@algonquinlive.com
+ */
 @WebServlet("/CreateProductServlet")
 public class CreateProductServlet extends HttpServlet {
     
+    /** the newsletter logic */
     private NewsletterLogic newsletterLogic = new NewsletterLogic();
 
     @Override
