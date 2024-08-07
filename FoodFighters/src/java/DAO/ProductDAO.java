@@ -21,34 +21,8 @@ public interface ProductDAO {
     List<ProductDTO> getAllProducts() throws SQLException;
     void updateProduct(ProductDTO product) throws SQLException;
     void deleteProduct(int productID) throws SQLException;
-    
-    /**
-     * retrieves a list of productsDTO based on a retailerID
-     * @param retailerID the retailer ID
-     * @return  a list of productsDTO belonging to a specific retailer
-     * @throws SQLException 
-     * @author Andrea Visani 041104651 visa0004@algonquinlive.com
-     */
     List<ProductDTO> getProductsByRetailerID(int retailerID) throws SQLException;
-    
-    /**
-     * retrieves a list of productsDTO based on a retailerID, sorted by price.
-     * Uses a static boolean to keep track of the sorting logic (ASC or DESC)
-     * @param retailerID
-     * @return a list of productsDTO based on a retailerID, sorted by price
-     * @throws SQLException 
-     * @author Andrea Visani 041104651 visa0004@algonquinlive.com
-     */
     List<ProductDTO> getProductsByRetailerIDSortedByPrice(int retailerID) throws SQLException;
-    
-    /**
-     * retrieves a list of productsDTO based on a retailerID, sorted by ExpiryDate. 
-     * Uses a static boolean to keep track of the sorting logic (ASC or DESC)
-     * @param retailerID
-     * @return a list of productsDTO based on a retailerID, sorted by ExpiryDate
-     * @throws SQLException
-     * @author Andrea Visani 041104651 visa0004@algonquinlive.com
-     */
     List<ProductDTO> getProductsByRetailerIDSortedByExpiryDate(int retailerID) throws SQLException;
     List<ProductDTO> getProductsByVegStatus(int isVeg) throws SQLException;
     public List<ProductDTO> getSurplusProducts() throws SQLException; 

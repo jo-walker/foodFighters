@@ -75,8 +75,7 @@ public class LoginServlet extends HttpServlet {
                        int customerID = rs.getInt("customerID");
                        String firstName = rs.getString("firstName");
                        String lastName = rs.getString("lastName");
-
-                       int isVeg = rs.getInt("isVegetarian");
+                       int isVeg = rs.getInt("isVegetarian"); 
 
                        // Create a session and set the customer-related attributes
                        HttpSession session = request.getSession();
@@ -94,9 +93,8 @@ public class LoginServlet extends HttpServlet {
                        response.sendRedirect("login.jsp?error=Customer details not found");
                        return;
                    }//
-                } 
-                
-                else if (userRole == 2) {
+
+                } else if (userRole == 2) {
                     // Close previous PreparedStatement and ResultSet
                     rs.close();
                     ps.close();
@@ -113,24 +111,19 @@ public class LoginServlet extends HttpServlet {
                         HttpSession session = request.getSession();
                         session.setAttribute("retailerID", retailerID);
                         response.sendRedirect("RetailerDashboardServlet");
-                        return;
+                        return; // Ensure no further code is executed
                     } else {
                         response.sendRedirect("login.jsp?error=Retailer not found");
                         return;
                     }
 
-                } 
-                
-                else if (userRole == 3) {
+                } else if (userRole == 3) {
                     // For charity role, redirect to charity dashboard
 
-                } 
-                
-                else {
+                } else {
                     response.sendRedirect("login.jsp?error=Unknown user role");
                     return;
                 }
-                
             } else {
                 // User not found or wrong credentials
                 response.sendRedirect("login.jsp?error=Invalid username or password");

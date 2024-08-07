@@ -4,10 +4,8 @@
  */
 package Servlets;
 
-import BusinessLogic.NewsletterLogic;
 import DAO.ProductDAO;
 import DAO.ProductDAOImpl;
-import DTO.NewsletterDTO;
 import DTO.ProductDTO;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -23,8 +21,6 @@ import javax.servlet.http.HttpServletResponse;
  * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
 public class UpdateProductServ extends HttpServlet {
-    
-    private NewsletterLogic newsletterLogic = new NewsletterLogic();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,9 +34,6 @@ public class UpdateProductServ extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-        boolean originalSurplus = Boolean.parseBoolean(request.getParameter("originalSurplus"));
-        boolean newSurplusStatus = request.getParameter("surplus") != null;
         ProductDTO product = new ProductDTO();
         
         product.setId(Integer.parseInt(request.getParameter("id")));
@@ -55,10 +48,6 @@ public class UpdateProductServ extends HttpServlet {
         ProductDAO productDAO = new ProductDAOImpl();
         try {
             productDAO.updateProduct(product);
-            if (!originalSurplus && newSurplusStatus) {
-                NewsletterDTO notification = newsletterLogic.addMessage(product.getName(), product.getRetailerID());
-                newsletterLogic.notifyObservers(notification);
-            }
         } catch (SQLException ex) {
             Logger.getLogger(UpdateProductServ.class.getName()).log(Level.SEVERE, null, ex);
         }

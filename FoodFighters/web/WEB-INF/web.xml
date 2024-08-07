@@ -13,11 +13,6 @@
         <servlet-class>Servlets.RetailerDashboardSerlvet</servlet-class>
     </servlet>
     <servlet>
-
-        <servlet-name>AddToBasketServlet</servlet-name>
-        <servlet-class>Servlets.AddToBasketServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>ViewBasketServlet</servlet-name>
         <servlet-class>Servlets.ViewBasketServlet</servlet-class>
     </servlet>
@@ -29,14 +24,13 @@
         <servlet-name>checkoutServlet</servlet-name>
         <servlet-class>Servlets.checkoutServlet</servlet-class>
     </servlet>
-
     <servlet>
-        <servlet-name>SubscribeServlet</servlet-name>
-        <servlet-class>Servlets.SubscribeUserServlet</servlet-class>
+        <servlet-name>AddToBasket</servlet-name>
+        <servlet-class>Servlets.AddToBasket</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>DeleteMessageServlet</servlet-name>
-        <servlet-class>Servlets.DeleteMessageServlet</servlet-class>
+        <servlet-name>CheckOutServlet</servlet-name>
+        <servlet-class>Servlets.CheckOutServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>CreateProductServlet</servlet-name>
@@ -91,30 +85,24 @@
         <url-pattern>/RetailerDashboardSerlvet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-
-        <servlet-name>AddToBasketServlet</servlet-name>
-        <url-pattern>/AddToBasketServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>ViewBasketServlet</servlet-name>
         <url-pattern>/ViewBasketServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>checkoutServlet</servlet-name>
+        <url-pattern>/checkoutServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>CheckoutServlet</servlet-name>
         <url-pattern>/CheckoutServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>checkoutServlet</servlet-name>
-        <url-pattern>/checkoutServlet</url-pattern>
-      </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>SubscribeServlet</servlet-name>
-        <url-pattern>/SubscribeServlet</url-pattern>
+        <servlet-name>AddToBasket</servlet-name>
+        <url-pattern>/AddToBasket</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>DeleteMessageServlet</servlet-name>
-        <url-pattern>/DeleteMessageServlet</url-pattern>
+        <servlet-name>CheckOutServlet</servlet-name>
+        <url-pattern>/CheckOutServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

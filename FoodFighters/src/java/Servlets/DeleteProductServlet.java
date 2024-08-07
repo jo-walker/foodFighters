@@ -33,7 +33,6 @@ public class DeleteProductServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
         int productId = Integer.parseInt(request.getParameter("id"));
 
         ProductDAO productDAO = new ProductDAOImpl();

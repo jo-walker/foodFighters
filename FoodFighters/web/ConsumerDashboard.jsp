@@ -1,5 +1,3 @@
-<%@page import="DTO.NewsletterDTO"%>
-<%@page import="BusinessLogic.NewsletterLogic"%>
 <%@ page import="DAO.ProductDAOImpl"%>
 <%@ page import="DAO.ProductDAO"%>
 <%@ page import="BusinessLogic.ConsumersBusinessLogic"%>
@@ -15,40 +13,32 @@
     <link rel="stylesheet" type="text/css" href="./Css/consumer.css">
      
     <script>
-        function openModal(productId, productName) {
-            document.getElementById('modalProductId').value = productId;
-            document.getElementById('modalProductName').value = productName;
-            document.getElementById('myModal').style.display = 'block';
+    function openModal(productId, productName, retailerID) {
+        // Set the values in the modal form
+        document.getElementById('modalProductId').value = productId;
+        document.getElementById('modalProductName').value = productName;
+        document.getElementById('modalRetailerID').value = retailerID;
+
+        // Display the modal
+        document.getElementById('myModal').style.display = 'block';
+    }
+
+    function closeModal() {
+        document.getElementById('myModal').style.display = 'none';
+    }
+
+    function changeQuantity(amount) {
+        var quantityInput = document.getElementById('quantityInput');
+        var currentQuantity = parseInt(quantityInput.value) || 0;
+        var newQuantity = currentQuantity + amount;
+
+        // Ensure quantity is not less than 1
+        if (newQuantity < 1) {
+            newQuantity = 1;
         }
 
-        function confirmDeletion(newsletterID) {
-            var confirmation = confirm("Are you sure you want to delete this message?");
-            if (confirmation) {
-                window.location.href = 'DeleteMessageServlet?id=' + newsletterID;
-            }
-        }
-    </script>
-
-        
-
-        function closeModal() {
-            document.getElementById('myModal').style.display = 'none';
-        }
-
-        function changeQuantity(change) {
-            var quantityInput = document.getElementById('quantityInput');
-            var currentQuantity = parseInt(quantityInput.value, 10);
-            var newQuantity = currentQuantity + change;
-            if (newQuantity > 0) {
-                quantityInput.value = newQuantity;
-            }
-        }
-
-        window.onclick = function(event) {
-            if (event.target == document.getElementById('myModal')) {
-                closeModal();
-            }
-        }
+        quantityInput.value = newQuantity;
+    }
     </script>
     
             <script>
@@ -99,24 +89,12 @@
     <div class="header">
         <div class="greeting">
             <%
-                // ANDREA: ADDED GET SESSION AND RETRIEVING CUSTOMERID
-                session = request.getSession(false);
-                Integer customerID = (Integer) session.getAttribute("customerID");
-                
                 // Retrieve username from session
-
                 String username = (String) session.getAttribute("firstName");
-
             %>
             Hi <%= username %>
         </div>
         <a href="LogoutServlet" class="logout-button">Logout</a>
-        
-        <!-- SUBSCRIBE TO NEWSLETTER -->
-        <form action="SubscribeServlet" method="post">
-            <input type="hidden" name="consumerID" value="<%= customerID %>">
-            <button type="submit" class="subscribe-button">Subscribe</button>
-        </form>
     </div>
 
     <h1>Consumer Dashboard</h1>
@@ -154,12 +132,11 @@
         %>
         <div class="card">
             <img src="<%= imageUrl %>" alt="<%= imageUrl %>">
-<!--             //<img src="../assets/images/chicken.png" alt="alt">-->
             <div class="card-content">
                 <h2><%= product.getName() %></h2>
                 <p>Price: $<%= product.getPrice() %></p>
                 <p>Expiry Date: <%= product.getExpiryDate() %></p>
-                <button onclick="openModal('<%= product.getId() %>', '<%= product.getName() %>')">Add to basket</button>
+                <button onclick="openModal('<%= product.getId() %>', '<%= product.getName() %>','<%= product.getRetailerID() %>')">Add to basket</button>
             </div>
         </div>
         <%
@@ -171,11 +148,11 @@
             }
         %>
     </div>
+    
+    
     <h2> Products for you: </h2>
     <div class="container">
         <%
-            
-           
             // Get the list of all products
             Integer isVeg = (Integer) session.getAttribute("isVeg");
                     
@@ -186,85 +163,44 @@
                     // Generate the image file name based on product name
                     String imageName = allproduct.getName().toLowerCase().replaceAll("\\s+", "") + ".png";
                     String imageUrl = "../assets/images/" + imageName;
-        %>
-        <div class="card">
-        <img src="<%= imageUrl %>" alt="<%= imageUrl %>">
-        <div class="card-content">
-            <h2><%= allproduct.getName() %></h2>
-            <p>Price: $<%= allproduct.getPrice() %></p>
-            <p>Expiry Date: <%= allproduct.getExpiryDate() %></p>
-            <button onclick="openModal('<%= allproduct.getId() %>', '<%= allproduct.getName() %>')">Add to basket</button>
-        </div>
-    </div>
-
-    <!-- The Modal -->
-    <div id="myModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <h2>Add Product to Basket</h2>
-        
-                <form id="basketForm" action="addToBasketServlet" method="post">
-                <input type="hidden" name="productId" id="modalProductId">
-                <input type="hidden" name="productName" id="modalProductName">
-                <input type="hidden" name="retailerID" id="modalRetailerID"> <!-- Include retailerID -->
-                <div class="quantity-controls">
-                <button type="button" onclick="changeQuantity(-1)">-</button>
-                <input type="text" id="quantityInput" name="quantity" value="1" readonly>
-                <button type="button" onclick="changeQuantity(1)">+</button>
-                </div>
-                <button type="submit">Add to basket</button>
-                </form>
-
-        
-    </div>
-    </div>
-        <%
+                    %>
+                   <div class="card">
+                    <img src="<%= imageUrl %>" alt="<%= imageUrl %>">
+                    <div class="card-content">
+                    <h2><%= allproduct.getName() %></h2>
+                    <p>Price: $<%= allproduct.getPrice() %></p>
+                    <p>Expiry Date: <%= allproduct.getExpiryDate() %></p>
+                    <button onclick="openModal('<%= allproduct.getId() %>', '<%= allproduct.getName() %>', '<%= allproduct.getRetailerID() %>')">Add to basket</button>
+                    </div>
+                    </div>
+                    <%
+                            }
+                        } else {
+                    %>
+                    <p style="text-align: center; width: 100%; font-size: 18px; color: #666;">No products available.</p>
+                    <%
                 }
-            } else {
-        %>
-        <p style="text-align: center; width: 100%; font-size: 18px; color: #666;">No products available.</p>
-        <%
-            }
         %>
     </div>
     
-    <div class="container">
-        <table>
-            <thead>
-                <tr>
-                    <!-- <th>ID</th> ANDREA: THIS IS NOT NEEDED, ADDED FOR DEBUGGING -->
-                    <th>Message</th>
-                    <th>Delete</th>
-                </tr>
-            </thead>
-            <tbody>
-                <%
-                    NewsletterLogic newsletterLogic = new NewsletterLogic();
-                    List<NewsletterDTO> messages = newsletterLogic.getMessagesByUserIDSortedDESC(customerID);
-                    if (messages == null || messages.isEmpty()) {
-                        out.println("<tr><td colspan='3'>No notification to display.</td></tr>");
-                    } else {
-                        for (NewsletterDTO message : messages) {
-                %>
-                <tr>
-                    <!-- <td><%= message.getId() %></td> ANDREA: THIS IS NOT NEEDED, ADDED FOR DEBUGGING -->
-                    <td><%= message.getNotification() %></td>
+     <!-- The Modal -->
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2>Add Product to Basket</h2>
+                <form id="basketForm" action="AddToBasket" method="post">
+                    <input type="hidden" name="productId" id="modalProductId">
+                    <input type="hidden" name="productName" id="modalProductName">
+                    <input type="hidden" name="retailerID" id="modalRetailerID"> <!-- Ensure retailerID field is present -->
+                    <div class="quantity-controls">
+                        <button type="button" onclick="changeQuantity(-1)">-</button>
+                        <input type="text" id="quantityInput" name="quantity" value="1" readonly>
+                        <button type="button" onclick="changeQuantity(1)">+</button>
+                    </div>
+                    <button type="submit">Add to basket</button>
+                </form>
+            </div>
+        </div>
 
-                    <td>
-                        <button onclick="confirmDeletion(<%= message.getId() %>)">Delete</button>
-                    </td>
-                </tr>
-                <%
-                        }
-                    }
-                %>
-            </tbody>
-        </table>
-    </div>
 </body>
 </html>
-
-
-
-
-        

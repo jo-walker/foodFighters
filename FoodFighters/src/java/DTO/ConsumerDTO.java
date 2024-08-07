@@ -5,16 +5,13 @@
 package DTO;
 
 // import Utilities.NewsletterAlert;
-import DAO.ConsumerDAO;
-import DAO.ConsumerDAOImpl;
-import Newsletter.Subscriber;
 import java.io.Serializable;
 
 /**
  *
  * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
-public class ConsumerDTO extends User implements Serializable, Subscriber{
+public class ConsumerDTO extends User implements Serializable{
     private int customerID; //jo added
     private int userID; //jo added
     private String firstName;
@@ -23,13 +20,10 @@ public class ConsumerDTO extends User implements Serializable, Subscriber{
     private String phone; //note: its called mobile in db schema
     private boolean isVeg; //jo added
 
-    public boolean isIsSubscribed() {
-        return isSubscribed;
-    }
-
-    public void setIsSubscribed(boolean isSubscribed) {
-        this.isSubscribed = isSubscribed;
-    }
+    // observer pattern
+//    public void subscribeAlert() {
+//        NewsletterAlert.addConsumer(this);
+//    }
 
     public int getCustomerID() {
         return customerID;
@@ -92,6 +86,14 @@ public class ConsumerDTO extends User implements Serializable, Subscriber{
         this.phone = phone;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -130,15 +132,8 @@ public class ConsumerDTO extends User implements Serializable, Subscriber{
     
     public void setDietType(boolean isVeg) {
         this.isVeg = isVeg; 
-    }   
-
-    @Override
-    public void update(NewsletterDTO notification) {
-        
-        ConsumerDAO cons = new ConsumerDAOImpl();
-        
-        cons.receiveNotification(this.customerID, notification);
-    
     }
+    
+    
     
 }

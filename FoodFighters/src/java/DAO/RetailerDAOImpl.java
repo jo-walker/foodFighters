@@ -8,10 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
 
-/**
- * Implements retailerDAO and is responsible for database interactions regarding Retailers
- * @author Andrea Visani 041104651 visa0004@algonquinlive.com
- */
 public class RetailerDAOImpl implements RetailerDAO {
 
     @Override

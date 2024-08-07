@@ -16,10 +16,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Holds the logic for adding a customer
- * @author Andrea Visani 041104651 visa0004@algonquinlive.com
- */
 @WebServlet(name = "AddUserServlet", urlPatterns = {"/AddUserServlet"})
 public class AddUserServlet extends HttpServlet {
 
@@ -39,13 +35,6 @@ public class AddUserServlet extends HttpServlet {
         }
     }
 
-    /**
-     * Processes the request and based on role type redirects to the proper dashboard
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException 
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
@@ -76,10 +65,7 @@ public class AddUserServlet extends HttpServlet {
             request.getSession().setAttribute("firstName", consumer.getFirstName());
             request.getRequestDispatcher("ConsumerDashboard.jsp").forward(request, response);
 
-            } 
-            
-            else if (role == 2) {  
-                //RETAILER
+            } else if (role == 2) {  // Retailer
                 String retailerName = request.getParameter("retailerName");
 
                 RetailerDTO retailer = new RetailerDTO();
@@ -94,9 +80,7 @@ public class AddUserServlet extends HttpServlet {
                 request.getSession().setAttribute("retailerID", retailerId);
                 request.getRequestDispatcher("retailerDashboard.jsp").forward(request, response);
 
-            } 
-            
-            else if (role == 3) {  // Charity Organization
+            } else if (role == 3) {  // Charity Organization
                 String charityName = request.getParameter("charityName");
 
                 OrganizationDTO charity = new OrganizationDTO();
