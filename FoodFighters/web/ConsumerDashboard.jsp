@@ -1,3 +1,5 @@
+<%@page import="DTO.NewsletterDTO"%>
+<%@page import="BusinessLogic.NewsletterLogic"%>
 <%@ page import="DAO.ProductDAOImpl"%>
 <%@ page import="DAO.ProductDAO"%>
 <%@ page import="BusinessLogic.ConsumersBusinessLogic"%>
@@ -10,159 +12,156 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consumer Dashboard</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
+    <link rel="stylesheet" type="text/css" href="./Css/consumer.css">
+
+    <script>
+        function openModal(productId, productName, retailerID) {
+            document.getElementById('modalProductId').value = productId;
+            document.getElementById('modalProductName').value = productName;
+            document.getElementById('modalRetailerID').value = retailerID;
+            document.getElementById('myModal').style.display = 'block';
         }
 
-        h1 {
-            background-color: #4CAF50;
-            color: white;
-            padding: 20px;
-            text-align: center;
-            margin: 0;
+        function confirmDeletion(newsletterID) {
+            var confirmation = confirm("Are you sure you want to delete this message?");
+            if (confirmation) {
+                window.location.href = 'DeleteMessageServlet?id=' + newsletterID;
+            }
         }
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
+        function closeModal() {
+            document.getElementById('myModal').style.display = 'none';
         }
 
-        .greeting {
-            font-size: 18px;
+        function changeQuantity(amount) {
+            var quantityInput = document.getElementById('quantityInput');
+            var currentQuantity = parseInt(quantityInput.value, 10) || 0;
+            var newQuantity = currentQuantity + amount;
+
+            if (newQuantity < 1) {
+                newQuantity = 1;
+            }
+
+            quantityInput.value = newQuantity;
         }
 
-        .logout-button {
-            padding: 10px 20px;
-            background-color: #f44336;
-            border: none;
-            border-radius: 5px;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            text-decoration: none;
+        function showBasket() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'ViewBasketServlet', true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    var basket = JSON.parse(xhr.responseText);
+                    var basketItems = document.getElementById('basketItems');
+                    basketItems.innerHTML = '';
+
+                    if (Object.keys(basket).length > 0) {
+                        for (var key in basket) {
+                            var item = basket[key];
+                            basketItems.innerHTML += '<p>Product Name: ' + item.productName + ', Quantity: ' + item.quantity + '</p>';
+                        }
+                    } else {
+                        basketItems.innerHTML = '<p>Your basket is empty.</p>';
+                    }
+                    document.getElementById('basketModal').style.display = 'block';
+                }
+            };
+            xhr.send();
         }
 
-        .logout-button:hover {
-            background-color: #e53935;
+        function closeBasketModal() {
+            document.getElementById('basketModal').style.display = 'none';
         }
 
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            padding: 20px;
+        function checkoutBasket() {
+            window.location.href = 'CheckoutServlet';
         }
 
-        .card {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            margin: 15px;
-            background-color: #fff;
-            overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('myModal')) {
+                closeModal();
+            } else if (event.target == document.getElementById('basketModal')) {
+                closeBasketModal();
+            }
         }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .card-content {
-            padding: 15px;
-            text-align: center;
-        }
-
-        .card-content h2 {
-            font-size: 1.5em;
-            margin: 0 0 10px;
-            color: #333;
-        }
-
-        .card-content p {
-            margin: 5px 0;
-            color: #555;
-        }
-
-        .card-content .add-to-cart {
-            margin-top: 15px;
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            border: none;
-            border-radius: 5px;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .card-content .add-to-cart:hover {
-            background-color: #45a049;
-        }
-    </style>
+    </script>
 </head>
 <body>
     <div class="header">
         <div class="greeting">
             <%
-                // ANDREA: ADDED GET SESSION AND RETRIEVING CUSTOMERID
                 session = request.getSession(false);
                 Integer customerID = (Integer) session.getAttribute("customerID");
-                // Retrieve username from session
-                String username = (session != null) ? (String) session.getAttribute("username") : "Guest";
+                String username = (String) session.getAttribute("firstName");
             %>
             Hi <%= username %>
         </div>
         <a href="LogoutServlet" class="logout-button">Logout</a>
-        
-        <!-- SUBSCRIBE TO NEWSLETTER -->
-        <form action="SubscribeServlet" method="post">
-            <input type="hidden" name="consumerID" value="<%= customerID %>">
-            <button type="submit" class="subscribe-button">Subscribe</button>
-        </form>
     </div>
 
     <h1>Consumer Dashboard</h1>
+    
+    <form action="ViewBasketServlet" method="get" onsubmit="showBasket(); return false;">
+        <button type="submit">View Basket</button>
+    </form>
 
-    <div class="container">
+    <div id="basketModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeBasketModal()">&times;</span>
+            <h2>Basket Contents</h2>
+            <div id="basketItems"></div>
+            <button id="checkoutButton" onclick="checkoutBasket()">Checkout</button>
+        </div>
+    </div>
+
+    <h2> Surplus Items: </h2>
+    <div class="surplus-container">
         <%
-            // Instantiate the business logic class
             ConsumersBusinessLogic consumerLogic = new ConsumersBusinessLogic();
             ProductDAO producty = new ProductDAOImpl(); 
-            // Get the list of all products
-            List<ProductDTO> products = producty.getAllProducts();
-            
+            List<ProductDTO> products = producty.getSurplusProducts();
+
             if (products != null && !products.isEmpty()) {
                 for (ProductDTO product : products) {
-                    // Generate the image file name based on product name
                     String imageName = product.getName().toLowerCase().replaceAll("\\s+", "") + ".png";
-                    String imageUrl = "/images/" + imageName;
+                    String imageUrl = "../assets/images/" + imageName;
         %>
         <div class="card">
-            <img src="<%= imageUrl %>" alt="<%= product.getName() %>">
+            <img src="<%= imageUrl %>" alt="<%= imageUrl %>">
             <div class="card-content">
                 <h2><%= product.getName() %></h2>
                 <p>Price: $<%= product.getPrice() %></p>
                 <p>Expiry Date: <%= product.getExpiryDate() %></p>
-                <form action="AddToCartServlet" method="post">
-                    <input type="hidden" name="productId" value="<%= product.getId() %>">
-                    <button type="submit" class="add-to-cart">Add to Cart</button>
-                </form>
+                <button onclick="openModal('<%= product.getId() %>', '<%= product.getName() %>', '<%= product.getRetailerID() %>')">Add to basket</button>
+            </div>
+        </div>
+        <%
+                }
+            } else {
+        %>
+        <p style="text-align: center; width: 100%; font-size: 18px; color: #666;">No surplus products available.</p>
+        <%
+            }
+        %>
+    </div>
+    
+    <h2> Products for you: </h2>
+    <div class="container">
+        <%
+            Integer isVeg = (Integer) session.getAttribute("isVeg");
+            List<ProductDTO> allproducts = producty.getProductsByVegStatus(isVeg); 
+
+            if (allproducts != null && !allproducts.isEmpty()) {
+                for (ProductDTO allproduct : allproducts) {
+                    String imageName = allproduct.getName().toLowerCase().replaceAll("\\s+", "") + ".png";
+                    String imageUrl = "../assets/images/" + imageName;
+        %>
+        <div class="card">
+            <img src="<%= imageUrl %>" alt="<%= imageUrl %>">
+            <div class="card-content">
+                <h2><%= allproduct.getName() %></h2>
+                <p>Price: $<%= allproduct.getPrice() %></p>
+                <p>Expiry Date: <%= allproduct.getExpiryDate() %></p>
+                <button onclick="openModal('<%= allproduct.getId() %>', '<%= allproduct.getName() %>', '<%= allproduct.getRetailerID() %>')">Add to basket</button>
             </div>
         </div>
         <%
@@ -174,5 +173,141 @@
             }
         %>
     </div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Add Product to Basket</h2>
+            <form id="basketForm" action="AddToBasketServlet" method="post">
+                <input type="hidden" name="productId" id="modalProductId">
+                <input type="hidden" name="productName" id="modalProductName">
+                <input type="hidden" name="retailerID" id="modalRetailerID">
+                <div class="quantity-controls">
+                    <button type="button" onclick="changeQuantity(-1)">-</button>
+                    <input type="text" id="quantityInput" name="quantity" value="1" readonly>
+                    <button type="button" onclick="changeQuantity(1)">+</button>
+                </div>
+                <button type="submit">Add to basket</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ANDREA: ADDED SUBSCRIBE/UNSUBSCRIBE FUNCTIONALITIES-->
+    <% 
+        NewsletterLogic newsletterLogic = new NewsletterLogic(); 
+        boolean isSubscribed = newsletterLogic.isUserSubscribed(customerID);
+    %>
+
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .unsubscribe-button {
+            background-color: #dc3545;
+        }
+
+        .unsubscribe-button:hover {
+            background-color: #c82333;
+        }
+
+        p {
+            font-size: 18px;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .subscribe-button {
+            background-color: #28a745;
+        }
+
+        .subscribe-button:hover {
+            background-color: #218838;
+        }
+    </style>
+
+    <div class="container">
+        <% if (isSubscribed) { %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Message</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%
+                        List<NewsletterDTO> messages = newsletterLogic.getMessagesByUserIDSortedDESC(customerID);
+
+                        if (messages == null || messages.isEmpty()) {
+                            out.println("<tr><td colspan='2'>No notifications to display.</td></tr>");
+                        } else {
+                            for (NewsletterDTO message : messages) {
+                    %>
+                    <tr>
+                        <td><%= message.getNotification() %></td>
+                        <td><button onclick="confirmDeletion(<%= message.getId() %>)">Delete</button></td>
+                    </tr>
+                    <%
+                            }
+                        }
+                    %>
+                </tbody>
+            </table>
+            <form action="UnsubscribeUserServlet" method="post">
+                <input type="hidden" name="consumerID" value="<%= customerID %>">
+                <button type="submit" class="unsubscribe-button">Unsubscribe</button>
+            </form>
+        <% } else { %>
+            <p>
+                You are not subscribed to our newsletter. <br>
+                Subscribe now to receive the latest updates and offers!
+            </p>
+            <form action="SubscribeServlet" method="post">
+                <input type="hidden" name="consumerID" value="<%= customerID %>">
+                <button type="submit" class="subscribe-button">Subscribe</button>
+            </form>
+        <% } %>
+    </div>
+
+
 </body>
 </html>

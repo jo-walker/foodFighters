@@ -8,7 +8,7 @@ import DTO.ProductDTO;
 import DTO.RetailerDTO;
 
 /**
- *
+ * Interface for retailerDAO
  * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
 public interface RetailerDAO {

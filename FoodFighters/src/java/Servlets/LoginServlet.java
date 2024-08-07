@@ -50,23 +50,45 @@ public class LoginServlet extends HttpServlet {
                     rs.close();
                     ps.close();
 
+<<<<<<< HEAD
                     // Prepare SQL query to get additional consumer information
                     String sql2 = "SELECT customerID, firstName, lastName FROM Customer WHERE userID = ?";
                     ps = con.prepareStatement(sql2);
                     ps.setInt(1, userID);
                     rs = ps.executeQuery();
+=======
+                   // Prepare SQL query to get additional customer information (if needed)
+                   // Example: Fetching customer details (adjust the query as necessary)
+                   String sql2 = "SELECT customerID, firstName, lastName, isVegetarian FROM Customer WHERE userID = ?";
+                   ps = con.prepareStatement(sql2);
+                   ps.setInt(1, userID);
+                   rs = ps.executeQuery();
+>>>>>>> 3822dcdff5e7a16f286fb2c60830fda4a8f01470
 
                     if (rs.next()) {
                         int customerID = rs.getInt("customerID");
                         String firstName = rs.getString("firstName");
                         String lastName = rs.getString("lastName");
 
+<<<<<<< HEAD
                         // Create a session and set the customer-related attributes
                         HttpSession session = request.getSession();
                         session.setAttribute("userID", userID);
                         session.setAttribute("customerID", customerID);
                         session.setAttribute("firstName", firstName);
                         session.setAttribute("lastName", lastName);
+=======
+                       int isVeg = rs.getInt("isVegetarian");
+
+                       // Create a session and set the customer-related attributes
+                       HttpSession session = request.getSession();
+                       session.setAttribute("userID", userID);
+                       session.setAttribute("customerID", customerID);
+                       session.setAttribute("firstName", firstName);
+                       session.setAttribute("lastName", lastName);
+                       session.setAttribute("lastName", lastName);
+                       session.setAttribute("isVeg", isVeg);
+>>>>>>> 3822dcdff5e7a16f286fb2c60830fda4a8f01470
 
                         // Redirect to customer dashboard
                         response.sendRedirect("ConsumerDashboard.jsp");
@@ -89,6 +111,10 @@ public class LoginServlet extends HttpServlet {
                         HttpSession session = request.getSession();
                         session.setAttribute("retailerID", retailerID);
                         response.sendRedirect("RetailerDashboardServlet");
+<<<<<<< HEAD
+=======
+                        return;
+>>>>>>> 3822dcdff5e7a16f286fb2c60830fda4a8f01470
                     } else {
                         response.sendRedirect("login.jsp?error=Retailer not found");
                     }

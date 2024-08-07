@@ -6,6 +6,7 @@ import BusinessLogic.OrganizationBusinessLogic;
 import DTO.ConsumerDTO;
 import DTO.RetailerDTO;
 import DTO.OrganizationDTO;
+import Utilities.Exception.ValidationException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -16,6 +17,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Holds the logic for adding a customer
+ * @author Andrea Visani 041104651 visa0004@algonquinlive.com
+ */
 @WebServlet(name = "AddUserServlet", urlPatterns = {"/AddUserServlet"})
 public class AddUserServlet extends HttpServlet {
 
@@ -35,6 +40,13 @@ public class AddUserServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Processes the request and based on role type redirects to the proper dashboard
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
@@ -58,9 +70,17 @@ public class AddUserServlet extends HttpServlet {
 
             consumerLogic.addConsumer(consumer);
             request.setAttribute("message", "Consumer added successfully!");
+        
+            boolean isVeg = consumer.getVeg();
+            int isVegg = isVeg ? 1 : 0;
+            request.getSession().setAttribute("isVeg", isVegg); // making sure same datatype is entered into the method
+            request.getSession().setAttribute("firstName", consumer.getFirstName());
             request.getRequestDispatcher("ConsumerDashboard.jsp").forward(request, response);
 
-            } else if (role == 2) {  // Retailer
+            } 
+            
+            else if (role == 2) {  
+                //RETAILER
                 String retailerName = request.getParameter("retailerName");
 
                 RetailerDTO retailer = new RetailerDTO();
@@ -75,7 +95,9 @@ public class AddUserServlet extends HttpServlet {
                 request.getSession().setAttribute("retailerID", retailerId);
                 request.getRequestDispatcher("retailerDashboard.jsp").forward(request, response);
 
-            } else if (role == 3) {  // Charity Organization
+            } 
+            
+            else if (role == 3) {  // Charity Organization
                 String charityName = request.getParameter("charityName");
 
                 OrganizationDTO charity = new OrganizationDTO();
@@ -99,11 +121,15 @@ public class AddUserServlet extends HttpServlet {
 
         } catch (SQLException ex) {
             Logger.getLogger(AddUserServlet.class.getName()).log(Level.SEVERE, null, ex);
-            request.setAttribute("error", "SQL error occurred.");
+            request.setAttribute("error", "SQL error occurred: " + ex.getMessage());
+            request.getRequestDispatcher("errorPage.jsp").forward(request, response);
+        } catch (ValidationException ex) {
+            Logger.getLogger(AddUserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", "Validation error occurred: " + ex.getMessage());
             request.getRequestDispatcher("errorPage.jsp").forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(AddUserServlet.class.getName()).log(Level.SEVERE, null, ex);
-            request.setAttribute("error", "An Mula k bhayo yeta.");
+            request.setAttribute("error", "An error occurred: " + ex.getMessage());
             request.getRequestDispatcher("errorPage.jsp").forward(request, response);
         }
     }

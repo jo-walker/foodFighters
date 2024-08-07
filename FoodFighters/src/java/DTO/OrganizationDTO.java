@@ -11,7 +11,11 @@ import java.io.Serializable;
  * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
 
+<<<<<<< HEAD
 public class OrganizationDTO {
+=======
+public class OrganizationDTO extends User {
+>>>>>>> 3822dcdff5e7a16f286fb2c60830fda4a8f01470
     private int charityOrgID;
     private int userID;
     private String username;
@@ -76,4 +80,8 @@ public class OrganizationDTO {
     public void setName(String name) {
         this.name = name;
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 3822dcdff5e7a16f286fb2c60830fda4a8f01470

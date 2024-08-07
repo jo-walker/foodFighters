@@ -7,6 +7,7 @@ import DAO.ProductDAOImpl;
 import DTO.ConsumerDTO;
 import DTO.ProductDTO;
 import Newsletter.Subscriber;
+import Utilities.Exception.ValidationException;
 import Utilities.Validator;
 import java.sql.SQLException;
 import java.util.List;
@@ -30,22 +31,22 @@ public class ConsumersBusinessLogic {
     }
 
     // Method to handle product purchase logic
-    public void purchaseProduct(ConsumerDTO consumer, ProductDTO product) throws SQLException {
+    public void purchaseProduct(ConsumerDTO consumer, ProductDTO product) throws SQLException, ValidationException {
             validator.validateProduct(product); 
             // Assuming ConsumerDAO has a method to add purchase details
             consumerDAOImpl.purchaseItem(consumer, product);
     }
 
     // Method to add a new consumer
-    public void addConsumer(ConsumerDTO consumer) throws SQLException {
+    public void addConsumer(ConsumerDTO consumer) throws SQLException, ValidationException {
             validator.validateConsumer(consumer); 
             consumerDAOImpl.addConsumer(consumer);
     }
 
     // Method to subscribe consumer to alerts
-    public void subscribeAlert(ConsumerDTO consumer, String alertType) throws SQLException {
+    public void subscribeAlert(ConsumerDTO consumer, String alertType) throws SQLException, ValidationException {
             validator.validateConsumer(consumer); 
-            consumerDAOImpl.subscribeToAlert(consumer.getId());
+            consumerDAOImpl.subscribeToAlert(consumer.getCustomerID());
     }
 
     // Method to display all products
@@ -53,6 +54,12 @@ public class ConsumersBusinessLogic {
         return productDAO.getAllProducts();
     }
     
+    /**
+     * uses the consumerDAO to retrieve a list of Subscriber
+     * @return a list of Subscriber
+     * @throws SQLException 
+     * @author Andrea Visani 041104651 visa0004@algonquinlive.com
+     */
     public List<Subscriber> getAllSubscribedConsumers() throws SQLException{
         return consumerDAOImpl.getAllSubscribedConsumers();
     }

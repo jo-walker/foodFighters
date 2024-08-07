@@ -5,9 +5,14 @@ import DAO.OrganizationDAOImpl;
 import DAO.ProductDAO;
 import DAO.ProductDAOImpl;
 import DTO.OrganizationDTO;
+<<<<<<< HEAD
 import DTO.ProductDTO;
 import java.sql.SQLException;
 import java.util.List;
+=======
+import Utilities.Exception.ValidationException;
+import Utilities.Validator;
+>>>>>>> 3822dcdff5e7a16f286fb2c60830fda4a8f01470
 
 /**
  * Business logic for managing charity organizations.
@@ -23,12 +28,18 @@ public class OrganizationBusinessLogic {
         this.productDAO = new ProductDAOImpl();
     }
 
+<<<<<<< HEAD
     /**
      * Adds an organization to the database.
      * @param organization The organization to be added.
      */
     public int addOrganization(OrganizationDTO organization) throws SQLException {
            return organizationDAO.addOrganization(organization);
+=======
+    public void addOrganization(OrganizationDTO organ) throws ValidationException  {
+        validator.validateOrganization(organ);
+        organization.addOrganization();
+>>>>>>> 3822dcdff5e7a16f286fb2c60830fda4a8f01470
     }
     
     public List<ProductDTO> getProductsByCharityOrgID(int charityID) throws SQLException{
