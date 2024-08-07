@@ -9,6 +9,7 @@ CREATE TABLE user(
     password VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
     userRole INT NOT NULL, /*1 customers, 2 retailer, 3 charity*/
+    isSubscribed BOOLEAN,
     PRIMARY KEY (userID)
 );
 
@@ -22,7 +23,6 @@ CREATE TABLE Customer (
     isVegetarian BOOLEAN NOT NULL,
     FOREIGN KEY (userID) REFERENCES user(userID),
     PRIMARY KEY (customerID),
-    isVeggie BOOLEAN NOT NULL
 );
 
 -- Table for Charity Organization
@@ -73,6 +73,23 @@ CREATE TABLE CharityRetailer (
     PRIMARY KEY (charityRetailerID),
     FOREIGN KEY (charityOrgID) REFERENCES CharityOrg(charityOrgID),
     FOREIGN KEY (retailerID) REFERENCES Retailer(retailerID)
+);
+
+-- Table for Notifications
+CREATE TABLE Notifications (
+    notificationID INT AUTO_INCREMENT NOT NULL,
+    text VARCHAR(500) NOT NULL,
+    PRIMARY KEY (notificationID)
+);
+
+-- Associative table between Customer and Notifications
+CREATE TABLE CustomerNotification (
+    customerNotificationID INT AUTO_INCREMENT NOT NULL,
+    customerID INT NOT NULL,
+    notificationID INT NOT NULL,
+    PRIMARY KEY (customerNotificationID),
+    FOREIGN KEY (customerID) REFERENCES Customer(customerID),
+    FOREIGN KEY (notificationID) REFERENCES Notifications(notificationID)
 );
 
 -- Sample SELECT statements to view the tables

@@ -4,15 +4,13 @@
  */
 package Servlets;
 
-import BusinessLogic.NewsletterLogic;
+import DAO.NewsletterDAO;
+import DAO.NewsletterDAOImpl;
 import DAO.ProductDAO;
 import DAO.ProductDAOImpl;
-import DTO.NewsletterDTO;
-import DTO.ProductDTO;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,9 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
-public class UpdateProductServ extends HttpServlet {
-    
-    private NewsletterLogic newsletterLogic = new NewsletterLogic();
+public class DeleteMessageServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,33 +33,13 @@ public class UpdateProductServ extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
         
-        boolean originalSurplus = Boolean.parseBoolean(request.getParameter("originalSurplus"));
-        boolean newSurplusStatus = request.getParameter("surplus") != null;
-        ProductDTO product = new ProductDTO();
-        
-        product.setId(Integer.parseInt(request.getParameter("id")));
-        product.setName(request.getParameter("name"));
-        product.setPrice(Double.parseDouble(request.getParameter("price")));
-        product.setQuantity(Integer.parseInt(request.getParameter("quantity")));
-        product.setSurplus(request.getParameter("surplus") != null);
-        product.setExpiryDate(new java.util.Date(java.sql.Date.valueOf(request.getParameter("expiryDate")).getTime()));
-        product.setVeggie(request.getParameter("isVeggie") != null);
-        product.setRetailerID(Integer.parseInt(request.getParameter("retailerID")));
+        int messageID = Integer.parseInt(request.getParameter("id"));
 
-        ProductDAO productDAO = new ProductDAOImpl();
-        try {
-            productDAO.updateProduct(product);
-            if (!originalSurplus && newSurplusStatus) {
-                NewsletterDTO notification = newsletterLogic.addMessage(product.getName(), product.getRetailerID());
-                newsletterLogic.notifyObservers(notification);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(UpdateProductServ.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        response.sendRedirect("RetailerDashboardServlet");
+        NewsletterDAO newsletterDAO = new NewsletterDAOImpl();
+        newsletterDAO.deleteMessage(messageID);
+        //NOW SEND TO SERVLET INSTEAD OF JSP, SO IT CAN HANDLE SORTING
+        response.sendRedirect("ConsumerDashboard.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

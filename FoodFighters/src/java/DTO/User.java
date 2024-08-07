@@ -14,6 +14,6 @@ public abstract class User {
     protected String password;
     protected String email;
     protected int role;
+    protected boolean isSubscribed;
 
-    // Constructors, getters, and setters
 }

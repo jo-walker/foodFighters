@@ -13,6 +13,7 @@
         <servlet-class>Servlets.RetailerDashboardSerlvet</servlet-class>
     </servlet>
     <servlet>
+
         <servlet-name>AddToBasketServlet</servlet-name>
         <servlet-class>Servlets.AddToBasketServlet</servlet-class>
     </servlet>
@@ -27,6 +28,15 @@
     <servlet>
         <servlet-name>checkoutServlet</servlet-name>
         <servlet-class>Servlets.checkoutServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>SubscribeServlet</servlet-name>
+        <servlet-class>Servlets.SubscribeUserServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteMessageServlet</servlet-name>
+        <servlet-class>Servlets.DeleteMessageServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>CreateProductServlet</servlet-name>
@@ -81,6 +91,7 @@
         <url-pattern>/RetailerDashboardSerlvet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+
         <servlet-name>AddToBasketServlet</servlet-name>
         <url-pattern>/AddToBasketServlet</url-pattern>
     </servlet-mapping>
@@ -95,6 +106,15 @@
     <servlet-mapping>
         <servlet-name>checkoutServlet</servlet-name>
         <url-pattern>/checkoutServlet</url-pattern>
+      </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>SubscribeServlet</servlet-name>
+        <url-pattern>/SubscribeServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteMessageServlet</servlet-name>
+        <url-pattern>/DeleteMessageServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

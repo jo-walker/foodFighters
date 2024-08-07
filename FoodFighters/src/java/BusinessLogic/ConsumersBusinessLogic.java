@@ -6,6 +6,7 @@ import DAO.ProductDAO;
 import DAO.ProductDAOImpl;
 import DTO.ConsumerDTO;
 import DTO.ProductDTO;
+import Newsletter.Subscriber;
 import Utilities.Validator;
 import java.sql.SQLException;
 import java.util.List;
@@ -44,11 +45,21 @@ public class ConsumersBusinessLogic {
     // Method to subscribe consumer to alerts
     public void subscribeAlert(ConsumerDTO consumer, String alertType) throws SQLException {
             validator.validateConsumer(consumer); 
-            consumerDAOImpl.subscribeToAlert(consumer, alertType);
+            consumerDAOImpl.subscribeToAlert(consumer.getCustomerID());
     }
 
     // Method to display all products
     public List<ProductDTO> displayAllProducts() throws SQLException {
         return productDAO.getAllProducts();
+    }
+    
+    /**
+     * uses the consumerDAO to retrieve a list of Subscriber
+     * @return a list of Subscriber
+     * @throws SQLException 
+     * @author Andrea Visani 041104651 visa0004@algonquinlive.com
+     */
+    public List<Subscriber> getAllSubscribedConsumers() throws SQLException{
+        return consumerDAOImpl.getAllSubscribedConsumers();
     }
 }

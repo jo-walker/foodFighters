@@ -1,8 +1,10 @@
 package Servlets;
 
+import BusinessLogic.NewsletterLogic;
 import BusinessLogic.RetailersBusinessLogic;
 import DTO.ProductDTO;
 import DAO.RetailerDAOImpl;
+import DTO.NewsletterDTO;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -15,9 +17,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
+/**
+ * Servlet that handles the product creation
+ * @author Andrea Visani 041104651 visa0004@algonquinlive.com
+ */
 @WebServlet("/CreateProductServlet")
 public class CreateProductServlet extends HttpServlet {
+    
+    /** the newsletter logic */
+    private NewsletterLogic newsletterLogic = new NewsletterLogic();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -42,6 +50,10 @@ public class CreateProductServlet extends HttpServlet {
         RetailersBusinessLogic logic = new RetailersBusinessLogic();
         try {
             logic.addProduct(product);
+            if (product.isSurplus() == true){
+                NewsletterDTO notification = newsletterLogic.addMessage(product.getName(), product.getRetailerID());
+                newsletterLogic.notifyObservers(notification);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(CreateProductServlet.class.getName()).log(Level.SEVERE, null, ex);
         }

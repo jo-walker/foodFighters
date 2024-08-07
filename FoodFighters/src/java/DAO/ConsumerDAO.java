@@ -4,8 +4,11 @@
  */
 package DAO;
 import DTO.ConsumerDTO; 
+import DTO.NewsletterDTO;
 import DTO.ProductDTO;
+import Newsletter.Subscriber;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  *
@@ -14,5 +17,9 @@ import java.sql.SQLException;
 public interface ConsumerDAO {
     void addConsumer(ConsumerDTO consumer) throws SQLException;
     void purchaseItem(ConsumerDTO consumer, ProductDTO product) throws SQLException;
-    void subscribeToAlert(ConsumerDTO consumer, String alertType) throws SQLException;
+    void subscribeToAlert(int consumerID) throws SQLException;
+
+    public List<Subscriber> getAllSubscribedConsumers() throws SQLException;
+
+    public void receiveNotification(int id, NewsletterDTO notification);
 }
