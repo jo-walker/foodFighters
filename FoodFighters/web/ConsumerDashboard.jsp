@@ -96,17 +96,6 @@
             Hi <%= username %>
         </div>
         <a href="LogoutServlet" class="logout-button">Logout</a>
-
-        <!-- ANDREA: ADDED SUBSCRIBE -->
-        <form action="SubscribeServlet" method="post">
-            <input type="hidden" name="consumerID" value="<%= customerID %>">
-            <button type="submit" class="subscribe-button">Subscribe</button>
-        </form>
-            <!-- ANDREA: ADDED UNSUBSCRIBE -->
-        <form action="UnsubscribeUserServlet" method="post">
-            <input type="hidden" name="consumerID" value="<%= customerID %>">
-            <button type="submit" class="unsubscribe-button">Unsubscribe</button>
-        </form>
     </div>
 
     <h1>Consumer Dashboard</h1>
@@ -203,34 +192,122 @@
         </div>
     </div>
 
-    <div class="container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Message</th>
-                    <th>Delete</th>
-                </tr>
-            </thead>
-            <tbody>
-                <%
-                    NewsletterLogic newsletterLogic = new NewsletterLogic();
-                    List<NewsletterDTO> messages = newsletterLogic.getMessagesByUserIDSortedDESC(customerID);
+    <!-- ANDREA: ADDED SUBSCRIBE/UNSUBSCRIBE FUNCTIONALITIES-->
+    <% 
+        NewsletterLogic newsletterLogic = new NewsletterLogic(); 
+        boolean isSubscribed = newsletterLogic.isUserSubscribed(customerID);
+    %>
 
-                    if (messages == null || messages.isEmpty()) {
-                        out.println("<tr><td colspan='3'>No notifications to display.</td></tr>");
-                    } else {
-                        for (NewsletterDTO message : messages) {
-                %>
-                <tr>
-                    <td><%= message.getNotification() %></td>
-                    <td><button onclick="confirmDeletion(<%= message.getId() %>)">Delete</button></td>
-                </tr>
-                <%
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .unsubscribe-button {
+            background-color: #dc3545;
+        }
+
+        .unsubscribe-button:hover {
+            background-color: #c82333;
+        }
+
+        p {
+            font-size: 18px;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .subscribe-button {
+            background-color: #28a745;
+        }
+
+        .subscribe-button:hover {
+            background-color: #218838;
+        }
+    </style>
+
+    <div class="container">
+        <% if (isSubscribed) { %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Message</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%
+                        List<NewsletterDTO> messages = newsletterLogic.getMessagesByUserIDSortedDESC(customerID);
+
+                        if (messages == null || messages.isEmpty()) {
+                            out.println("<tr><td colspan='2'>No notifications to display.</td></tr>");
+                        } else {
+                            for (NewsletterDTO message : messages) {
+                    %>
+                    <tr>
+                        <td><%= message.getNotification() %></td>
+                        <td><button onclick="confirmDeletion(<%= message.getId() %>)">Delete</button></td>
+                    </tr>
+                    <%
+                            }
                         }
-                    }
-                %>
-            </tbody>
-        </table>
+                    %>
+                </tbody>
+            </table>
+            <form action="UnsubscribeUserServlet" method="post">
+                <input type="hidden" name="consumerID" value="<%= customerID %>">
+                <button type="submit" class="unsubscribe-button">Unsubscribe</button>
+            </form>
+        <% } else { %>
+            <p>
+                You are not subscribed to our newsletter. <br>
+                Subscribe now to receive the latest updates and offers!
+            </p>
+            <form action="SubscribeServlet" method="post">
+                <input type="hidden" name="consumerID" value="<%= customerID %>">
+                <button type="submit" class="subscribe-button">Subscribe</button>
+            </form>
+        <% } %>
     </div>
+
+
 </body>
 </html>

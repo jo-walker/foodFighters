@@ -42,4 +42,6 @@ public interface ConsumerDAO {
     public List<Subscriber> getAllSubscribedConsumers() throws SQLException;
 
     public void receiveNotification(int id, NewsletterDTO notification);
+
+    public boolean isUserSubscribed(int customerID);
 }
