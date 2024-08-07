@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import Utilities.Validator;
+import Utilities.Exception.ValidationException;
 
 @WebServlet("/CreateProductServlet")
 public class CreateProductServlet extends HttpServlet {
@@ -43,6 +45,9 @@ public class CreateProductServlet extends HttpServlet {
 
             ProductDTO product = new ProductDTO(name, quantity, expiryDate, isSurplus, retailerID, price, isVeggie);
 
+            Validator validator = new Validator();
+            validator.validateProduct(product);
+
             RetailersBusinessLogic logic = new RetailersBusinessLogic();
             logic.addProduct(product);
 
@@ -60,6 +65,8 @@ public class CreateProductServlet extends HttpServlet {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid input.");
         } catch (ValidationException ex) {
             Logger.getLogger(CreateProductServlet.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", ex.getMessage());
+            request.getRequestDispatcher("createProduct.jsp").forward(request, response);
         }
     }
 }

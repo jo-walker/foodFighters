@@ -6,7 +6,6 @@ import BusinessLogic.OrganizationBusinessLogic;
 import DTO.ConsumerDTO;
 import DTO.RetailerDTO;
 import DTO.OrganizationDTO;
-import Utilities.Validator;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -16,6 +15,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import Utilities.Validator;
+import Utilities.Exception.ValidationException;
 
 @WebServlet(name = "AddUserServlet", urlPatterns = {"/AddUserServlet"})
 public class AddUserServlet extends HttpServlet {
@@ -47,22 +48,21 @@ public class AddUserServlet extends HttpServlet {
             int role = Integer.parseInt(request.getParameter("role"));
 
             if (role == 1) {   // Consumer
-                
-            ConsumerDTO consumer = new ConsumerDTO();
-            consumer.setUsername(request.getParameter("username"));
-            consumer.setPassword(request.getParameter("password"));
-            consumer.setEmail(request.getParameter("email"));
-            consumer.setRole(Integer.parseInt(request.getParameter("role")));
-            consumer.setFirstName(request.getParameter("firstName"));
-            consumer.setLastName(request.getParameter("lastName"));
-            consumer.setLocation(request.getParameter("location"));
-            consumer.setPhone(request.getParameter("phone"));
-            consumer.setDietType(Boolean.parseBoolean(request.getParameter("dietType")));
+                ConsumerDTO consumer = new ConsumerDTO();
+                consumer.setUsername(username);
+                consumer.setPassword(password);
+                consumer.setEmail(email);
+                consumer.setRole(role);
+                consumer.setFirstName(request.getParameter("firstName"));
+                consumer.setLastName(request.getParameter("lastName"));
+                consumer.setLocation(request.getParameter("location"));
+                consumer.setPhone(request.getParameter("phone"));
+                consumer.setDietType(Boolean.parseBoolean(request.getParameter("dietType")));
 
-            validator.validateConsumer(consumer);
-            consumerLogic.addConsumer(consumer);
-            request.setAttribute("message", "Consumer added successfully!");
-            request.getRequestDispatcher("ConsumerDashboard.jsp").forward(request, response);
+                validator.validateConsumer(consumer);
+                consumerLogic.addConsumer(consumer);
+                request.setAttribute("message", "Consumer added successfully!");
+                request.getRequestDispatcher("ConsumerDashboard.jsp").forward(request, response);
 
             } else if (role == 2) {  // Retailer
                 RetailerDTO retailer = new RetailerDTO();
@@ -98,11 +98,15 @@ public class AddUserServlet extends HttpServlet {
 
         } catch (SQLException ex) {
             Logger.getLogger(AddUserServlet.class.getName()).log(Level.SEVERE, null, ex);
-            request.setAttribute("error", "SQL error occurred.");
+            request.setAttribute("error", "SQL error occurred: " + ex.getMessage());
+            request.getRequestDispatcher("errorPage.jsp").forward(request, response);
+        } catch (ValidationException ex) {
+            Logger.getLogger(AddUserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", "Validation error occurred: " + ex.getMessage());
             request.getRequestDispatcher("errorPage.jsp").forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(AddUserServlet.class.getName()).log(Level.SEVERE, null, ex);
-            request.setAttribute("error", "An Mula k bhayo yeta.");
+            request.setAttribute("error", "An error occurred: " + ex.getMessage());
             request.getRequestDispatcher("errorPage.jsp").forward(request, response);
         }
     }

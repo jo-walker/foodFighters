@@ -3,11 +3,11 @@
     Created on : Aug. 7, 2024, 7:56 a.m.
     Author     : Baasanlkham Gurvantamir
 --%>
-<%@ page isErrorPage="true" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Error Page</title>
+    <title>Error!</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -44,10 +44,10 @@
 <body>
     <div class="container">
         <div class="message">
-            <h1>Oops! Something went wrong.</h1>
+            <h1>Oopsie! Something went wrong.</h1>
             <p>We're sorry, but an error occurred while processing your request.</p>
-            <p>Please try again later or contact support if the issue persists.</p>
-            <p><a href="<%= request.getContextPath() %>/index.jsp">Go to Home Page</a></p>
+            <p><%= request.getAttribute("error") %></p>
+            <p><a href="<%= request.getContextPath() %>/../index.html">Go to Home Page</a></p>
         </div>
     </div>
 </body>

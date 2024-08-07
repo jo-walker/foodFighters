@@ -7,11 +7,25 @@
             <minimum-ant-version>1.6.5</minimum-ant-version>
             <web-module-libraries>
                 <library dirs="200">
-                    <file>${file.reference.javax.servlet-api-3.1.0.jar}</file>
+                    <file>${libs.junit.classpath}</file>
+                </library>
+                <library dirs="200">
+                    <file>${libs.hamcrest.classpath}</file>
+                </library>
+                <library dirs="200">
+                    <file>${file.reference.junit-4.13.2.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
-                    <file>${file.reference.javax.websocket-api-1.1.jar}</file>
+                    <file>${file.reference.junit-jupiter-api-5.10.2.jar}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
+                <library dirs="200">
+                    <file>${file.reference.junit-jupiter-engine-5.10.2.jar}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
+                <library dirs="200">
+                    <file>${file.reference.junit-jupiter-params-5.10.2.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
             </web-module-libraries>

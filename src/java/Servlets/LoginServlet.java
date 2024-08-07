@@ -11,15 +11,22 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import javax.servlet.http.HttpSession;
+import Utilities.Validator;
+import Utilities.Exception.ValidationException;
 
 public class LoginServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        throws ServletException, IOException {
+    response.setContentType("text/html;charset=UTF-8");
 
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+    String username = request.getParameter("username");
+    String password = request.getParameter("password");
+
+    Validator validator = new Validator();
+
+    try {
+        validator.validateLogin(username, password);
 
         Connection con = null;
         PreparedStatement ps = null;
@@ -120,7 +127,12 @@ public class LoginServlet extends HttpServlet {
                 e.printStackTrace();
             }
         }
+    } catch (ValidationException e) {
+        request.setAttribute("error", e.getMessage());
+        request.getRequestDispatcher("login.jsp").forward(request, response);
     }
+}
+
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
