@@ -28,6 +28,22 @@ public class NewsletterAlert {
         subscribers.add(subscriber);
     }
 
+    public ConsumersBusinessLogic getConsumerLogic() {
+        return consumerLogic;
+    }
+
+    public void setConsumerLogic(ConsumersBusinessLogic consumerLogic) {
+        this.consumerLogic = consumerLogic;
+    }
+
+    public List<Subscriber> getSubscribers() {
+        return subscribers;
+    }
+
+    public void setSubscribers(List<Subscriber> subscribers) {
+        this.subscribers = subscribers;
+    }
+
     public void unsubscribe(Subscriber subscriber) {
         subscribers.remove(subscriber);
     }
