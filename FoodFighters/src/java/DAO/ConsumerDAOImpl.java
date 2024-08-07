@@ -188,5 +188,35 @@ public class ConsumerDAOImpl implements ConsumerDAO {
             }
     }
 
+    @Override
+    public boolean isUserSubscribed(int customerID) {
+         String query = "SELECT u.isSubscribed " +
+                       "FROM user u " +
+                       "JOIN Customer c ON u.userID = c.userID " +
+                       "WHERE c.customerID = ?";
+
+        try (Connection conn = DataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            
+            // Set the parameter for the customerID
+            stmt.setInt(1, customerID);
+            
+            // Execute the query and get the result
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    // Return the boolean value of isSubscribed
+                    return rs.getBoolean("isSubscribed");
+                }
+            }
+        } catch (SQLException e) {
+            // Handle any SQL exceptions
+            e.printStackTrace();
+        }
+        
+        // Return false if no result is found or in case of an error
+        return false;
+    }
+    
+
       
 }

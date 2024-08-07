@@ -5,6 +5,7 @@ import BusinessLogic.RetailersBusinessLogic;
 import DTO.ProductDTO;
 import DAO.RetailerDAOImpl;
 import DTO.NewsletterDTO;
+import Utilities.Exception.ValidationException;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -55,6 +56,8 @@ public class CreateProductServlet extends HttpServlet {
                 newsletterLogic.notifyObservers(notification);
             }
         } catch (SQLException ex) {
+            Logger.getLogger(CreateProductServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ValidationException ex) {
             Logger.getLogger(CreateProductServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
 
