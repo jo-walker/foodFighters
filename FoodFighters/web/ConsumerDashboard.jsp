@@ -97,9 +97,15 @@
         </div>
         <a href="LogoutServlet" class="logout-button">Logout</a>
 
+        <!-- ANDREA: ADDED SUBSCRIBE -->
         <form action="SubscribeServlet" method="post">
             <input type="hidden" name="consumerID" value="<%= customerID %>">
             <button type="submit" class="subscribe-button">Subscribe</button>
+        </form>
+            <!-- ANDREA: ADDED UNSUBSCRIBE -->
+        <form action="UnsubscribeUserServlet" method="post">
+            <input type="hidden" name="consumerID" value="<%= customerID %>">
+            <button type="submit" class="unsubscribe-button">Unsubscribe</button>
         </form>
     </div>
 
