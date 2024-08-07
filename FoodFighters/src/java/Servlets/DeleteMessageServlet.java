@@ -4,24 +4,23 @@
  */
 package Servlets;
 
-import DAO.ConsumerDAO;
-import DAO.ConsumerDAOImpl;
+import DAO.NewsletterDAO;
+import DAO.NewsletterDAOImpl;
+import DAO.ProductDAO;
+import DAO.ProductDAOImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
-public class SubscribeServlet extends HttpServlet {
+public class DeleteMessageServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,21 +30,16 @@ public class SubscribeServlet extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     * @throws java.sql.SQLException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
+            throws ServletException, IOException {
         
-        HttpSession session = request.getSession(false);
-        
-        int customerID = (Integer) session.getAttribute("customerID");
-        
-        ConsumerDAO consDAO = new ConsumerDAOImpl();
-        
-        consDAO.subscribeToAlert(customerID);
-        
+        int messageID = Integer.parseInt(request.getParameter("id"));
+
+        NewsletterDAO newsletterDAO = new NewsletterDAOImpl();
+        newsletterDAO.deleteMessage(messageID);
+        //NOW SEND TO SERVLET INSTEAD OF JSP, SO IT CAN HANDLE SORTING
         response.sendRedirect("ConsumerDashboard.jsp");
-         
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -60,11 +54,7 @@ public class SubscribeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(SubscribeServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -78,11 +68,7 @@ public class SubscribeServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(SubscribeServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**

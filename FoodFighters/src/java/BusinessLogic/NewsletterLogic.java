@@ -9,6 +9,7 @@ import DAO.NewsletterDAOImpl;
 import DTO.NewsletterDTO;
 import Newsletter.NewsletterAlert;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  *
@@ -25,6 +26,10 @@ public class NewsletterLogic {
     
     public void notifyObservers(NewsletterDTO notification) throws SQLException{
         newsletter.notifyObservers(notification);
+    }
+    
+    public List<NewsletterDTO> getMessagesByUserIDSortedDESC(int userID){
+        return newsDAO.getMessagesByUserIDSortedDESC(userID);
     }
     
 }

@@ -15,5 +15,6 @@ public interface NewsletterDAO {
     
    List<NewsletterDTO> getMessagesByUserIDSortedDESC(int userID);
    NewsletterDTO addMessage(String productName, int retailerID);
+   void deleteMessage(int messageID);
   
 }

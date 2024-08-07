@@ -1,3 +1,5 @@
+<%@page import="DTO.NewsletterDTO"%>
+<%@page import="BusinessLogic.NewsletterLogic"%>
 <%@ page import="DAO.ProductDAOImpl"%>
 <%@ page import="DAO.ProductDAO"%>
 <%@ page import="BusinessLogic.ConsumersBusinessLogic"%>
@@ -10,6 +12,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consumer Dashboard</title>
+    <script>
+        function confirmDeletion(newsletterID) {
+            var confirmation = confirm("Are you sure you want to delete this message?");
+            if (confirmation) {
+                window.location.href = 'DeleteMessageServlet?id=' + newsletterID;
+            }
+        }
+    </script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -175,5 +185,44 @@
             }
         %>
     </div>
+    
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <!-- <th>ID</th> ANDREA: THIS IS NOT NEEDED, ADDED FOR DEBUGGING -->
+                    <th>Message</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%
+                    NewsletterLogic newsletterLogic = new NewsletterLogic();
+                    List<NewsletterDTO> messages = newsletterLogic.getMessagesByUserIDSortedDESC(customerID);
+                    if (messages == null || messages.isEmpty()) {
+                        out.println("<tr><td colspan='3'>No notification to display.</td></tr>");
+                    } else {
+                        for (NewsletterDTO message : messages) {
+                %>
+                <tr>
+                    <!-- <td><%= message.getId() %></td> ANDREA: THIS IS NOT NEEDED, ADDED FOR DEBUGGING -->
+                    <td><%= message.getNotification() %></td>
+
+                    <td>
+                        <button onclick="confirmDeletion(<%= message.getId() %>)">Delete</button>
+                    </td>
+                </tr>
+                <%
+                        }
+                    }
+                %>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>
+
+
+
+
+        
