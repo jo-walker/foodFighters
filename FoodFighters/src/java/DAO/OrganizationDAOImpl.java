@@ -101,45 +101,60 @@ public int addOrganization(OrganizationDTO organization) throws SQLException {
     }
 
 
-    @Override
-    public List<ProductDTO> getSurplusProducts() throws SQLException {
-        Connection con = null;
-        PreparedStatement preparedStatement = null;
-        List<ProductDTO> products = new ArrayList<>();
+  @Override
+public List<ProductDTO> claimFood() throws SQLException {
+    Connection con = null;
+    PreparedStatement preparedStatement = null;
+    List<ProductDTO> products = new ArrayList<>();
 
-        String query = "SELECT p.productID, p.productName, p.price, p.isVeggie, pr.retailerID, pr.productQuantity, pr.expiryDate, pr.isSurplus " +
-                       "FROM Product p JOIN ProductRetailer pr ON p.productID = pr.productID " +
-                       "WHERE pr.isSurplus = true";
+    String selectQuery = "SELECT p.productID, p.productName, p.price, p.isVeggie, pr.retailerID, pr.productQuantity, pr.expiryDate, pr.isSurplus " +
+                         "FROM Product p JOIN ProductRetailer pr ON p.productID = pr.productID " +
+                         "WHERE pr.isSurplus = true AND pr.productQuantity > 0";
+    
+    String updateQuery = "UPDATE ProductRetailer SET productQuantity = productQuantity - ? WHERE productID = ? AND retailerID = ?";
 
-        try {
-            con = DataSource.getConnection();
-            preparedStatement = con.prepareStatement(query);
-
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                while (resultSet.next()) {
-                    products.add(new ProductDTO(
-                        resultSet.getInt("productID"),
-                        resultSet.getString("productName"),
-                        resultSet.getInt("productQuantity"),
-                        resultSet.getDate("expiryDate"),
-                        resultSet.getBoolean("isSurplus"),
-                        resultSet.getInt("retailerID"),
-                        resultSet.getDouble("price"),
-                        resultSet.getBoolean("isVeggie")
-                    ));
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (preparedStatement != null) {
-                preparedStatement.close();
-            }
-            if (con != null) {
-                con.close();
+    try {
+        con = DataSource.getConnection();
+        
+        // Fetch surplus products with available quantity
+        preparedStatement = con.prepareStatement(selectQuery);
+        try (ResultSet resultSet = preparedStatement.executeQuery()) {
+            while (resultSet.next()) {
+                products.add(new ProductDTO(
+                    resultSet.getInt("productID"),
+                    resultSet.getString("productName"),
+                    resultSet.getInt("productQuantity"),
+                    resultSet.getDate("expiryDate"),
+                    resultSet.getBoolean("isSurplus"),
+                    resultSet.getInt("retailerID"),
+                    resultSet.getDouble("price"),
+                    resultSet.getBoolean("isVeggie")
+                ));
             }
         }
-
-        return products;
+        
+        // Update quantities after claiming
+        preparedStatement = con.prepareStatement(updateQuery);
+        for (ProductDTO product : products) {
+            preparedStatement.setInt(1, product.getQuantity()); // Assuming the quantity to be claimed is the entire available quantity
+            preparedStatement.setInt(2, product.getId());
+            preparedStatement.setInt(3, product.getRetailerID());
+            preparedStatement.addBatch();
+        }
+        preparedStatement.executeBatch();
+        
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } finally {
+        // Close resources
+        if (preparedStatement != null) {
+            preparedStatement.close();
+        }
+        if (con != null) {
+            con.close();
+        }
     }
+
+    return products;
+}
 }

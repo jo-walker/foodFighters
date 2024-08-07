@@ -12,6 +12,6 @@ import java.util.List;
 public interface OrganizationDAO {
     public int addOrganization(OrganizationDTO organization) throws SQLException;
     void donateProduct(ProductDTO product, int charityOrgID) throws SQLException;
-    List<ProductDTO> getSurplusProducts() throws SQLException;
+    public List<ProductDTO> claimFood() throws SQLException;
 }
 

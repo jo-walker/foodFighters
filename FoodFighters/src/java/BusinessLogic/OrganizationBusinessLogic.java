@@ -52,5 +52,11 @@ public class OrganizationBusinessLogic {
         organizationDAO.donateProduct(product, charityOrgID);
     }
     
+    public List<ProductDTO> claimFood() throws SQLException{
+        if (organizationDAO== null){
+            throw new IllegalStateException("OrganizationDAO is not initialized.");
+        }
+        return organizationDAO.claimFood();
+    }
     
 }
