@@ -15,13 +15,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
-public class UnsubscribeUserServlet extends HttpServlet {
+public class SubscribeServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,19 +30,16 @@ public class UnsubscribeUserServlet extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws java.sql.SQLException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         
-        HttpSession session = request.getSession(false);
-        
-        int customerID = (Integer) session.getAttribute("customerID");
+        int customerID = Integer.parseInt(request.getParameter("customerID"));
         
         ConsumerDAO consDAO = new ConsumerDAOImpl();
         
-        consDAO.unsubscribeToAlert(customerID);
-        
-        response.sendRedirect("ConsumerDashboard.jsp");
+        consDAO.subscribeToAlert(customerID);
          
     }
 
@@ -62,7 +58,7 @@ public class UnsubscribeUserServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(UnsubscribeUserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SubscribeServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -80,7 +76,7 @@ public class UnsubscribeUserServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(UnsubscribeUserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SubscribeServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

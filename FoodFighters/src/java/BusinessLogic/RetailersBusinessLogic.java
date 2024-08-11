@@ -10,7 +10,6 @@ import DAO.RetailerDAO;
 import DAO.RetailerDAOImpl;
 import DTO.ProductDTO;
 import DTO.RetailerDTO;
-import Utilities.Exception.ValidationException;
 import Utilities.Validator;
 import java.sql.SQLException;
 import java.util.List;
@@ -41,7 +40,7 @@ public class RetailersBusinessLogic {
      * @param product The product to add to the database
      * @throws java.sql.SQLException
      */
-    public void addProduct(ProductDTO product) throws SQLException, ValidationException {
+    public void addProduct(ProductDTO product) throws SQLException {
         validator.validateProduct(product);
         productDAO.addProduct(product);
         // Implementation

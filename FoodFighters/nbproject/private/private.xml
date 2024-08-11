@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group name="Week05">
+            <file>file:/C:/Users/visan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/Servlets/LoginServlet.java</file>
+            <file>file:/C:/Users/visan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/DAO/OrganizationDAOImpl.java</file>
+        </group>
+        <group>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/Servlets/LoginServlet.java</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/BusinessLogic/OrganizationBusinessLogic.java</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/web/signup.jsp</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/Servlets/UpdateProductServ.java</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/web/addProduct.jsp</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/DAO/ProductDAO.java</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/Servlets/DeleteProductServlet.java</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/web/retailerDashboard.jsp</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/DTO/OrganizationDTO.java</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/DAO/OrganizationDAOImpl.java</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/web/index.html</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/DTO/ProductDTO.java</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/Client/Main.java</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/DAO/ProductDAOImpl.java</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/web/organizationDashboard.jsp</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/web/login.jsp</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/DAO/RetailerDAO.java</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/Utilities/DietType.java</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/Servlets/RetailerDashboardSerlvet.java</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/Servlets/AddUserServlet.java</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/web/claimProduct.jsp</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/BusinessLogic/ConsumersBusinessLogic.java</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/Servlets/SubscribeServlet.java</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/Utilities/DataSource.java</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/DAO/RetailerDAOImpl.java</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/BusinessLogic/RetailersBusinessLogic.java</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/web/editProduct.jsp</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/web/purchaseProduct.jsp</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/web/ConsumerDashboard.jsp</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/DAO/OrganizationDAO.java</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/Database/Database.sql</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/Servlets/OrganizationDashboardServlet.java</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/Servlets/CreateProductServlet.java</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/DTO/RetailerDTO.java</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/Servlets/ClaimProductServlet.java</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/Servlets/LogoutServlet.java</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/Servlets/AddOrganizationServlet.java</file>
+            <file>file:/C:/Users/himan/OneDrive/Documents/NetBeansProjects/fFighters/FoodFighters/src/java/Database/database.properties</file>
+        </group>
+    </open-files>
+</project-private>

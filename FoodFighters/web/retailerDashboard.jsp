@@ -1,17 +1,14 @@
 <%-- 
-    Document   : retailerDashboard.jsp
+    Document   : retailerDashboard
     Created on : Jul. 25, 2024, 5:59:50 p.m.
     Author     : Andrea Visani 041104651 visa0004@algonquinlive.com
-    Description: This file contains the code for the Retailer Dashboard page.
 --%>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List" %>
 <%@ page import="DTO.ProductDTO" %>
+<%@ page import="BusinessLogic.RetailersBusinessLogic" %>
 <%@ page import="javax.servlet.http.HttpSession"%>
-<%@page import="java.util.Date" %>
-<%@page import="java.util.concurrent.TimeUnit" %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -61,37 +58,24 @@
             </thead>
             <tbody>
                 <%
+                    RetailersBusinessLogic retailerLogic = new RetailersBusinessLogic();
                     List<ProductDTO> products = (List<ProductDTO>) request.getAttribute("products");
                     if (products == null || products.isEmpty()) {
                         out.println("<tr><td colspan='8'>No products found for this retailer.</td></tr>");
                     } else {
-                        Date currentDate = new Date();
-
                         for (ProductDTO product : products) {
-                        
-                        //CALCULATE THE DIFFERENCE BETWEEN CURREND DATE AND EXPIRY DATE
-                            Date expiryDate = product.getExpiryDate();
-                            long diffInMillies = expiryDate.getTime() - currentDate.getTime();
-                            long diffInDays = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-                            
-                            // IF IS LESS THAN 7 DAYS, APPLY A NEW BG COLOR
-                            String rowStyle = "";
-                            if (diffInDays < 7) {
-                                rowStyle = "style='background-color: orange;'";
-                            }
                 %>
-                <!-- APPLY BG COLOR rowStyle TO ALL ROWS ELEMENTS -->
-                <tr <%= rowStyle %>>
-                    <td <%= rowStyle %>><%= product.getId() %></td>
-                    <td <%= rowStyle %>><%= product.getName() %></td>
-                    <td <%= rowStyle %>><%= String.format("%.2f", product.getPrice()) %></td>
-                    <td <%= rowStyle %>><%= product.getQuantity() %></td>
-                    <td <%= rowStyle %>><%= product.getExpiryDate() %></td>
-                    <td <%= rowStyle %>><%= product.isSurplus() %></td>
-                    <td <%= rowStyle %>>
+                <tr>
+                    <td><%= product.getId() %></td>
+                    <td><%= product.getName() %></td>
+                    <td><%= String.format("%.2f", product.getPrice()) %></td>
+                    <td><%= product.getQuantity() %></td>
+                    <td><%= product.getExpiryDate()%></td>
+                    <td><%= product.isSurplus() %></td>
+                    <td>
                         <button class="edit_button" onclick="location.href='editProduct.jsp?id=<%= product.getId() %>'">Edit</button>
                     </td>
-                    <td <%= rowStyle %>>
+                    <td>
                         <button onclick="confirmDeletion(<%= product.getId() %>)">Delete</button>
                     </td>
                 </tr>

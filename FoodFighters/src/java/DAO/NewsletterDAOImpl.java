@@ -18,7 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Actual implementation of the newsletterDAO
+ *
  * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
 public class NewsletterDAOImpl implements NewsletterDAO {
@@ -31,10 +31,8 @@ public class NewsletterDAOImpl implements NewsletterDAO {
         PreparedStatement preparedStatement = null;
         
         List<NewsletterDTO> messages = new ArrayList<>();
-        String query = "SELECT n.text, c.notificationID " +
-                       "FROM Notifications n JOIN CustomerNotification c ON c.notificationID = n.notificationID " +
-                       "WHERE c.customerID = ? " + 
-                       "ORDER BY c.notificationID DESC";
+        String query = "SELECT n.text " +
+                       "FROM Notifications n JOIN CustomerNotification c ON c.notificationID = n.notificationID WHERE c.customerID = ?";
 
         try {
             
@@ -46,7 +44,6 @@ public class NewsletterDAOImpl implements NewsletterDAO {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     NewsletterDTO message = new NewsletterDTO();
-                    message.setId(resultSet.getInt("notificationID"));
                     message.setNotification(resultSet.getString("text"));         
                     messages.add(message);
                 }
@@ -55,7 +52,8 @@ public class NewsletterDAOImpl implements NewsletterDAO {
             e.printStackTrace();
         }
         return messages;
-
+    
+    
     }
 
     @Override
@@ -63,7 +61,6 @@ public class NewsletterDAOImpl implements NewsletterDAO {
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet resultSet = null;
-        ResultSet generatedKeys = null;
         String retailerName = "";
         NewsletterDTO notification = new NewsletterDTO();
 
@@ -80,24 +77,14 @@ public class NewsletterDAOImpl implements NewsletterDAO {
                 retailerName = resultSet.getString("retailerName");
             }
 
-            // CREATE MESSAGE
+            // Create the message
             String message = productName + " from " + retailerName + " is now on discount";
             notification.setNotification(message);
 
-            pstmt = con.prepareStatement("INSERT INTO Notifications (text) VALUES(?)", Statement.RETURN_GENERATED_KEYS);
+            // Insert into the notifications
+            pstmt = con.prepareStatement("INSERT INTO Notifications (text) VALUES(?)");
             pstmt.setString(1, message);
             pstmt.executeUpdate();
-
-            // RETRIVE THE ID AND INSERT INTO THE NOTIFICATION
-            generatedKeys = pstmt.getGeneratedKeys();
-            int notificationID = 0;
-            if (generatedKeys.next()) {
-                notificationID = generatedKeys.getInt(1);
-            } else {
-                throw new SQLException("Creating notification failed, no ID obtained.");
-            }
-
-            notification.setId(notificationID);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -105,7 +92,6 @@ public class NewsletterDAOImpl implements NewsletterDAO {
         } finally {
             try {
                 if (resultSet != null) resultSet.close();
-                if (generatedKeys != null) generatedKeys.close();
                 if (pstmt != null) pstmt.close();
                 if (con != null) con.close();
             } catch (SQLException e) {
@@ -114,25 +100,6 @@ public class NewsletterDAOImpl implements NewsletterDAO {
         }
 
         return notification;
-    }
-
-    @Override
-    public void deleteMessage(int messageID) {
-        
-        String query = "DELETE FROM CustomerNotification WHERE customerNotificationID = ?";
-
-        try (Connection connection = DataSource.getConnection()) {
-            connection.setAutoCommit(false);
-            try (PreparedStatement statement = connection.prepareStatement(query)) {
-                statement.setInt(1, messageID);
-                statement.executeUpdate();
-
-            }
-            connection.commit();
-        } catch (SQLException ex) {
-            Logger.getLogger(NewsletterDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    
     }
 
 }
