@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
+ * Processes the request for deleting a message from the subscriber's dashboard
  * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
 public class DeleteMessageServlet extends HttpServlet {

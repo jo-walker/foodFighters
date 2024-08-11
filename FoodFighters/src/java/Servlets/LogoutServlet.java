@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
+ * Servlet that handles the logout by closing the session and redirecting to index
  * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
 public class LogoutServlet extends HttpServlet {

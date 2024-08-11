@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet responsbile for determining the list of products to be shown, and redirects to the jsp
+ * Servlet responsible for determining the list of products to be shown, and redirects to the jsp
  * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
 @WebServlet("/RetailerDashboardServlet")

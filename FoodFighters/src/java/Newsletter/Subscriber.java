@@ -12,6 +12,10 @@ import DTO.NewsletterDTO;
  */
 public interface Subscriber {
     
+    /**
+     * Sends a notification
+     * @param notification The notification
+     */
     public void update(NewsletterDTO notification);
     
 }

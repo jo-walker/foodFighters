@@ -41,7 +41,19 @@ public interface ConsumerDAO {
      */
     public List<Subscriber> getAllSubscribedConsumers() throws SQLException;
 
+    /**
+     * Pairs an user with a notification in the database
+     * @param id the user id
+     * @param notification the notification
+     * @author Andrea Visani 041104651 visa0004@algonquinlive.com
+     */
     public void receiveNotification(int id, NewsletterDTO notification);
 
+    /**
+     * Checks if a user is marked as subscribed in the database
+     * @param customerID the customerID
+     * @return true if subscribed, false otherwise.
+     * @author Andrea Visani 041104651 visa0004@algonquinlive.com
+     */
     public boolean isUserSubscribed(int customerID);
 }

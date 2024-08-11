@@ -5,10 +5,11 @@
 package DTO;
 
 /**
- *
+ * Represents a Retailer
  * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
 public class RetailerDTO extends User {
+    /** Retailer Name*/
     private String name;
     
     

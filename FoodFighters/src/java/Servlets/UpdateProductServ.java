@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
+ * Servlet responsible for updating a product fields, if the prduct is detected as surplus, sends a notification.
  * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
 public class UpdateProductServ extends HttpServlet {
@@ -39,8 +39,11 @@ public class UpdateProductServ extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
+        /**The original surplus status of a product beofre updating*/
         boolean originalSurplus = Boolean.parseBoolean(request.getParameter("originalSurplus"));
+        /** the surplus status after the change*/
         boolean newSurplusStatus = request.getParameter("surplus") != null;
+        
         ProductDTO product = new ProductDTO();
         
         product.setId(Integer.parseInt(request.getParameter("id")));
@@ -53,8 +56,11 @@ public class UpdateProductServ extends HttpServlet {
         product.setRetailerID(Integer.parseInt(request.getParameter("retailerID")));
 
         ProductDAO productDAO = new ProductDAOImpl();
+        
         try {
             productDAO.updateProduct(product);
+            
+            //If it was not surplus and now has become a surplus, add and send the notificaiton
             if (!originalSurplus && newSurplusStatus) {
                 NewsletterDTO notification = newsletterLogic.addMessage(product.getName(), product.getRetailerID());
                 newsletterLogic.notifyObservers(notification);

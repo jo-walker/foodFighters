@@ -218,7 +218,7 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
     /**
-     * Keeps track of the sorting logic for price
+     * Andrea: Keeps track of the sorting logic for price
      */
     private static boolean priceSortedASC = true;
     
@@ -270,7 +270,7 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
     /**
-     * Keeps track of the sorting logic for Expiry Date
+     * Andrea: Keeps track of the sorting logic for Expiry Date
      */
     private static boolean expiryDateSortedASC = true;
     

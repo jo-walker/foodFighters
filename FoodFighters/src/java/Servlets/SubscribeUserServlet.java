@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
+ * Servlet responsible for subscribing an Consumer to the notification system.
  * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
 public class SubscribeUserServlet extends HttpServlet {

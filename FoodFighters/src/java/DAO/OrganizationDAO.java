@@ -6,7 +6,7 @@ package DAO;
 
 /**
  *
- * @author Andrea Visani 041104651 visa0004@algonquinlive.com
+ * 
  */
 public interface OrganizationDAO {
     void claimFood();

@@ -18,12 +18,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Represents all the operations that can be performed by a retailer.
  * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
 public class RetailersBusinessLogic {
+    /** A retailerDAO to access the data */
     private RetailerDAO retailerDAO = null;
+    /** Validator to validate the operations */
     private Validator validator = null;
+    /** ProductDAO to access the data*/
     private ProductDAO productDAO = null;
     
     public RetailersBusinessLogic(){
@@ -32,6 +35,12 @@ public class RetailersBusinessLogic {
         productDAO = new ProductDAOImpl();
     }
 
+    /**
+     * Rerurns all the products associated with the given retailerID by using the DAO
+     * @param retailerID the retailer ID
+     * @return all the products associated with the given retailerID
+     * @throws SQLException 
+     */
     public List<ProductDTO> getProductsByRetailerID(int retailerID) throws SQLException{
         return productDAO.getProductsByRetailerID(retailerID);
     }
@@ -49,7 +58,7 @@ public class RetailersBusinessLogic {
     
 
     /**
-     * Validates and adds a retailer to the database
+     * Validates and adds a retailer to the database by using the DAO
      * @param retailer 
      */
     public int addRetailer(RetailerDTO retailer) {
@@ -57,6 +66,10 @@ public class RetailersBusinessLogic {
         return retailerDAO.addRetailer(retailer);  
     }
     
+    /**
+     * Deletes a product based on an ID by using the DAO
+     * @param productID 
+     */
     public void deleteProduct(int productID){
         try {
             productDAO.deleteProduct(productID);
@@ -65,10 +78,22 @@ public class RetailersBusinessLogic {
         }
     }
     
+    /**
+     * Returns all the products associated with the given retailerID with sorting logic by price,  by using the DAO
+     * @param retailerID the retailer ID
+     * @return all the products associated with the given retailerID, sorted
+     * @throws SQLException 
+     */
     public List<ProductDTO> getProductsByRetailerIDSortedByPrice(int retailerID) throws SQLException{
         return productDAO.getProductsByRetailerIDSortedByPrice(retailerID);
     } 
     
+    /**
+     * Returns all the products associated with the given retailerID with sorting logic by date,  by using the DAO
+     * @param retailerID the retailer ID
+     * @return all the products associated with the given retailerID, sorted
+     * @throws SQLException 
+     */
     public List<ProductDTO> getProductsByRetailerIDSortedByExpiryDate(int retailerID) throws SQLException{
         return productDAO.getProductsByRetailerIDSortedByExpiryDate(retailerID);
     } 

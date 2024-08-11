@@ -18,7 +18,7 @@ import java.sql.ResultSet;
 import javax.servlet.http.HttpSession;
 
 /**
- *
+ * Servlet that Handles the login of the user by retrieving data from the db, initializing a session and redirecting to the proper dashboard
  * @author Andrea Visani 041104651 visa0004@algonquinlive.com
  */
 public class LoginServlet extends HttpServlet {
