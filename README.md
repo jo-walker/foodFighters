@@ -29,3 +29,6 @@
    <p align="center">
      <img src="https://github.com/user-attachments/assets/06b20dd0-e943-4da1-828b-048a362a908c" alt="Database Setup Image">
    </p>
+
+### Run the program
+Now the program is running, for this version onyl Retailers and Consumers can be created.
