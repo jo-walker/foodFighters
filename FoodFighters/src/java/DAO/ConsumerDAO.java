@@ -15,7 +15,7 @@ import java.util.List;
  * @author Anugrah Rai 041099878 rai00049@algonquinlive.com
  */
 public interface ConsumerDAO {
-    void addConsumer(ConsumerDTO consumer) throws SQLException;
+    int addConsumer(ConsumerDTO consumer) throws SQLException;
     void purchaseItem(ConsumerDTO consumer, ProductDTO product) throws SQLException;
     
     /**

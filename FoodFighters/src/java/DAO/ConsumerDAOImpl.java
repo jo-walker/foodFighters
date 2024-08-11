@@ -29,7 +29,7 @@ public class ConsumerDAOImpl implements ConsumerDAO {
      * @throws SQLException
      */
     @Override
-        public void addConsumer(ConsumerDTO customer) throws SQLException {
+        public int addConsumer(ConsumerDTO customer) throws SQLException {
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet generatedKeys = null;
@@ -72,6 +72,16 @@ public class ConsumerDAOImpl implements ConsumerDAO {
                     pstmt.setBoolean(5, customer.getVeg());
                     pstmt.executeUpdate();
                     System.out.println("this is working");
+                    
+                    generatedKeys = pstmt.getGeneratedKeys();
+                    int consumerID = 0;
+                    if (generatedKeys.next()) {
+                        consumerID = generatedKeys.getInt(1);
+                    } else {
+                        throw new SQLException("Creating consumer failed, no ID obtained.");
+                    }
+                    return consumerID;
+                    
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException("Error adding customer", e);

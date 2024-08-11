@@ -38,9 +38,9 @@ public class ConsumersBusinessLogic {
     }
 
     // Method to add a new consumer
-    public void addConsumer(ConsumerDTO consumer) throws SQLException, ValidationException {
+    public int addConsumer(ConsumerDTO consumer) throws SQLException, ValidationException {
             validator.validateConsumer(consumer); 
-            consumerDAOImpl.addConsumer(consumer);
+            return consumerDAOImpl.addConsumer(consumer);
     }
 
     // Method to subscribe consumer to alerts

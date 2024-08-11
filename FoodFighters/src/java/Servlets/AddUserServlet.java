@@ -68,13 +68,14 @@ public class AddUserServlet extends HttpServlet {
             consumer.setPhone(request.getParameter("phone"));
             consumer.setDietType(Boolean.parseBoolean(request.getParameter("dietType")));
 
-            consumerLogic.addConsumer(consumer);
+            int consumerID = consumerLogic.addConsumer(consumer);
             request.setAttribute("message", "Consumer added successfully!");
         
             boolean isVeg = consumer.getVeg();
             int isVegg = isVeg ? 1 : 0;
             request.getSession().setAttribute("isVeg", isVegg); // making sure same datatype is entered into the method
             request.getSession().setAttribute("firstName", consumer.getFirstName());
+            request.getSession().setAttribute("customerID", consumerID);
             request.getRequestDispatcher("ConsumerDashboard.jsp").forward(request, response);
 
             } 

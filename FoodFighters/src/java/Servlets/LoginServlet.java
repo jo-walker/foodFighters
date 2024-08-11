@@ -97,11 +97,11 @@ public class LoginServlet extends HttpServlet {
                 } 
                 
                 else if (userRole == 2) {
-                    // Close previous PreparedStatement and ResultSet
+                    
                     rs.close();
                     ps.close();
 
-                    // Prepare SQL query to get the retailerID using userID
+                    
                     String sql2 = "SELECT retailerID FROM retailer WHERE userID = ?";
                     ps = con.prepareStatement(sql2);
                     ps.setInt(1, userID);
@@ -109,7 +109,7 @@ public class LoginServlet extends HttpServlet {
 
                     if (rs.next()) {
                         int retailerID = rs.getInt("retailerID");
-                        // Create a session and set the retailerID as an attribute
+                        
                         HttpSession session = request.getSession();
                         session.setAttribute("retailerID", retailerID);
                         response.sendRedirect("RetailerDashboardServlet");
