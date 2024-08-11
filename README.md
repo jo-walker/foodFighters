@@ -15,5 +15,5 @@
 ### Needed Changes
 1. Open 'GithubFile\foodFighters-Andreaworking-fixAnugrah\FoodFighters\nbproject\private\private.properties' and change the paths accordignly to your machine.
 2. Open 'GithubFile\foodFighters-Andreaworking-fixAnugrah\FoodFighters\src\java\Database\Database.sql" and create the database in MySQL.
-3. Open 'GithubFile\foodFighters-Andreaworking-fixAnugrah\FoodFighters\src\java\Utilities\DataSource.java" and insert your own values for DB, HOST and PASSWORD
+3. Open 'GithubFile\foodFighters-Andreaworking-fixAnugrah\FoodFighters\src\java\Utilities\DataSource.java" and insert your own values for URL, USER and PASSWORD
 ![image](https://github.com/user-attachments/assets/06b20dd0-e943-4da1-828b-048a362a908c)
